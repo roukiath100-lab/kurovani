@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kurovani Originals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kurovani.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></symbol>
+  <symbol id="i-tt" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3h3a4 4 0 0 0 4 4v3a7 7 0 0 1-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24" fill="currentColor"><path d="M22 8.2a3 3 0 0 0-2.1-2.1C18 5.6 12 5.6 12 5.6s-6 0-7.9.5A3 3 0 0 0 2 8.2 31 31 0 0 0 1.6 12 31 31 0 0 0 2 15.8a3 3 0 0 0 2.1 2.1c1.9.5 7.9.5 7.9.5s6 0 7.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .4-3.8 31 31 0 0 0-.4-3.8zM10 15V9l5.2 3z"/></symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-main">
+    <button class="icon-btn menu-toggle" aria-label="Ouvrir le menu"><svg><use href="#i-menu"/></svg></button>
+    <a class="logo" href="#" aria-label="Kurovani, accueil"><img src="img/logo.png" alt="Kurovani" width="232" height="96"></a>
+    <form class="search" role="search">
+      <svg width="20" height="20"><use href="#i-search"/></svg>
+      <label class="visually-hidden" for="q">Rechercher</label>
+      <input id="q" type="search" placeholder="Rechercher un hoodie, un cargo, une collection…">
+    </form>
+    <div class="header-actions">
+      <button class="icon-btn search-toggle" aria-label="Rechercher"><svg><use href="#i-search"/></svg></button>
+      <a class="btn btn-red" href="#">Connexion</a>
+      <a class="icon-btn account-link" href="#" aria-label="Mon compte"><svg><use href="#i-user"/></svg></a>
+      <a class="icon-btn" href="#" aria-label="Panier, 2 articles"><svg><use href="#i-bag"/></svg><span class="cart-count">2</span></a>
+    </div>
+  </div>
+  <nav class="header-nav" aria-label="Catégories">
+    <ul class="nav-list">
+      <li class="nav-item"><button class="nav-link" aria-expanded="false">Hoodies <svg><use href="#i-down"/></svg></button>
+        <ul class="dropdown"><li><a href="#">Oversize</a></li><li><a href="#">Zippés</a></li><li><a href="#">Tout voir</a></li></ul></li>
+      <li class="nav-item"><button class="nav-link" aria-expanded="false">Pantalons <svg><use href="#i-down"/></svg></button>
+        <ul class="dropdown"><li><a href="#">Cargo oversize</a></li><li><a href="#">Joggers</a></li><li><a href="#">Tout voir</a></li></ul></li>
+      <li class="nav-item"><button class="nav-link" aria-expanded="false">T-shirts <svg><use href="#i-down"/></svg></button>
+        <ul class="dropdown"><li><a href="#">Oversize</a></li><li><a href="#">Tout voir</a></li></ul></li>
+      <li class="nav-item"><button class="nav-link active" aria-expanded="false">Collections <svg><use href="#i-down"/></svg></button>
+        <ul class="dropdown"><li><a href="#">Kurovani Originals</a></li><li><a href="#">Nouveautés</a></li></ul></li>
+      <li class="nav-item"><button class="nav-link" aria-expanded="false">Accessoires <svg><use href="#i-down"/></svg></button>
+        <ul class="dropdown"><li><a href="#">Casquettes</a></li><li><a href="#">Sacs</a></li></ul></li>
+    </ul>
+    <div class="nav-meta">
+      <span class="support"><svg><use href="#i-truck"/></svg>Livraison France &amp; Europe</span>
+      <span><svg><use href="#i-globe"/></svg>Français | EUR €</span>
+      <button class="theme-toggle" aria-label="Basculer clair / sombre"><span class="t-light"><svg><use href="#i-sun"/></svg></span><span class="t-dark"><svg><use href="#i-moon"/></svg></span></button>
+    </div>
+  </nav>
+</header>
+<div class="scrim"></div>
+
+<main>
+  <section class="collection-hero">
+    <div class="inner">
+      <div>
+        <div class="breadcrumb"><a href="#">Accueil</a> / <a href="#">Collections</a> / Originals</div>
+        <h1 class="collection-title">Kurovani <em>Originals</em></h1>
+        <p class="collection-sub"><span class="slashes"><i></i><i></i><i></i></span> Streetwear / Anime inspired / Paris – Tokyo <span class="jp">黒の中に、俺たちの道がある</span></p>
+      </div>
+      <div class="hero-kanji jp" aria-hidden="true">黒バニ</div>
+    </div>
+  </section>
+
+  <div class="catalog">
+    <aside class="filters" aria-label="Filtres">
+      <div class="filters-head">
+        <h2 class="filters-title">Filtres</h2>
+        <button class="filters-reset">Réinitialiser</button>
+        <button class="icon-btn filters-close" aria-label="Fermer les filtres"><svg><use href="#i-close"/></svg></button>
+      </div>
+      <details class="facet" open>
+        <summary>Prix (€) <svg><use href="#i-down"/></svg></summary>
+        <div class="facet-body">
+          <div class="price-range"><input inputmode="numeric" placeholder="Min." aria-label="Prix minimum"><span>à</span><input inputmode="numeric" placeholder="Max." aria-label="Prix maximum"></div>
+          <label class="option"><input type="radio" name="p">0 € – 50 €</label>
+          <label class="option"><input type="radio" name="p">50 € – 100 €</label>
+          <label class="option"><input type="radio" name="p">100 € – 150 €</label>
+          <label class="option"><input type="radio" name="p">150 € +</label>
+        </div>
+      </details>
+      <details class="facet" open>
+        <summary>Taille <svg><use href="#i-down"/></svg></summary>
+        <div class="facet-body size-grid" data-toggle-group="multi">
+          <button class="size-chip" aria-pressed="false">XS</button><button class="size-chip" aria-pressed="false">S</button><button class="size-chip" aria-pressed="true">M</button>
+          <button class="size-chip" aria-pressed="false">L</button><button class="size-chip" aria-pressed="false">XL</button><button class="size-chip" aria-pressed="false">XXL</button>
+        </div>
+      </details>
+      <details class="facet" open>
+        <summary>Type de pièce <svg><use href="#i-down"/></svg></summary>
+        <div class="facet-body">
+          <label class="option"><input type="checkbox">Hoodies <span class="count">4</span></label>
+          <label class="option"><input type="checkbox">Pantalons <span class="count">4</span></label>
+        </div>
+      </details>
+      <details class="facet">
+        <summary>Couleur <svg><use href="#i-down"/></svg></summary>
+        <div class="facet-body swatches" data-toggle-group="multi">
+          <button class="swatch" style="background:#000" aria-label="Noir" aria-pressed="true"></button>
+          <button class="swatch" style="background:#3a3a3a" aria-label="Gris foncé" aria-pressed="false"></button>
+          <button class="swatch" style="background:#eaeaea" aria-label="Blanc cassé" aria-pressed="false"></button>
+        </div>
+      </details>
+    </aside>
+
+    <section aria-label="Produits">
+      <div class="toolbar">
+          <div class="tabs3d" data-toggle-group="single" role="group" aria-label="Catégories">
+          <button class="tab3d" aria-pressed="true">
+            <span class="tab3d-inner">
+              <span class="tab3d-face"><span class="tab3d-sun"></span><span class="tab3d-kanji jp">黒</span><span class="tab3d-num">00</span></span>
+              <span class="tab3d-art duo"><img class="tab3d-img tab3d-img-0" src="img/hoodie-front.png" alt=""><img class="tab3d-img tab3d-img-1" src="img/pants-front.png" alt=""></span>
+              <span class="tab3d-label">Tout<small>8 pièces</small></span>
+            </span>
+          </button>
+          <button class="tab3d" aria-pressed="false">
+            <span class="tab3d-inner">
+              <span class="tab3d-face"><span class="tab3d-sun"></span><span class="tab3d-kanji jp">黒バニ</span><span class="tab3d-num">01</span></span>
+              <span class="tab3d-art"><img class="tab3d-img tab3d-img-0" src="img/hoodie-front.png" alt=""></span>
+              <span class="tab3d-label">Hoodies<small>4 pièces</small></span>
+            </span>
+          </button>
+          <button class="tab3d" aria-pressed="false">
+            <span class="tab3d-inner">
+              <span class="tab3d-face"><span class="tab3d-sun"></span><span class="tab3d-kanji jp">黒波</span><span class="tab3d-num">02</span></span>
+              <span class="tab3d-art"><img class="tab3d-img tab3d-img-0" src="img/pants-front.png" alt=""></span>
+              <span class="tab3d-label">Pantalons<small>4 pièces</small></span>
+            </span>
+          </button>
+          <button class="tab3d" aria-pressed="false">
+            <span class="tab3d-inner">
+              <span class="tab3d-face"><span class="tab3d-sun"></span><span class="tab3d-kanji jp">道</span><span class="tab3d-num">03</span></span>
+              <span class="tab3d-art duo"><img class="tab3d-img tab3d-img-0" src="img/hoodie-back.png" alt=""><img class="tab3d-img tab3d-img-1" src="img/pants-back.png" alt=""></span>
+              <span class="tab3d-label">Ensembles<small>Hoodie + cargo</small></span>
+            </span>
+          </button>
+          </div>
+        <div class="sortbar">
+          <button class="chip filter-open"><svg><use href="#i-filter"/></svg>Filtres</button>
+          <div class="chips" data-toggle-group="single" aria-label="Trier">
+            <button class="chip" aria-pressed="true"><svg><use href="#i-check"/></svg>Recommandés</button>
+            <button class="chip" aria-pressed="false">Nouveautés</button>
+            <button class="chip" aria-pressed="false">Prix croissant</button>
+            <button class="chip" aria-pressed="false">Prix décroissant</button>
+          </div>
+          <span class="result-count">8 articles</span>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="card-media"><span class="badge">Nouveau</span><span class="card-kanji jp" aria-hidden="true">黒バニ</span>
+            <img class="img-main" src="img/hoodie-front.png" alt="Hoodie Oversize Originals, vue avant" loading="lazy">
+            <img class="img-alt" src="img/hoodie-back.png" alt="" loading="lazy">
+            <button class="btn btn-red quick-add">Ajout rapide</button>
+          </div>
+          <div class="card-body">
+            <span class="card-type">Hoodie · Unisexe</span>
+            <h3 class="card-title"><a href="#">Hoodie Oversize Originals</a></h3>
+            <div class="card-meta"><span class="price">89,00 €</span><span class="sizes">XS – XXL</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media"><span class="badge">Nouveau</span><span class="card-kanji jp" aria-hidden="true">黒波</span>
+            <img class="img-main" src="img/pants-front.png" alt="Cargo Oversize Originals, vue avant" loading="lazy">
+            <img class="img-alt" src="img/pants-back.png" alt="" loading="lazy">
+            <button class="btn btn-red quick-add">Ajout rapide</button>
+          </div>
+          <div class="card-body">
+            <span class="card-type">Pantalon · Unisexe</span>
+            <h3 class="card-title"><a href="#">Cargo Oversize Originals</a></h3>
+            <div class="card-meta"><span class="price">79,00 €</span><span class="sizes">XS – XXL</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media"><span class="card-kanji jp" aria-hidden="true">黒バニ</span>
+            <img class="img-main" src="img/hoodie-front.png" alt="Hoodie Oversize Originals, vue avant" loading="lazy">
+            <img class="img-alt" src="img/hoodie-back.png" alt="" loading="lazy">
+            <button class="btn btn-red quick-add">Ajout rapide</button>
+          </div>
+          <div class="card-body">
+            <span class="card-type">Hoodie · Unisexe</span>
+            <h3 class="card-title"><a href="#">Hoodie Oversize Originals</a></h3>
+            <div class="card-meta"><span class="price">89,00 €</span><span class="sizes">XS – XXL</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media"><span class="card-kanji jp" aria-hidden="true">黒波</span>
+            <img class="img-main" src="img/pants-front.png" alt="Cargo Oversize Originals, vue avant" loading="lazy">
+            <img class="img-alt" src="img/pants-back.png" alt="" loading="lazy">
+            <button class="btn btn-red quick-add">Ajout rapide</button>
+          </div>
+          <div class="card-body">
+            <span class="card-type">Pantalon · Unisexe</span>
+            <h3 class="card-title"><a href="#">Cargo Oversize Originals</a></h3>
+            <div class="card-meta"><span class="price">79,00 €</span><span class="sizes">XS – XXL</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media"><span class="card-kanji jp" aria-hidden="true">黒バニ</span>
+            <img class="img-main" src="img/hoodie-front.png" alt="Hoodie Oversize Originals, vue avant" loading="lazy">
+            <img class="img-alt" src="img/hoodie-back.png" alt="" loading="lazy">
+            <button class="btn btn-red quick-add">Ajout rapide</button>
+          </div>
+          <div class="card-body">
+            <span class="card-type">Hoodie · Unisexe</span>
+            <h3 class="card-title"><a href="#">Hoodie Oversize Originals</a></h3>
+            <div class="card-meta"><span class="price">89,00 €</span><span class="sizes">XS – XXL</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media"><span class="card-kanji jp" aria-hidden="true">黒波</span>
+            <img class="img-main" src="img/pants-front.png" alt="Cargo Oversize Originals, vue avant" loading="lazy">
+            <img class="img-alt" src="img/pants-back.png" alt="" loading="lazy">
+            <button class="btn btn-red quick-add">Ajout rapide</button>
+          </div>
+          <div class="card-body">
+            <span class="card-type">Pantalon · Unisexe</span>
+            <h3 class="card-title"><a href="#">Cargo Oversize Originals</a></h3>
+            <div class="card-meta"><span class="price">79,00 €</span><span class="sizes">XS – XXL</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media"><span class="card-kanji jp" aria-hidden="true">黒バニ</span>
+            <img class="img-main" src="img/hoodie-front.png" alt="Hoodie Oversize Originals, vue avant" loading="lazy">
+            <img class="img-alt" src="img/hoodie-back.png" alt="" loading="lazy">
+            <button class="btn btn-red quick-add">Ajout rapide</button>
+          </div>
+          <div class="card-body">
+            <span class="card-type">Hoodie · Unisexe</span>
+            <h3 class="card-title"><a href="#">Hoodie Oversize Originals</a></h3>
+            <div class="card-meta"><span class="price">89,00 €</span><span class="sizes">XS – XXL</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media"><span class="card-kanji jp" aria-hidden="true">黒波</span>
+            <img class="img-main" src="img/pants-front.png" alt="Cargo Oversize Originals, vue avant" loading="lazy">
+            <img class="img-alt" src="img/pants-back.png" alt="" loading="lazy">
+            <button class="btn btn-red quick-add">Ajout rapide</button>
+          </div>
+          <div class="card-body">
+            <span class="card-type">Pantalon · Unisexe</span>
+            <h3 class="card-title"><a href="#">Cargo Oversize Originals</a></h3>
+            <div class="card-meta"><span class="price">79,00 €</span><span class="sizes">XS – XXL</span></div>
+          </div>
+        </article>
+      </div>
+      <nav class="pagination" aria-label="Pagination">
+        <a class="page" href="#" aria-label="Page précédente"><svg><use href="#i-left"/></svg></a>
+        <a class="page" href="#" aria-current="page">1</a><a class="page" href="#">2</a><a class="page" href="#">3</a>
+        <span class="page gap">…</span><a class="page" href="#">8</a>
+        <a class="page" href="#" aria-label="Page suivante"><svg><use href="#i-right"/></svg></a>
+        <label class="goto">Aller à la page <select><option>1</option><option>2</option><option>3</option></select></label>
+      </nav>
+    </section>
+  </div>
+
+  <section class="brand-block">
+    <div class="wrap">
+      <div class="section-tab">01. La collection <span class="slashes"><i></i><i></i><i></i></span></div>
+      <h2>Kurovani Originals, streetwear inspiré anime</h2>
+      <p>Des coupes oversize unisexes en French Terry épais, des impressions DTG haute définition et des broderies plates. Chaque pièce porte la même signature : noir profond, rouge sang, éclairs argentés et kanji.</p>
+      <p><em>Texte de démonstration : à remplacer par ta description de marque.</em></p>
+      <h3>Comment commander</h3>
+      <ol class="steps">
+        <li><strong>Choisis ta pièce</strong>Filtre par taille, type ou prix.</li>
+        <li><strong>Vérifie ta taille</strong>Guide des tailles XS à XXL sur chaque fiche.</li>
+        <li><strong>Paie en ligne</strong>Carte, PayPal, Apple Pay via Shopify.</li>
+        <li><strong>Reçois ta commande</strong>Suivi envoyé par e-mail.</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-pay">
+    <div class="pay-icons"><span>VISA</span><span>MASTERCARD</span><span>AMEX</span><span>PAYPAL</span><span>APPLE PAY</span><span>GOOGLE PAY</span><span>SHOP PAY</span></div>
+    <span class="locale"><svg><use href="#i-globe"/></svg>Français | EUR €</span>
+  </div>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <img src="img/logo.png" alt="Kurovani" width="232" height="96">
+      <p>More than fashion. A state of mind.</p>
+      <div class="jp">黒の中に、俺たちの道がある</div>
+      <div class="socials">
+        <a href="#" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a><a href="#" aria-label="TikTok"><svg><use href="#i-tt"/></svg></a>
+        <a href="#" aria-label="X"><svg><use href="#i-x"/></svg></a><a href="#" aria-label="YouTube"><svg><use href="#i-yt"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Aide</h4><ul><li><a href="#">Contact</a></li><li><a href="#">Livraison</a></li><li><a href="#">Retours &amp; échanges</a></li><li><a href="#">Guide des tailles</a></li></ul></div>
+    <div class="footer-col"><h4>Kurovani</h4><ul><li><a href="#">À propos</a></li><li><a href="#">Collections</a></li><li><a href="#">Nouveautés</a></li></ul></div>
+    <div class="footer-col"><h4>Légal</h4><ul><li><a href="#">CGV</a></li><li><a href="#">Mentions légales</a></li><li><a href="#">Confidentialité</a></li></ul></div>
+  </div>
+  <div class="footer-legal"><span>© 2026 Kurovani. Originals / Streetwear / Paris – Tokyo</span><span class="jp">黒の中に、俺たちの道がある</span></div>
+</footer>
+
+<button class="fab" aria-label="Nous contacter"><svg><use href="#i-chat"/></svg></button>
+<script src="kurovani.js"></script>
+</body>
+</html>
