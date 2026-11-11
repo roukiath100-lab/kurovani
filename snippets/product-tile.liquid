@@ -1,0 +1,9 @@
+{%- comment -%} Carte produit de la grille collection. Paramètre : product {%- endcomment -%}
+<article class="tile">
+  {% render 'product-shot', product: product, link: true %}
+  <div class="meta">
+    <span class="label" style="color:var(--fg-dim)">{{ product.type | default: product.vendor }}</span>
+    <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    <div class="price">{% render 'price', item: product %}</div>
+  </div>
+</article>

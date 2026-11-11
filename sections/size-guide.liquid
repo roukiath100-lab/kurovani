@@ -1,0 +1,73 @@
+{%- assign sizes = section.settings.sizes | split: ',' -%}
+<section class="blk" id="tailles">
+  <div class="wrap guide" data-size-guide>
+    <div>
+      <span class="tab label">{{ section.settings.label }} {% render 'slashes' %}</span>
+      <h2 style="font:400 clamp(22px,2.8vw,38px)/1.15 var(--f-display);text-transform:uppercase;margin:14px 0 16px">{{ section.settings.title }}</h2>
+      <div class="rte">{{ section.settings.text }}</div>
+      <div class="pick">
+        <span class="label" style="color:var(--fg-dim)">{{ 'sections.size_guide.highlight' | t }}</span>
+        <div class="seg" role="group" aria-label="{{ 'sections.size_guide.highlight' | t }}">
+          {%- for size in sizes -%}
+            <button type="button" aria-pressed="{% if forloop.index == section.settings.default_size %}true{% else %}false{% endif %}">{{ size | strip }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+    <div class="tablebox">
+      <table>
+        <thead>
+          <tr>
+            <th>{{ section.settings.unit_label }}</th>
+            {%- for size in sizes -%}<th>{{ size | strip }}</th>{%- endfor -%}
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            {%- assign values = block.settings.values | split: ',' -%}
+            <tr {{ block.shopify_attributes }}>
+              <td>{{ block.settings.name }}</td>
+              {%- for v in values -%}<td>{{ v | strip }}</td>{%- endfor -%}
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Guide des tailles",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Étiquette", "default": "Mesures" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Guide des tailles, Oversized Pants" },
+    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Mesures à plat, en centimètres. La coupe est large : prends ta taille habituelle, ou une taille en dessous pour un tombé moins ample.</p>" },
+    { "type": "text", "id": "unit_label", "label": "Titre de la première colonne", "default": "Taille (cm)" },
+    { "type": "text", "id": "sizes", "label": "Tailles (séparées par des virgules)", "default": "XS, S, M, L, XL, XXL" },
+    { "type": "range", "id": "default_size", "label": "Taille surlignée au départ (position)", "min": 1, "max": 8, "step": 1, "default": 3 }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Mesure",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nom", "default": "Longueur totale" },
+        { "type": "text", "id": "values", "label": "Valeurs (séparées par des virgules)", "default": "98, 100, 102, 104, 106, 108" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guide des tailles",
+      "blocks": [
+        { "type": "row", "settings": { "name": "Longueur totale", "values": "98, 100, 102, 104, 106, 108" } },
+        { "type": "row", "settings": { "name": "Taille élastique", "values": "34, 36, 38, 40, 42, 44" } },
+        { "type": "row", "settings": { "name": "Hanche", "values": "54, 56, 58, 60, 62, 64" } },
+        { "type": "row", "settings": { "name": "Entrejambe", "values": "68, 70, 72, 74, 76, 78" } },
+        { "type": "row", "settings": { "name": "Cuisse", "values": "34, 36, 38, 40, 42, 44" } },
+        { "type": "row", "settings": { "name": "Bas de jambe", "values": "26, 27, 28, 29, 30, 31" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

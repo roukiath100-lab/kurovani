@@ -1,0 +1,206 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "note1": {
+          "type": "note",
+          "settings": {
+            "side": "front",
+            "title": "Logo poitrine",
+            "value": "28 × 16 cm"
+          }
+        },
+        "note2": {
+          "type": "note",
+          "settings": {
+            "side": "front",
+            "title": "Cordons, embouts métal",
+            "value": "75 cm · Ø 0,8 cm"
+          }
+        },
+        "note3": {
+          "type": "note",
+          "settings": {
+            "side": "front",
+            "title": "Impression poche",
+            "value": "10 × 5 cm"
+          }
+        },
+        "note4": {
+          "type": "note",
+          "settings": {
+            "side": "back",
+            "title": "Étoile brodée",
+            "value": "capuche · 4 × 4 cm"
+          }
+        },
+        "note5": {
+          "type": "note",
+          "settings": {
+            "side": "back",
+            "title": "Graphisme dos",
+            "value": "32 × 44 cm · DTG"
+          }
+        },
+        "note6": {
+          "type": "note",
+          "settings": {
+            "side": "back",
+            "title": "Impression bas",
+            "value": "18 × 3 cm"
+          }
+        }
+      },
+      "block_order": [
+        "note1",
+        "note2",
+        "note3",
+        "note4",
+        "note5",
+        "note6"
+      ],
+      "settings": {}
+    },
+    "pieces": {
+      "type": "pieces",
+      "settings": {
+        "collection": "all"
+      }
+    },
+    "details": {
+      "type": "details",
+      "blocks": {
+        "d1": {
+          "type": "detail",
+          "settings": {
+            "fallback": "capuche",
+            "title": "Capuche",
+            "text": "Doublure rouge, 100 % coton"
+          }
+        },
+        "d2": {
+          "type": "detail",
+          "settings": {
+            "fallback": "cordons",
+            "title": "Cordons",
+            "text": "Embouts métal gravé, 75 cm"
+          }
+        },
+        "d3": {
+          "type": "detail",
+          "settings": {
+            "fallback": "logo",
+            "title": "Logo poitrine",
+            "text": "Impression DTG, 28 × 16 cm"
+          }
+        },
+        "d4": {
+          "type": "detail",
+          "settings": {
+            "fallback": "dos",
+            "title": "Graphisme dos",
+            "text": "32 × 44 cm, effet grunge manga"
+          }
+        },
+        "d5": {
+          "type": "detail",
+          "settings": {
+            "fallback": "cargo",
+            "title": "Poche cargo",
+            "text": "Rabat et velcro, 16 × 18 cm"
+          }
+        },
+        "d6": {
+          "type": "detail",
+          "settings": {
+            "fallback": "soleil",
+            "title": "Graphisme dos cargo",
+            "text": "Impression DTG, 22 × 48 cm"
+          }
+        }
+      },
+      "block_order": [
+        "d1",
+        "d2",
+        "d3",
+        "d4",
+        "d5",
+        "d6"
+      ],
+      "settings": {}
+    },
+    "tailles": {
+      "type": "size-guide",
+      "blocks": {
+        "r1": {
+          "type": "row",
+          "settings": {
+            "name": "Longueur totale",
+            "values": "98, 100, 102, 104, 106, 108"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "name": "Taille élastique",
+            "values": "34, 36, 38, 40, 42, 44"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "name": "Hanche",
+            "values": "54, 56, 58, 60, 62, 64"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "name": "Entrejambe",
+            "values": "68, 70, 72, 74, 76, 78"
+          }
+        },
+        "r5": {
+          "type": "row",
+          "settings": {
+            "name": "Cuisse",
+            "values": "34, 36, 38, 40, 42, 44"
+          }
+        },
+        "r6": {
+          "type": "row",
+          "settings": {
+            "name": "Bas de jambe",
+            "values": "26, 27, 28, 29, 30, 31"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5",
+        "r6"
+      ],
+      "settings": {}
+    },
+    "affiche": {
+      "type": "poster",
+      "settings": {}
+    },
+    "palette": {
+      "type": "palette",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "pieces",
+    "details",
+    "tailles",
+    "affiche",
+    "palette"
+  ]
+}

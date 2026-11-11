@@ -1,0 +1,84 @@
+{%- assign collection = section.settings.collection -%}
+<section class="blk" id="pieces">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="tab label">{{ section.settings.label }} {% render 'slashes' %}</span>
+        <h2>{{ section.settings.title }}</h2>
+      </div>
+      {%- if collection != blank and collection.all_types.size > 1 -%}
+        <div class="seg" data-piece-filter role="group" aria-label="{{ 'sections.pieces.filter' | t }}">
+          <button type="button" aria-pressed="true" data-f="all">{{ 'sections.pieces.all' | t }}</button>
+          {%- for type in collection.all_types -%}
+            {%- if type != blank -%}
+              <button type="button" aria-pressed="false" data-f="{{ type | handleize }}">{{ type }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+    {%- if collection == blank or collection.products.size == 0 -%}
+      <p class="empty">{{ 'sections.pieces.empty' | t }}</p>
+    {%- else -%}
+      <div class="pieces">
+        {%- for product in collection.products limit: section.settings.limit -%}
+          <article class="piece" data-t="{{ product.type | handleize }}">
+            {% render 'product-shot', product: product, link: false, kanji: product.metafields.custom.kanji.value %}
+            <div class="info">
+              <span class="label">{{ product.type | default: product.vendor }}</span>
+              <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+              <div class="price">{% render 'price', item: product %}</div>
+              {%- assign has_specs = false -%}
+              {%- capture specs -%}
+                {%- for tag in product.tags -%}
+                  {%- if tag contains ':' -%}
+                    {%- assign has_specs = true -%}
+                    {%- assign kv = tag | split: ':' -%}
+                    <div><dt>{{ kv[0] | strip }}</dt><dd>{{ kv[1] | strip }}</dd></div>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endcapture -%}
+              {%- if has_specs -%}
+                <dl class="specs">{{ specs }}</dl>
+              {%- endif -%}
+              {%- form 'product', product -%}
+                {%- if product.has_only_default_variant -%}
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                {%- elsif product.options.size == 1 -%}
+                  <fieldset class="sizes" data-size-required>
+                    <legend>{{ product.options.first }}</legend>
+                    {%- for variant in product.variants -%}
+                      <label>
+                        <input type="radio" name="id" id="v-{{ section.id }}-{{ variant.id }}" value="{{ variant.id }}"{% unless variant.available %} disabled{% endunless %}>
+                        <span>{{ variant.title }}</span>
+                      </label>
+                    {%- endfor -%}
+                  </fieldset>
+                {%- endif -%}
+                {%- if product.options.size > 1 -%}
+                  <a class="btn btn-red" href="{{ product.url }}" style="width:100%;justify-content:center">{{ 'products.choose_options' | t }}</a>
+                {%- else -%}
+                  <button type="submit" class="btn btn-red" style="width:100%;justify-content:center;margin-top:16px"{% unless product.available %} disabled{% endunless %}>
+                    {%- if product.available -%}{{ 'products.add_to_cart' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
+                  </button>
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Les pièces",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "label": "Nombre de pièces", "min": 2, "max": 12, "step": 2, "default": 4 },
+    { "type": "text", "id": "label", "label": "Étiquette", "default": "Les pièces" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Kurovani Originals" }
+  ],
+  "presets": [ { "name": "Les pièces" } ]
+}
+{% endschema %}

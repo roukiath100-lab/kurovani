@@ -1,0 +1,41 @@
+{%- if section.settings.ticker != blank -%}
+  {%- assign words = section.settings.ticker | split: '/' -%}
+  <div class="ticker" aria-hidden="true">
+    <div>
+      {%- for i in (1..2) -%}
+        {%- for w in words -%}
+          <span>{{ w | strip | escape }}</span><span>///</span>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      {%- if section.settings.logo -%}
+        {{ section.settings.logo | image_url: width: 400 | image_tag: alt: shop.name, loading: 'eager' }}
+      {%- else -%}
+        <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="232" height="96">
+      {%- endif -%}
+    </a>
+    <nav aria-label="{{ 'general.navigation' | t }}">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+    <a class="bag" href="{{ routes.cart_url }}">
+      {{ 'cart.title' | t }} <b data-cart-count>{{ cart.item_count }}</b>
+    </a>
+  </div>
+</header>
+{% schema %}
+{
+  "name": "En-tête",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo (sinon le logo Kurovani fourni)" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "text", "id": "ticker", "label": "Bande défilante (séparer par /)", "default": "Kurovani Originals / Streetwear / Anime inspired / Paris – Tokyo / Oversized / Unisex" }
+  ]
+}
+{% endschema %}

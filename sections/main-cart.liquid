@@ -1,0 +1,42 @@
+<section class="page">
+  <div class="wrap">
+    <span class="tab label">{{ 'cart.title' | t }} {% render 'slashes' %}</span>
+    <h1>{{ 'cart.heading' | t }}</h1>
+    {%- if cart.item_count == 0 -%}
+      <p class="empty">{{ 'cart.empty' | t }}</p>
+      <a class="btn btn-red" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue' | t }}</a>
+    {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post" class="cart">
+        <div class="lines">
+          {%- for item in cart.items -%}
+            <div class="line">
+              {%- if item.image -%}
+                {{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.title }}
+              {%- else -%}
+                <span></span>
+              {%- endif -%}
+              <div>
+                <h3><a href="{{ item.url }}">{{ item.product.title }}</a></h3>
+                {%- unless item.product.has_only_default_variant -%}<small>{{ item.variant.title }}</small>{%- endunless -%}
+                <small>{{ item.final_price | money }}</small>
+                <label class="visually-hidden" for="qty-{{ item.key }}" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{{ 'cart.quantity' | t }}</label>
+                <input class="qty" type="number" name="updates[]" id="qty-{{ item.key }}" value="{{ item.quantity }}" min="0">
+                <a class="rm" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a>
+              </div>
+              <div class="price tot" style="font-size:18px">{{ item.final_line_price | money }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="sum">
+          <div class="row"><span class="label">{{ 'cart.subtotal' | t }}</span><span class="price">{{ cart.total_price | money }}</span></div>
+          <small>{{ 'cart.taxes' | t }}</small>
+          <button type="submit" name="checkout" class="btn btn-red">{{ 'cart.checkout' | t }}</button>
+          <button type="submit" name="update" class="btn btn-ghost" style="background:var(--panel-2);color:var(--fg)">{{ 'cart.update' | t }}</button>
+        </div>
+      </form>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Panier", "settings": [] }
+{% endschema %}

@@ -1,0 +1,20 @@
+<section class="page">
+  <div class="wrap">
+    <h1>{{ 'collections.all' | t }}</h1>
+    <div class="cgrid">
+      {%- for collection in collections -%}
+        <a class="tile" href="{{ collection.url }}">
+          <div class="shot">
+            {%- if collection.featured_image -%}
+              <div class="flip">{{ collection.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: collection.title }}</div>
+            {%- endif -%}
+          </div>
+          <div class="meta"><h3>{{ collection.title }}</h3><span class="label" style="color:var(--fg-dim)">{{ 'collections.count' | t: count: collection.products_count }}</span></div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Liste des collections", "settings": [] }
+{% endschema %}

@@ -1,0 +1,28 @@
+{%- paginate search.results by 12 -%}
+<section class="page">
+  <div class="wrap">
+    <h1>{{ 'general.search' | t }}</h1>
+    <form action="{{ routes.search_url }}" method="get" role="search" class="field" style="display:flex;gap:10px;max-width:560px;margin-bottom:28px">
+      <input type="search" name="q" id="search-q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search_placeholder' | t }}" aria-label="{{ 'general.search' | t }}">
+      <input type="hidden" name="type" value="product">
+      <button type="submit" class="btn btn-red" style="height:42px">OK</button>
+    </form>
+    {%- if search.performed -%}
+      {%- if search.results_count == 0 -%}
+        <p class="empty">{{ 'general.no_results' | t: terms: search.terms }}</p>
+      {%- else -%}
+        <div class="cgrid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-tile', product: item %}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+{%- endpaginate -%}
+{% schema %}
+{ "name": "Recherche", "settings": [] }
+{% endschema %}

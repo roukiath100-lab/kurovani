@@ -1,0 +1,5 @@
+{%- comment -%} Prix d'un produit ou d'une variante. Paramètre : item {%- endcomment -%}
+{{ item.price | money }}
+{%- if item.compare_at_price > item.price -%}
+  <s>{{ item.compare_at_price | money }}</s>
+{%- endif -%}

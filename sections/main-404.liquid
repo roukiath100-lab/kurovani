@@ -1,0 +1,10 @@
+<section class="page">
+  <div class="wrap">
+    <span class="tab label">404 {% render 'slashes' %}</span>
+    <h1>{{ 'general.not_found' | t }}</h1>
+    <a class="btn btn-red" href="{{ routes.root_url }}">{{ 'general.back_home' | t }}</a>
+  </div>
+</section>
+{% schema %}
+{ "name": "Page introuvable", "settings": [] }
+{% endschema %}

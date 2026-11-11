@@ -1,0 +1,73 @@
+{
+  "general": {
+    "navigation": "Navigation",
+    "pagination": "Pagination",
+    "previous": "Page précédente",
+    "next": "Page suivante",
+    "not_found": "Cette page n'existe pas",
+    "back_home": "Retour à l'accueil",
+    "search": "Recherche",
+    "search_placeholder": "Hoodie, cargo…",
+    "no_results": "Aucun résultat pour « {{ terms }} »"
+  },
+  "products": {
+    "add_to_cart": "Ajouter au panier",
+    "sold_out": "Épuisé",
+    "unavailable": "Indisponible",
+    "pick_size": "Choisis une taille avant d'ajouter",
+    "see_back": "Voir le dos ↻",
+    "see_front": "Voir la face ↻",
+    "choose_options": "Choisir les options",
+    "gallery": "Images du produit",
+    "image": "Image {{ index }}"
+  },
+  "collections": {
+    "label": "Collection",
+    "all": "Collections",
+    "apply": "Appliquer",
+    "no_filters": "Aucun filtre pour cette collection.",
+    "sort": "Trier",
+    "empty": "Aucune pièce ne correspond à ces filtres.",
+    "price_min": "Prix minimum",
+    "price_max": "Prix maximum",
+    "count": {
+      "one": "{{ count }} pièce",
+      "other": "{{ count }} pièces"
+    }
+  },
+  "cart": {
+    "title": "Panier",
+    "heading": "Ton panier",
+    "empty": "Ton panier est vide.",
+    "continue": "Voir les pièces",
+    "quantity": "Quantité",
+    "remove": "Retirer",
+    "subtotal": "Sous-total",
+    "taxes": "Taxes incluses. Frais de livraison calculés à l'étape suivante.",
+    "checkout": "Passer au paiement",
+    "update": "Mettre à jour",
+    "added": "ajouté au panier",
+    "error": "Ajout impossible, réessaie"
+  },
+  "sections": {
+    "hero": {
+      "stage": "Pièce à faire tourner",
+      "side": "Face affichée",
+      "front": "Avant",
+      "back": "Dos"
+    },
+    "pieces": {
+      "filter": "Filtrer",
+      "all": "Tout",
+      "empty": "Choisis une collection dans l'éditeur de thème pour afficher tes pièces ici."
+    },
+    "size_guide": {
+      "highlight": "Surligner"
+    }
+  },
+  "password": {
+    "title": "Ouverture bientôt",
+    "placeholder": "Mot de passe",
+    "enter": "Entrer"
+  }
+}

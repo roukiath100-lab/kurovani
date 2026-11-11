@@ -1,0 +1,45 @@
+<footer>
+  <div class="wrap">
+    <div class="fb">
+      <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="232" height="96" loading="lazy">
+      <div class="jp">{{ section.settings.motto_jp }}</div>
+      <small>{{ section.settings.motto }}</small>
+    </div>
+    {%- for block in section.blocks -%}
+      <div {{ block.shopify_attributes }}>
+        <h4>{{ block.settings.title }}</h4>
+        <ul>
+          {%- for link in block.settings.menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endfor -%}
+    <div class="legal">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
+      <span>{{ section.settings.legal }}</span>
+    </div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Pied de page",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "motto_jp", "label": "Devise (japonais)", "default": "黒の中に、俺たちの道がある" },
+    { "type": "text", "id": "motto", "label": "Devise", "default": "Dans le noir, il y a notre voie. Originals / Streetwear / Paris – Tokyo" },
+    { "type": "text", "id": "legal", "label": "Ligne de bas de page", "default": "Paiement sécurisé par Shopify" }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Colonne de liens",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Boutique" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+      ]
+    }
+  ],
+  "default": { "blocks": [ { "type": "menu" } ] }
+}
+{% endschema %}

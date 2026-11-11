@@ -1,0 +1,33 @@
+{%- comment -%}
+  Visuel produit qui s'incline et se retourne (image 1 = face, image 2 = dos).
+  Paramètres : product, kanji (texte vertical, facultatif), link (true pour rendre l'image cliquable), main_id (id de l'image principale)
+{%- endcomment -%}
+{%- assign front = product.featured_media.preview_image | default: product.featured_image -%}
+{%- assign back = product.media[1].preview_image -%}
+<div class="shot">
+  {%- unless product.available -%}
+    <span class="soldout">{{ 'products.sold_out' | t }}</span>
+  {%- endunless -%}
+  {%- if kanji != blank -%}
+    <span class="k jp" aria-hidden="true">{{ kanji }}</span>
+  {%- endif -%}
+  {%- if link -%}<a href="{{ product.url }}" aria-label="{{ product.title | escape }}">{%- endif -%}
+  <div class="flip">
+    {%- if front -%}
+      {%- if main_id != blank -%}
+        {{ front | image_url: width: 1400 | image_tag: loading: 'eager', widths: '500, 900, 1400', sizes: '(max-width: 820px) 90vw, 50vw', alt: product.title, id: main_id }}
+      {%- else -%}
+        {{ front | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 700, 1000', sizes: '(max-width: 820px) 90vw, 40vw', alt: product.title }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+    {%- if back -%}
+      {{ back | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 700, 1000', sizes: '(max-width: 820px) 90vw, 40vw', alt: '' }}
+    {%- endif -%}
+  </div>
+  {%- if link -%}</a>{%- endif -%}
+  {%- if back -%}
+    <button type="button" class="side" aria-pressed="false" data-back="{{ 'products.see_back' | t | escape }}" data-front="{{ 'products.see_front' | t | escape }}">{{ 'products.see_back' | t }}</button>
+  {%- endif -%}
+</div>

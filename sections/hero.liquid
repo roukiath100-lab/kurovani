@@ -1,0 +1,100 @@
+{%- liquid
+  assign product = section.settings.product
+  assign front_url = 'hoodie-front.png' | asset_url
+  assign back_url = 'hoodie-back.png' | asset_url
+  if product != blank and product.featured_media
+    assign front_url = product.featured_media.preview_image | image_url: width: 1200
+    if product.media[1]
+      assign back_url = product.media[1].preview_image | image_url: width: 1200
+    else
+      assign back_url = front_url
+    endif
+  endif
+-%}
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="hero-meta label">{% render 'slashes' %}{{ section.settings.eyebrow }}</div>
+      <h1>{{ section.settings.title }} <span class="chrome">{{ section.settings.title_chrome }}</span></h1>
+      <p><span class="jp">{{ section.settings.motto_jp }}</span>{{ section.settings.text }}</p>
+      <div class="cta-row">
+        {%- if section.settings.cta_label != blank -%}
+          <a class="btn btn-red" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">{{ section.settings.cta_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.cta2_label != blank -%}
+          <a class="btn btn-ghost" href="{{ section.settings.cta2_link | default: '#tailles' }}">{{ section.settings.cta2_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="stage" data-side="front" aria-label="{{ 'sections.hero.stage' | t }}">
+      <div class="sun"></div>
+      <div class="kanji-v jp" aria-hidden="true">{{ section.settings.kanji }}</div>
+      <div class="floor"></div>
+      <div class="spinner">
+        <img src="{{ front_url }}" alt="{{ product.title | default: shop.name | escape }}" width="600" height="664">
+        <img class="back" src="{{ back_url }}" alt="" width="600" height="664">
+      </div>
+      {%- assign nf = 0 -%}
+      {%- assign nb = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.side == 'front' -%}
+          {%- assign nf = nf | plus: 1 -%}
+          {%- assign n = nf -%}
+        {%- else -%}
+          {%- assign nb = nb | plus: 1 -%}
+          {%- assign n = nb -%}
+        {%- endif -%}
+        <div class="note {% if block.settings.side == 'front' %}f{% else %}b{% endif %} n{{ n }}" {{ block.shopify_attributes }}>
+          <b>{{ block.settings.title }}</b><span>{{ block.settings.value }}</span>
+        </div>
+      {%- endfor -%}
+      <div class="turn" role="group" aria-label="{{ 'sections.hero.side' | t }}">
+        <button type="button" data-turn="front" aria-pressed="true">{{ 'sections.hero.front' | t }}</button>
+        <button type="button" data-turn="back" aria-pressed="false">{{ 'sections.hero.back' | t }}</button>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Héros : pièce 3D",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "product", "id": "product", "label": "Produit à faire tourner", "info": "Image 1 = face, image 2 = dos. Sans produit, le hoodie fourni s'affiche." },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Collection Originals" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "More than fashion." },
+    { "type": "text", "id": "title_chrome", "label": "Titre (partie chromée)", "default": "A state of mind." },
+    { "type": "text", "id": "motto_jp", "label": "Devise (japonais)", "default": "黒の中に、俺たちの道がある" },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Un hoodie et un cargo oversize, unisexes, dessinés entre Paris et Tokyo. Fais tourner la pièce pour voir ce qu'elle porte dans le dos." },
+    { "type": "text", "id": "kanji", "label": "Kanji vertical", "default": "黒バニ" },
+    { "type": "text", "id": "cta_label", "label": "Bouton 1", "default": "Voir les pièces" },
+    { "type": "url", "id": "cta_link", "label": "Lien du bouton 1" },
+    { "type": "text", "id": "cta2_label", "label": "Bouton 2", "default": "Guide des tailles" },
+    { "type": "url", "id": "cta2_link", "label": "Lien du bouton 2" }
+  ],
+  "blocks": [
+    {
+      "type": "note",
+      "name": "Cote",
+      "settings": [
+        { "type": "select", "id": "side", "label": "Face", "default": "front", "options": [ { "value": "front", "label": "Avant" }, { "value": "back", "label": "Dos" } ] },
+        { "type": "text", "id": "title", "label": "Nom", "default": "Logo poitrine" },
+        { "type": "text", "id": "value", "label": "Mesure", "default": "28 × 16 cm" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Héros : pièce 3D",
+      "blocks": [
+        { "type": "note", "settings": { "side": "front", "title": "Logo poitrine", "value": "28 × 16 cm" } },
+        { "type": "note", "settings": { "side": "front", "title": "Cordons, embouts métal", "value": "75 cm · Ø 0,8 cm" } },
+        { "type": "note", "settings": { "side": "front", "title": "Impression poche", "value": "10 × 5 cm" } },
+        { "type": "note", "settings": { "side": "back", "title": "Étoile brodée", "value": "capuche · 4 × 4 cm" } },
+        { "type": "note", "settings": { "side": "back", "title": "Graphisme dos", "value": "32 × 44 cm · DTG" } },
+        { "type": "note", "settings": { "side": "back", "title": "Impression bas", "value": "18 × 3 cm" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,62 @@
+<section class="blk details" id="details">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="tab label">{{ section.settings.label }} {% render 'slashes' %}</span>
+        <h2>{{ section.settings.title }}</h2>
+      </div>
+    </div>
+    <div class="strip">
+      {%- for block in section.blocks -%}
+        <figure {{ block.shopify_attributes }}>
+          <div class="ph">
+            {%- if block.settings.image -%}
+              {{ block.settings.image | image_url: width: 640 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {%- elsif block.settings.fallback != blank -%}
+              {%- assign file = 'detail-' | append: block.settings.fallback | append: '.jpg' -%}
+              <img src="{{ file | asset_url }}" alt="{{ block.settings.title | escape }}" width="640" height="640" loading="lazy">
+            {%- endif -%}
+          </div>
+          <figcaption><b>{{ block.settings.title }}</b><span>{{ block.settings.text }}</span></figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Détails",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "label", "label": "Étiquette", "default": "Détails" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Ce qu'on voit de près" }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Détail",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "select", "id": "fallback", "label": "Image fournie (si aucune image)", "default": "capuche", "options": [
+          { "value": "capuche", "label": "Capuche" }, { "value": "cordons", "label": "Cordons" }, { "value": "logo", "label": "Logo" },
+          { "value": "dos", "label": "Graphisme dos" }, { "value": "cargo", "label": "Poche cargo" }, { "value": "soleil", "label": "Dos du cargo" } ] },
+        { "type": "text", "id": "title", "label": "Nom", "default": "Capuche" },
+        { "type": "text", "id": "text", "label": "Précision", "default": "Doublure rouge, 100 % coton" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Détails",
+      "blocks": [
+        { "type": "detail", "settings": { "fallback": "capuche", "title": "Capuche", "text": "Doublure rouge, 100 % coton" } },
+        { "type": "detail", "settings": { "fallback": "cordons", "title": "Cordons", "text": "Embouts métal gravé, 75 cm" } },
+        { "type": "detail", "settings": { "fallback": "logo", "title": "Logo poitrine", "text": "Impression DTG, 28 × 16 cm" } },
+        { "type": "detail", "settings": { "fallback": "dos", "title": "Graphisme dos", "text": "32 × 44 cm, effet grunge manga" } },
+        { "type": "detail", "settings": { "fallback": "cargo", "title": "Poche cargo", "text": "Rabat et velcro, 16 × 18 cm" } },
+        { "type": "detail", "settings": { "fallback": "soleil", "title": "Graphisme dos cargo", "text": "Impression DTG, 22 × 48 cm" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
