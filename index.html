@@ -3,319 +3,202 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
 <title>Kurovani Originals</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Michroma&family=Shippori+Mincho+B1:wght@600;800&display=swap">
 <style>
-/* Concept : la fiche technique Kurovani devenue boutique. Bandes noires fixes (cadre de la fiche),
-   panneaux qui suivent le thème, une seule pièce maîtresse en 3D : le vêtement qu'on fait tourner, coté comme sur la fiche. */
+/* Concept : un studio blanc où les looks défilent en profondeur. On tourne le défilé, on touche un look,
+   il s'avance seul et ses pièces s'achètent à droite. Un seul thème, clair, par choix : le noir des pièces s'y lit le mieux. */
 :root {
-  --band: #000000;            /* cadre noir de la fiche, identique dans les deux thèmes */
-  --on-band: #eaeaea;
-  --on-band-dim: #8d8a8a;
-  --band-line: #2b2727;
-  --red: #d1001c;             /* Deep Red, Pantone 199 C */
-  --red-deep: #7a0010;
-  --chrome-a: #f4f4f4; --chrome-b: #8e8e92; --chrome-c: #d9d9dc;
-  --bg: #0b0a0a;
-  --panel: #151313;
-  --panel-2: #1d1a1a;
-  --line: #3a3a3a;            /* Dark Grey, Pantone Cool Gray 11 C */
-  --fg: #eaeaea;              /* Off-white, Pantone Cool Gray 1 C */
-  --fg-dim: #a39f9f;
-  --stage: radial-gradient(70% 60% at 50% 42%, #2a2626, #100e0e 78%);
-  --shadow: rgba(0,0,0,.6);
+  --bg: #ecebe8;        /* off-white Kurovani, légèrement chaud */
+  --floor: #dddbd7;
+  --panel: #f7f6f4;
+  --fg: #0b0a0a;
+  --dim: #6f6a6a;
+  --line: #cfcbc8;
+  --red: #d1001c;
+  --ink: #000000;       /* bandes noires */
+  --on-ink: #eaeaea;
   --f-display: "Michroma", "Eurostile", "Arial Black", sans-serif;
   --f-label: "Barlow Condensed", "Arial Narrow", sans-serif;
   --f-body: "Barlow", system-ui, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   --f-jp: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
-  --pad: clamp(16px, 4vw, 56px);
-  color-scheme: dark;
+  --pad: clamp(16px, 3.4vw, 48px);
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  color-scheme: light;
 }
-@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
-  --bg: #e4e2e0; --panel: #ffffff; --panel-2: #f1efed; --line: #c9c5c2; --fg: #0d0b0b; --fg-dim: #5d5858;
-  --stage: radial-gradient(70% 60% at 50% 42%, #ffffff, #dcd9d6 80%); --shadow: rgba(0,0,0,.22); color-scheme: light; } }
-:root[data-theme="light"] {
-  --bg: #e4e2e0; --panel: #ffffff; --panel-2: #f1efed; --line: #c9c5c2; --fg: #0d0b0b; --fg-dim: #5d5858;
-  --stage: radial-gradient(70% 60% at 50% 42%, #ffffff, #dcd9d6 80%); --shadow: rgba(0,0,0,.22); color-scheme: light; }
-
 *, *::before, *::after { box-sizing: border-box; }
-body { background: var(--bg); color: var(--fg); font: 400 16px/1.55 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: clip; }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--band); }
+body { background: var(--bg); color: var(--fg); font: 400 15px/1.5 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--bg); }
 a { color: inherit; text-decoration: none; }
-button { font: inherit; color: inherit; cursor: pointer; }
+button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
 img { display: block; }
 :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 .wrap { padding-left: max(var(--pad), env(safe-area-inset-left, 0px)); padding-right: max(var(--pad), env(safe-area-inset-right, 0px)); }
 .jp { font-family: var(--f-jp); }
 .mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
-.sl { display: inline-flex; gap: 3px; } /* les /// des fiches */
-.sl i { width: 5px; height: 15px; background: var(--red); transform: skewX(-24deg); }
-.label { font: 600 14px/1 var(--f-label); letter-spacing: .22em; text-transform: uppercase; }
-
-/* ---- Bande défilante ---- */
-.ticker { background: var(--red); color: #fff; overflow: hidden; white-space: nowrap; font: 600 13px/32px var(--f-label); letter-spacing: .24em; text-transform: uppercase; }
-.ticker div { display: inline-block; animation: tick 38s linear infinite; }
-.ticker span { margin: 0 22px; }
-@keyframes tick { to { transform: translateX(-50%); } }
+.label { font: 600 12px/1 var(--f-label); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+.sl { display: inline-flex; gap: 3px; vertical-align: -2px; } .sl i { width: 4px; height: 13px; background: var(--red); transform: skewX(-24deg); }
 
 /* ---- En-tête ---- */
-.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: var(--band); color: var(--on-band); border-bottom: 1px solid var(--band-line); }
-.top .wrap { display: flex; align-items: center; gap: 28px; height: 68px; }
-.brand img { height: 44px; width: auto; mix-blend-mode: screen; }
-.top nav { display: flex; gap: 4px; margin-left: auto; }
-.top nav a { padding: 10px 14px; font: 600 15px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; color: var(--on-band-dim); position: relative; transition: color .2s; }
-.top nav a::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 2px; height: 2px; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform .25s; }
-.top nav a:hover { color: var(--on-band); } .top nav a:hover::after { transform: scaleX(1); }
-.bag { display: inline-flex; align-items: center; gap: 10px; height: 42px; padding: 0 16px; background: none; border: 1px solid var(--band-line); color: var(--on-band); font: 600 14px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; transition: border-color .2s; }
-.bag:hover { border-color: var(--on-band); }
-.bag b { min-width: 22px; height: 22px; display: grid; place-items: center; background: var(--red); color: #fff; font: 500 12px/1 var(--f-mono); }
-.bag.bump b { animation: bump .4s; } @keyframes bump { 40% { transform: scale(1.5); } }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.top .wrap { display: flex; align-items: center; gap: 24px; height: 60px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font: 400 16px/1 var(--f-display); letter-spacing: .12em; }
+.brand svg { width: 18px; height: 18px; fill: var(--red); }
+.top nav { display: flex; gap: 22px; margin-left: auto; }
+.top nav a { font: 500 14px/1 var(--f-body); color: var(--dim); transition: color .2s; } .top nav a:hover { color: var(--fg); }
+.bagbtn { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; font: 500 13px/1 var(--f-mono); transition: border-color .2s, background .2s; }
+.bagbtn:hover { border-color: var(--fg); } .bagbtn svg { width: 16px; height: 16px; }
+.bagbtn.bump { animation: bump .45s var(--ease); } @keyframes bump { 40% { transform: scale(1.14); } }
 
-/* ---- Héros : la pièce maîtresse ---- */
-.hero { position: relative; background: var(--band); color: var(--on-band); overflow: hidden; border-bottom: 1px solid var(--band-line); }
-.hero::before { /* trame de fiche */ content: ""; position: absolute; inset: 0; background:
-  linear-gradient(var(--band-line) 1px, transparent 1px) 0 0 / 100% 64px, linear-gradient(90deg, var(--band-line) 1px, transparent 1px) 0 0 / 64px 100%; opacity: .35;
-  mask-image: radial-gradient(80% 90% at 70% 50%, #000, transparent 75%); -webkit-mask-image: radial-gradient(80% 90% at 70% 50%, #000, transparent 75%); }
-.hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 24px; align-items: center; padding-block: clamp(28px, 5vw, 64px); }
-.hero-copy { display: grid; gap: 22px; justify-items: start; min-width: 0; }
-.hero-meta { display: flex; align-items: center; gap: 14px; color: var(--on-band-dim); }
-.hero h1 { margin: 0; font: 400 clamp(26px, 4.1vw, 60px)/1.12 var(--f-display); letter-spacing: .02em; text-transform: uppercase; text-wrap: balance; }
-.hero h1 .chrome { display: block; background: linear-gradient(180deg, var(--chrome-a) 0%, var(--chrome-c) 38%, var(--chrome-b) 52%, var(--chrome-a) 68%, var(--chrome-b) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 0 var(--red-deep)) drop-shadow(0 0 18px rgba(209,0,28,.35)); }
-.hero p { margin: 0; max-width: 46ch; color: var(--on-band-dim); font-size: 17px; }
-.hero p .jp { color: var(--on-band); font-size: 18px; display: block; margin-bottom: 4px; }
-.cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
-.btn { display: inline-flex; align-items: center; gap: 12px; height: 52px; padding: 0 26px; border: 1px solid transparent; font: 700 16px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; transition: transform .15s, background .2s, border-color .2s, color .2s; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px)); }
-.btn-red { background: var(--red); color: #fff; } .btn-red:hover { background: #ec1530; transform: translateY(-2px); } .btn-red:active { transform: none; }
-.btn-ghost { background: #151313; color: var(--on-band); } .btn-ghost:hover { background: #262222; }
-.btn[disabled] { opacity: .45; cursor: not-allowed; transform: none; }
+/* ---- Studio ---- */
+.stage { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 340px; grid-template-rows: auto minmax(0, 1fr) auto; column-gap: clamp(16px, 2.4vw, 40px); height: clamp(600px, calc(100vh - 60px), 900px); padding-block: 22px 18px; overflow: hidden; }
+.stage::before { /* sol du studio */ content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 42%; background: linear-gradient(180deg, transparent, var(--floor)); pointer-events: none; }
+.intro { grid-column: 1; grid-row: 1; position: relative; z-index: 5; min-height: 84px; pointer-events: none; }
+.intro > div { transition: opacity .45s var(--ease), transform .45s var(--ease); }
+.intro h1 { margin: 0 0 6px; font: 400 clamp(26px, 3.2vw, 44px)/1.1 var(--f-body); letter-spacing: -.01em; }
+.intro p { margin: 0; color: var(--dim); font-size: 14px; max-width: 44ch; }
+.intro .look { position: absolute; inset: 0 auto auto 0; opacity: 0; transform: translateY(8px); }
+.intro .look b { display: block; margin-top: 8px; font: 400 clamp(20px, 2.2vw, 30px)/1.15 var(--f-body); }
+.focus .intro .home { opacity: 0; transform: translateY(-8px); } .focus .intro .look { opacity: 1; transform: none; }
 
-.stage { position: relative; min-width: 0; aspect-ratio: 1 / 1; max-width: 640px; width: 100%; justify-self: center; perspective: 1400px; touch-action: pan-y; cursor: grab; user-select: none; }
-.stage.drag { cursor: grabbing; }
-.sun { position: absolute; left: 50%; top: 46%; width: 74%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
-  background: radial-gradient(circle at 40% 36%, #ff2b45 0%, var(--red) 38%, var(--red-deep) 78%, #2d0006 100%); box-shadow: 0 0 120px rgba(209,0,28,.45); }
-.sun::after { /* brumes */ content: ""; position: absolute; inset: 0; border-radius: 50%; background: repeating-linear-gradient(0deg, transparent 0 22px, rgba(0,0,0,.28) 22px 25px); mask-image: linear-gradient(transparent 45%, #000); -webkit-mask-image: linear-gradient(transparent 45%, #000); }
-.kanji-v { position: absolute; right: 0; top: 4%; writing-mode: vertical-rl; font: 800 clamp(34px, 5vw, 68px)/1 var(--f-jp); letter-spacing: .12em; color: var(--on-band); text-shadow: 0 4px 18px #000; }
-.spinner { position: absolute; left: 50%; top: 50%; width: 62%; height: 78%; transform-style: preserve-3d; transform: translate(-50%, -50%) rotateX(4deg) rotateY(var(--ry, -22deg)); transition: transform .7s cubic-bezier(.2,.8,.2,1); }
-.stage.drag .spinner { transition: none; }
-.spinner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; backface-visibility: hidden; -webkit-backface-visibility: hidden; filter: drop-shadow(0 30px 26px rgba(0,0,0,.85)); pointer-events: none; }
-.spinner .back { transform: rotateY(180deg); }
-.floor { position: absolute; left: 22%; right: 22%; bottom: 7%; height: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.9), transparent); filter: blur(6px); }
-.note { position: absolute; display: grid; gap: 3px; padding-left: 12px; border-left: 2px solid var(--red); opacity: 0; transform: translateY(6px); transition: opacity .35s, transform .35s; pointer-events: none; text-shadow: 0 2px 8px #000; }
-.note b { font: 600 13px/1.1 var(--f-label); letter-spacing: .18em; text-transform: uppercase; }
-.note span { font: 400 12px/1.2 var(--f-mono); color: var(--on-band-dim); }
-.stage[data-side="front"] .note.f, .stage[data-side="back"] .note.b { opacity: 1; transform: none; }
-.n1 { left: 0; top: 30%; } .n2 { left: 0; top: 66%; } .n3 { right: 6%; bottom: 1%; }
-.turn { position: absolute; left: 0; bottom: 0; display: flex; border: 1px solid var(--band-line); background: var(--band); }
-.turn button { height: 38px; padding: 0 16px; background: none; border: 0; color: var(--on-band-dim); font: 600 13px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; }
-.turn button[aria-pressed="true"] { background: var(--on-band); color: var(--band); }
-.hint { position: absolute; right: 0; bottom: 8px; color: var(--on-band-dim); font: 400 11px/1 var(--f-mono); }
+.lineup { grid-column: 1; grid-row: 2; position: relative; min-height: 0; touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; }
+.lineup.drag { cursor: grabbing; }
+.fig { position: absolute; left: var(--cx, 50%); bottom: 2%; height: 92%; aspect-ratio: 448 / 972; transform-origin: 50% 100%; will-change: transform, filter, opacity; transition: opacity .5s var(--ease), filter .5s var(--ease); }
+.fig img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; -webkit-user-drag: none; }
+.fig.on { cursor: zoom-in; }
+.focus .fig:not(.on) { opacity: 0 !important; filter: blur(16px) !important; pointer-events: none; }
+.focus .fig.on { cursor: default; }
+.dot { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; font: 500 11px/1 var(--f-mono); opacity: 0; transform: scale(.4); transition: opacity .35s var(--ease) .25s, transform .35s var(--ease) .25s, background .2s; pointer-events: none; box-shadow: 0 0 0 5px color-mix(in srgb, var(--bg) 70%, transparent); }
+.focus .fig.on .dot { opacity: 1; transform: none; pointer-events: auto; cursor: pointer; }
+.dot:hover, .dot.hot { background: var(--red); }
+.kanji { position: absolute; right: 2%; top: 4%; writing-mode: vertical-rl; font: 800 clamp(40px, 7vw, 110px)/1 var(--f-jp); letter-spacing: .1em; color: var(--fg); opacity: .06; pointer-events: none; transition: opacity .5s; }
+.focus .kanji { opacity: .1; }
+.close { position: absolute; right: 0; top: 0; z-index: 6; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; background: var(--panel); opacity: 0; transform: scale(.6); pointer-events: none; transition: opacity .3s, transform .3s var(--ease), border-color .2s; }
+.close:hover { border-color: var(--fg); } .focus .close { opacity: 1; transform: none; pointer-events: auto; }
+.hint { position: absolute; left: var(--cx, 50%); bottom: 0; transform: translateX(-50%); font: 500 10px/1 var(--f-label); letter-spacing: .3em; text-transform: uppercase; color: var(--dim); white-space: nowrap; transition: opacity .3s; }
+.focus .hint { opacity: 0; }
 
-/* ---- Sections ---- */
-section.blk { padding-block: clamp(48px, 7vw, 96px); }
-.head { display: flex; align-items: end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: clamp(22px, 3vw, 40px); }
-.head h2 { margin: 10px 0 0; font: 400 clamp(22px, 2.8vw, 38px)/1.15 var(--f-display); text-transform: uppercase; text-wrap: balance; }
-.tab { display: inline-flex; align-items: center; gap: 12px; padding: 7px 12px; background: var(--band); color: var(--on-band); }
-.seg { display: flex; border: 1px solid var(--line); }
-.seg button { height: 40px; padding: 0 18px; background: none; border: 0; color: var(--fg-dim); font: 600 14px/1 var(--f-label); letter-spacing: .18em; text-transform: uppercase; transition: color .2s, background .2s; }
-.seg button + button { border-left: 1px solid var(--line); }
-.seg button:hover { color: var(--fg); }
-.seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.rail { grid-column: 1; grid-row: 3; position: relative; z-index: 5; display: flex; align-items: center; gap: 14px; padding-top: 12px; }
+.arrow { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: var(--dim); transition: color .2s, background .2s; } .arrow:hover { color: var(--fg); background: var(--panel); }
+.ticks { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.lineup { isolation: isolate; }
+.tick { display: flex; align-items: center; gap: 8px; padding: 10px 0; color: var(--dim); font: 400 11px/1 var(--f-mono); white-space: nowrap; }
+.tick i { display: block; height: 1px; width: 22px; background: var(--line); transition: width .5s var(--ease), background .3s; }
+.tick span { max-width: 0; overflow: hidden; opacity: 0; transition: max-width .5s var(--ease), opacity .3s; }
+.tick[aria-current="true"] { color: var(--fg); } .tick[aria-current="true"] i { width: 84px; background: var(--fg); } .tick[aria-current="true"] span { max-width: 160px; opacity: 1; }
 
-/* ---- Pièces ---- */
-.pieces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
-.piece { display: grid; grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); background: var(--panel); border: 1px solid var(--line); min-width: 0; }
-.shot { position: relative; background: var(--stage); perspective: 1100px; overflow: hidden; min-height: 420px; border-right: 1px solid var(--line); }
-.shot .flip { position: absolute; inset: 9% 10% 12%; transform-style: preserve-3d; transform: rotateX(calc(var(--my, 0) * -10deg)) rotateY(calc(var(--mx, 0) * 16deg + var(--turn, 0deg))); transition: transform .6s cubic-bezier(.2,.8,.2,1); }
-.shot.live .flip { transition: transform .1s linear; }
-.shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; backface-visibility: hidden; -webkit-backface-visibility: hidden; filter: drop-shadow(0 22px 18px var(--shadow)); }
-.shot img + img { transform: rotateY(180deg); }
-.shot .k { position: absolute; top: 14px; right: 14px; writing-mode: vertical-rl; font: 800 22px/1 var(--f-jp); letter-spacing: .1em; color: var(--fg); opacity: .8; }
-.shot .new { position: absolute; top: 14px; left: 14px; padding: 5px 9px; background: var(--red); color: #fff; font: 700 12px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; }
-.shot .side { position: absolute; left: 14px; bottom: 14px; height: 34px; padding: 0 12px; display: inline-flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid var(--line); font: 600 12px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; }
-.shot .side:hover { border-color: var(--fg); }
-.info { display: flex; flex-direction: column; gap: 16px; padding: clamp(16px, 2vw, 26px); min-width: 0; }
-.info .label { color: var(--fg-dim); }
-.info h3 { margin: 0; font: 400 clamp(17px, 1.5vw, 22px)/1.25 var(--f-display); text-transform: uppercase; overflow-wrap: anywhere; }
-.price { font: 500 26px/1 var(--f-mono); font-variant-numeric: tabular-nums; }
-.price small { font-size: 12px; color: var(--fg-dim); margin-left: 8px; }
-.specs { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
-.specs div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
-.specs dt { color: var(--fg-dim); font: 600 12px/1.6 var(--f-label); letter-spacing: .18em; text-transform: uppercase; }
-.specs dd { margin: 0; text-align: right; font: 400 13px/1.5 var(--f-mono); }
-.sizes { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; border: 0; padding: 0; margin: 0; }
-.sizes legend { padding: 0; margin-bottom: 8px; font: 600 12px/1 var(--f-label); letter-spacing: .18em; text-transform: uppercase; color: var(--fg-dim); }
-.sizes label { position: relative; }
-.sizes input { position: absolute; opacity: 0; inset: 0; }
-.sizes span { display: grid; place-items: center; height: 40px; border: 1px solid var(--line); font: 500 13px/1 var(--f-mono); transition: border-color .15s, background .15s, color .15s; cursor: pointer; }
-.sizes label:hover span { border-color: var(--fg); }
-.sizes input:checked + span { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.sizes input:focus-visible + span { outline: 2px solid var(--red); outline-offset: 2px; }
-.info .btn { justify-content: center; margin-top: auto; }
+/* ---- Panneau « Dans ce look » ---- */
+.panel { grid-column: 2; grid-row: 1 / 4; position: relative; z-index: 5; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+.panel > .label { padding: 6px 2px; }
+.items { display: grid; gap: 10px; }
+.item { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 12px; background: var(--panel); border: 1px solid transparent; border-radius: 4px; transition: border-color .25s, transform .35s var(--ease), box-shadow .35s; }
+.item.hot { border-color: var(--fg); transform: translateX(-6px); box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+.item .th { aspect-ratio: 1; background: var(--bg); border-radius: 3px; display: grid; place-items: center; overflow: hidden; }
+.item .th img { width: 86%; height: 86%; object-fit: contain; transition: opacity .3s, transform .5s var(--ease); }
+.item:hover .th img { transform: scale(1.08) rotate(-2deg); }
+.item h3 { margin: 4px 0 2px; font: 500 15px/1.2 var(--f-body); }
+.item .pr { font: 400 13px/1 var(--f-mono); color: var(--dim); }
+.szs { grid-column: 1 / -1; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.szs button { min-width: 32px; height: 32px; padding: 0 6px; border-radius: 50%; font: 400 11px/1 var(--f-mono); color: var(--dim); transition: background .2s, color .2s; }
+.szs button:hover { color: var(--fg); } .szs button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 44px; padding: 0 18px; background: var(--fg); color: var(--bg); border-radius: 3px; font: 500 13px/1 var(--f-body); transition: background .2s, transform .15s; }
+.btn:hover { background: var(--red); color: #fff; } .btn:active { transform: translateY(1px); }
+.item .btn { grid-column: 1 / -1; height: 38px; }
+.full { margin-top: auto; display: grid; gap: 10px; padding-top: 12px; border-top: 1px solid var(--line); }
+.full .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 13px; }
+.full .row b { font: 500 16px/1 var(--f-mono); } .full small { color: var(--dim); font-size: 12px; }
+.full .btn { height: 48px; }
 
-/* ---- Détails ---- */
-.details { background: var(--panel-2); border-block: 1px solid var(--line); }
-.strip { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
-.strip figure { margin: 0; display: grid; gap: 10px; align-content: start; }
-.strip .ph { aspect-ratio: 1; overflow: hidden; border: 1px solid var(--line); background: var(--band); }
-.strip img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
-.strip figure:hover img { transform: scale(1.1); }
-.strip figcaption b { display: block; font: 600 13px/1.2 var(--f-label); letter-spacing: .16em; text-transform: uppercase; }
-.strip figcaption span { font: 400 12px/1.4 var(--f-mono); color: var(--fg-dim); }
-
-/* ---- Guide des tailles ---- */
+/* ---- Sections sous le studio ---- */
+.blk { padding-block: clamp(44px, 6vw, 84px); border-top: 1px solid var(--line); }
 .guide { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(20px, 4vw, 56px); align-items: start; }
-.guide p { margin: 0 0 14px; color: var(--fg-dim); max-width: 44ch; }
-.tablebox { overflow-x: auto; border: 1px solid var(--line); background: var(--panel); }
-table { border-collapse: collapse; width: 100%; min-width: 520px; font: 400 14px/1 var(--f-mono); font-variant-numeric: tabular-nums; }
-th, td { padding: 13px 14px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
-th:first-child, td:first-child { text-align: left; font: 600 13px/1 var(--f-label); letter-spacing: .14em; text-transform: uppercase; }
-thead th { background: var(--band); color: var(--on-band); font: 600 13px/1 var(--f-label); letter-spacing: .2em; }
-tbody tr:last-child td { border-bottom: 0; }
-td.hl, th.hl { background: var(--red); color: #fff; }
-.pick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 6px; }
+.guide h2 { margin: 12px 0 14px; font: 400 clamp(22px, 2.6vw, 34px)/1.15 var(--f-body); text-wrap: balance; }
+.guide p { margin: 0 0 12px; color: var(--dim); max-width: 44ch; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+.seg button { min-width: 38px; height: 32px; padding: 0 10px; border-radius: 999px; font: 400 12px/1 var(--f-mono); color: var(--dim); } .seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.tablebox { overflow-x: auto; background: var(--panel); border-radius: 4px; }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font: 400 13px/1 var(--f-mono); font-variant-numeric: tabular-nums; }
+th, td { padding: 14px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; transition: background .3s, color .3s; }
+th:first-child, td:first-child { text-align: left; font: 500 14px/1 var(--f-body); }
+thead th { font: 600 12px/1 var(--f-label); letter-spacing: .2em; color: var(--dim); }
+tbody tr:last-child td { border-bottom: 0; } td.hl, th.hl { background: var(--fg); color: var(--bg); }
 
-/* ---- Palette ---- */
-.palette { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); }
-.sw { min-height: 190px; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 16px; }
-.sw + .sw { border-left: 1px solid var(--line); }
-.sw b { font: 600 14px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; }
-.sw span { font: 400 12px/1.4 var(--f-mono); opacity: .8; }
-.sw.c1 { background: #000; color: #eaeaea; } .sw.c2 { background: #d1001c; color: #fff; } .sw.c3 { background: #3a3a3a; color: #eaeaea; } .sw.c4 { background: #eaeaea; color: #0b0a0a; }
+footer { background: var(--ink); color: var(--on-ink); }
+footer .wrap { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; padding-block: 44px 28px; }
+footer .jp { font-size: clamp(20px, 2.4vw, 30px); } footer small { display: block; margin-top: 6px; color: #8d8a8a; font-size: 13px; }
+footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } footer nav a:hover { color: var(--red); }
 
-/* ---- Affiche ---- */
-.poster { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(20px, 5vw, 72px); align-items: center; }
-.poster .frame { perspective: 1200px; justify-self: center; width: 100%; max-width: 520px; }
-.poster .frame img { width: 100%; height: auto; border: 1px solid var(--line); box-shadow: 0 30px 60px var(--shadow); transform: rotateY(calc(var(--mx, 0) * 14deg + 8deg)) rotateX(calc(var(--my, 0) * -10deg)); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
-.poster .frame.live img { transition: transform .1s linear; }
-.poster p { color: var(--fg-dim); max-width: 46ch; margin: 0 0 14px; }
-.poster h2 { font: 400 clamp(22px, 2.8vw, 38px)/1.15 var(--f-display); text-transform: uppercase; margin: 14px 0 16px; text-wrap: balance; }
-@media (max-width: 820px) { .poster { grid-template-columns: 1fr; } .poster .frame img { transform: none; } }
-
-/* ---- Pied ---- */
-footer { background: var(--band); color: var(--on-band); }
-footer .wrap { display: grid; grid-template-columns: minmax(0, 5fr) repeat(3, minmax(0, 2fr)); gap: 32px; padding-block: 56px 28px; }
-.fb img { height: 60px; width: auto; mix-blend-mode: screen; margin-bottom: 16px; }
-.fb .jp { font-size: clamp(20px, 2.4vw, 30px); line-height: 1.3; }
-.fb small { display: block; margin-top: 8px; color: var(--on-band-dim); font-size: 14px; }
-footer h4 { margin: 0 0 14px; font: 600 13px/1 var(--f-label); letter-spacing: .22em; text-transform: uppercase; color: var(--on-band-dim); }
-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
-footer li a:hover { color: var(--red); }
-.legal { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-top: 20px; border-top: 1px solid var(--band-line); color: var(--on-band-dim); font: 400 12px/1.4 var(--f-mono); }
-.toast { position: fixed; left: 50%; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 140%); z-index: 70; padding: 13px 18px; background: var(--on-band); color: var(--band); font: 600 14px/1 var(--f-label); letter-spacing: .16em; text-transform: uppercase; transition: transform .35s cubic-bezier(.2,.8,.2,1), visibility .35s; max-width: calc(100% - 32px); visibility: hidden; }
+/* ---- Panier ---- */
+.veil { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 16px; background: color-mix(in srgb, var(--bg) 55%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); opacity: 0; visibility: hidden; transition: opacity .35s, visibility .35s; }
+.veil.on { opacity: 1; visibility: visible; }
+.sheet { width: min(460px, 100%); max-height: min(640px, 100%); overflow: auto; background: var(--panel); border-radius: 6px; padding: 22px; box-shadow: 0 30px 80px rgba(0,0,0,.18); transform: translateY(24px) scale(.97); transition: transform .45s var(--ease); display: grid; gap: 16px; }
+.veil.on .sheet { transform: none; }
+.sheet header { display: flex; justify-content: space-between; align-items: center; } .sheet h2 { margin: 0; font: 400 20px/1.2 var(--f-body); }
+.sheet p { margin: 0; color: var(--dim); font-size: 13px; }
+.bagline { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.bagline .th { width: 56px; height: 56px; background: var(--bg); border-radius: 3px; display: grid; place-items: center; } .bagline img { width: 84%; height: 84%; object-fit: contain; }
+.bagline b { display: block; font: 500 14px/1.2 var(--f-body); } .bagline small { color: var(--dim); font: 400 12px/1.5 var(--f-mono); }
+.bagline button { color: var(--dim); font-size: 18px; width: 32px; height: 32px; } .bagline button:hover { color: var(--red); }
+.sheet .tot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px solid var(--line); } .sheet .tot b { font: 500 18px/1 var(--f-mono); }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 90; transform: translate(-50%, 140%); padding: 12px 16px; background: var(--fg); color: var(--bg); border-radius: 3px; font-size: 13px; max-width: calc(100% - 32px); visibility: hidden; transition: transform .4s var(--ease), visibility .4s; }
 .toast.on { transform: translate(-50%, 0); visibility: visible; }
 
-@media (max-width: 1180px) { .pieces { grid-template-columns: 1fr; } .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 820px) {
-  .top nav { display: none; } .bag { margin-left: auto; } .brand img { height: 36px; }
-  .hero .wrap, .guide { grid-template-columns: 1fr; }
-  .stage { order: -1; max-width: 460px; }
-  .n1 { top: 6%; } .note.n2, .note.n3 { display: none; }
-  .piece { grid-template-columns: 1fr; } .shot { min-height: 0; aspect-ratio: 4 / 4.2; border-right: 0; border-bottom: 1px solid var(--line); }
-  .palette { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sw { min-height: 130px; } .sw:nth-child(3) { border-left: 0; } .sw:nth-child(n+3) { border-top: 1px solid var(--line); }
-  footer .wrap { grid-template-columns: 1fr 1fr; } .fb { grid-column: 1 / -1; }
+@media (max-width: 900px) {
+  .top nav { display: none; } .bagbtn { margin-left: auto; }
+  .stage { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 56vh auto auto; height: auto; overflow: visible; padding-bottom: 28px; }
+  .stage::before { height: 30%; bottom: auto; top: 34vh; }
+  .lineup { overflow: hidden; margin-inline: calc(var(--pad) * -1); }
+  .panel { grid-column: 1; grid-row: 4; margin-top: 18px; }
+  .close { right: var(--pad); } .guide { grid-template-columns: 1fr; }
+  .tick { gap: 0; } .tick i { width: 0; } .tick[aria-current="true"] { gap: 6px; } .tick[aria-current="true"] i { width: 22px; } .ticks { gap: 12px; overflow: hidden; }
 }
-@media (max-width: 480px) { .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } .btn { height: 48px; padding: 0 20px; font-size: 15px; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01s !important; animation: none !important; } }
 </style>
-<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-</head>
-<body>
-
-<div class="ticker" aria-hidden="true"><div>
-  <span>Kurovani Originals</span><span>///</span><span>Streetwear</span><span>///</span><span>Anime inspired</span><span>///</span><span>Paris – Tokyo</span><span>///</span><span class="jp">黒の中に、俺たちの道がある</span><span>///</span><span>Oversized / Unisex</span><span>///</span>
-  <span>Kurovani Originals</span><span>///</span><span>Streetwear</span><span>///</span><span>Anime inspired</span><span>///</span><span>Paris – Tokyo</span><span>///</span><span class="jp">黒の中に、俺たちの道がある</span><span>///</span><span>Oversized / Unisex</span><span>///</span>
-</div></div>
 
 <header class="top"><div class="wrap">
-  <a class="brand" href="#" aria-label="Kurovani"><img src="img/logo.png" alt="Kurovani" width="232" height="96"></a>
-  <nav aria-label="Navigation"><a href="#pieces">Pièces</a><a href="#details">Détails</a><a href="#tailles">Tailles</a><a href="#affiche">Affiche</a></nav>
-  <button class="bag" id="bag" aria-label="Panier">Panier <b id="bag-n">0</b></button>
+  <a class="brand" href="#" aria-label="Kurovani"><svg viewBox="-14 -14 28 28" aria-hidden="true"><path d="M0,-14 L3,-3 L14,0 L3,3 L0,14 L-3,3 L-14,0 L-3,-3 Z"/></svg>KUROVANI</a>
+  <nav aria-label="Navigation"><a href="#looks">Looks</a><a href="#tailles">Tailles</a><a href="#marque">La marque</a></nav>
+  <button class="bagbtn" id="bagbtn" aria-label="Ouvrir le panier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span id="bagn">0</span></button>
 </div></header>
 
-<section class="hero"><div class="wrap">
-  <div class="hero-copy">
-    <div class="hero-meta label"><span class="sl"><i></i><i></i><i></i></span>Collection Originals · 2 pièces</div>
-    <h1>More than fashion. <span class="chrome">A state of mind.</span></h1>
-    <p><span class="jp">黒の中に、俺たちの道がある</span>Un hoodie et un cargo oversize, unisexes, dessinés entre Paris et Tokyo. Fais tourner la pièce pour voir ce qu'elle porte dans le dos.</p>
-    <div class="cta-row"><a class="btn btn-red" href="#pieces">Voir les pièces</a><a class="btn btn-ghost" href="#tailles">Guide des tailles</a></div>
+<section class="stage wrap" id="looks">
+  <div class="intro">
+    <div class="home"><h1>Porte le look.</h1><p>Six looks, deux pièces Originals. Fais défiler, puis touche une silhouette pour voir ce qu'elle porte.</p></div>
+    <div class="look" aria-live="polite"><span class="label" id="lk-n">Look 01</span><b id="lk-name">Originals</b></div>
   </div>
-  <div class="stage" id="stage" data-side="front" aria-label="Hoodie Oversize, vue à faire tourner">
-    <div class="sun"></div>
-    <div class="kanji-v jp" aria-hidden="true">黒バニ</div>
-    <div class="floor"></div>
-    <div class="spinner" id="spinner"><img src="img/hoodie-front.png" alt="Hoodie Oversize Kurovani, face avant"><img class="back" src="img/hoodie-back.png" alt="Hoodie Oversize Kurovani, dos"></div>
-    <div class="note f n1"><b>Logo poitrine</b><span>28 × 16 cm</span></div>
-    <div class="note f n2"><b>Cordons, embouts métal</b><span>75 cm · Ø 0,8 cm</span></div>
-    <div class="note f n3"><b>Impression poche</b><span>10 × 5 cm</span></div>
-    <div class="note b n1"><b>Étoile brodée</b><span>capuche · 4 × 4 cm</span></div>
-    <div class="note b n2"><b>Graphisme dos</b><span>32 × 44 cm · DTG</span></div>
-    <div class="note b n3"><b>Impression bas</b><span>18 × 3 cm</span></div>
-    <div class="turn" role="group" aria-label="Face affichée"><button id="t-front" aria-pressed="true">Avant</button><button id="t-back" aria-pressed="false">Dos</button></div>
+  <div class="lineup" id="lineup" aria-label="Défilé des looks">
+    <div class="kanji jp" aria-hidden="true">黒バニ</div>
+    <button class="close" id="close" aria-label="Revenir au défilé"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13"/></svg></button>
+    <div class="hint" id="hint">Touche une silhouette pour voir les pièces</div>
   </div>
-</div></section>
-
-<section class="blk" id="pieces"><div class="wrap">
-  <div class="head">
-    <div><span class="tab label">Les pièces <span class="sl"><i></i><i></i><i></i></span></span><h2>Kurovani Originals</h2></div>
-    <div class="seg" id="seg" role="group" aria-label="Filtrer"><button aria-pressed="true" data-f="all">Tout</button><button aria-pressed="false" data-f="hoodie">Hoodie</button><button aria-pressed="false" data-f="pant">Pantalon</button></div>
+  <div class="rail">
+    <button class="arrow" id="prev" aria-label="Look précédent"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 8H1m6-6L1 8l6 6"/></svg></button>
+    <div class="ticks" id="ticks"></div>
+    <button class="arrow" id="next" aria-label="Look suivant"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 8h14M9 2l6 6-6 6"/></svg></button>
   </div>
-  <div class="pieces">
-    <article class="piece" data-t="hoodie">
-      <div class="shot"><span class="new">Nouveau</span><span class="k jp" aria-hidden="true">黒バニ</span>
-        <div class="flip"><img src="img/hoodie-front.png" alt="Hoodie Oversize, face avant"><img src="img/hoodie-back.png" alt="Hoodie Oversize, dos"></div>
-        <button class="side" aria-pressed="false">Voir le dos ↻</button></div>
-      <div class="info">
-        <span class="label">Pièce 01 · Hoodie</span>
-        <h3>Oversized Hoodie</h3>
-        <div class="price">89,00 €<small>prix d'exemple</small></div>
-        <dl class="specs"><div><dt>Coupe</dt><dd>Oversized / relaxed</dd></div><div><dt>Genre</dt><dd>Unisexe</dd></div><div><dt>Capuche</dt><dd>Doublure rouge, 100 % coton</dd></div><div><dt>Impression</dt><dd>DTG haute qualité</dd></div></dl>
-        <fieldset class="sizes"><legend>Taille</legend>
-          <label><input type="radio" name="s-hoodie" id="h-xs" value="XS"><span>XS</span></label><label><input type="radio" name="s-hoodie" id="h-s" value="S"><span>S</span></label><label><input type="radio" name="s-hoodie" id="h-m" value="M"><span>M</span></label><label><input type="radio" name="s-hoodie" id="h-l" value="L"><span>L</span></label><label><input type="radio" name="s-hoodie" id="h-xl" value="XL"><span>XL</span></label><label><input type="radio" name="s-hoodie" id="h-xxl" value="XXL"><span>XXL</span></label>
-        </fieldset>
-        <button class="btn btn-red add" data-name="Oversized Hoodie" data-group="s-hoodie">Ajouter au panier</button>
-      </div>
-    </article>
-    <article class="piece" data-t="pant">
-      <div class="shot"><span class="new">Nouveau</span><span class="k jp" aria-hidden="true">黒波</span>
-        <div class="flip"><img src="img/pants-front.png" alt="Oversized Pants, face avant"><img src="img/pants-back.png" alt="Oversized Pants, dos"></div>
-        <button class="side" aria-pressed="false">Voir le dos ↻</button></div>
-      <div class="info">
-        <span class="label">Pièce 02 · Pantalon</span>
-        <h3>Oversized Pants</h3>
-        <div class="price">79,00 €<small>prix d'exemple</small></div>
-        <dl class="specs"><div><dt>Coupe</dt><dd>Oversized / relaxed</dd></div><div><dt>Matière</dt><dd>French Terry lourd, 420–460 GSM</dd></div><div><dt>Poches</dt><dd>Cargo à rabat, 16 × 18 cm</dd></div><div><dt>Bas</dt><dd>Ourlet réglable, cordon</dd></div></dl>
-        <fieldset class="sizes"><legend>Taille</legend>
-          <label><input type="radio" name="s-pant" id="p-xs" value="XS"><span>XS</span></label><label><input type="radio" name="s-pant" id="p-s" value="S"><span>S</span></label><label><input type="radio" name="s-pant" id="p-m" value="M"><span>M</span></label><label><input type="radio" name="s-pant" id="p-l" value="L"><span>L</span></label><label><input type="radio" name="s-pant" id="p-xl" value="XL"><span>XL</span></label><label><input type="radio" name="s-pant" id="p-xxl" value="XXL"><span>XXL</span></label>
-        </fieldset>
-        <button class="btn btn-red add" data-name="Oversized Pants" data-group="s-pant">Ajouter au panier</button>
-      </div>
-    </article>
-  </div>
-</div></section>
-
-<section class="blk details" id="details"><div class="wrap">
-  <div class="head"><div><span class="tab label">Détails <span class="sl"><i></i><i></i><i></i></span></span><h2>Ce qu'on voit de près</h2></div></div>
-  <div class="strip">
-    <figure><div class="ph"><img src="img/detail-capuche.jpg" alt="Capuche et doublure" loading="lazy"></div><figcaption><b>Capuche</b><span>Doublure rouge, 100 % coton</span></figcaption></figure>
-    <figure><div class="ph"><img src="img/detail-cordons.jpg" alt="Cordons rouges à embouts métal" loading="lazy"></div><figcaption><b>Cordons</b><span>Embouts métal gravé, 75 cm</span></figcaption></figure>
-    <figure><div class="ph"><img src="img/detail-logo.jpg" alt="Logo chromé sur la poitrine" loading="lazy"></div><figcaption><b>Logo poitrine</b><span>Impression DTG, 28 × 16 cm</span></figcaption></figure>
-    <figure><div class="ph"><img src="img/detail-dos.jpg" alt="Graphisme du dos, soleil rouge et torii" loading="lazy"></div><figcaption><b>Graphisme dos</b><span>32 × 44 cm, effet grunge manga</span></figcaption></figure>
-    <figure><div class="ph"><img src="img/detail-cargo.jpg" alt="Poche cargo à rabat" loading="lazy"></div><figcaption><b>Poche cargo</b><span>Rabat et velcro, 16 × 18 cm</span></figcaption></figure>
-    <figure><div class="ph"><img src="img/detail-soleil.jpg" alt="Soleil rouge imprimé au dos du cargo" loading="lazy"></div><figcaption><b>Graphisme dos cargo</b><span>Impression DTG, 22 × 48 cm</span></figcaption></figure>
-  </div>
-</div></section>
+  <aside class="panel" aria-label="Pièces du look">
+    <span class="label">Dans ce look <span class="sl"><i></i><i></i><i></i></span></span>
+    <div class="items" id="items"></div>
+    <div class="full">
+      <div class="row"><span>Le look complet<br><small>Hoodie + pantalon · prix d'exemple</small></span><b id="fulltot">168,00 €</b></div>
+      <button class="btn" id="addfull">Ajouter le look complet <span aria-hidden="true">→</span></button>
+    </div>
+  </aside>
+</section>
 
 <section class="blk" id="tailles"><div class="wrap guide">
   <div>
-    <span class="tab label">Mesures <span class="sl"><i></i><i></i><i></i></span></span>
-    <h2 style="font:400 clamp(22px,2.8vw,38px)/1.15 var(--f-display);text-transform:uppercase;margin:14px 0 16px">Guide des tailles, Oversized Pants</h2>
+    <span class="label">Mesures <span class="sl"><i></i><i></i><i></i></span></span>
+    <h2>Guide des tailles, Oversized Pants</h2>
     <p>Mesures à plat, en centimètres. La coupe est large : prends ta taille habituelle, ou une taille en dessous pour un tombé moins ample.</p>
     <p>Le guide du hoodie arrivera avec les mesures validées par le fabricant.</p>
-    <div class="pick"><span class="label" style="color:var(--fg-dim)">Surligner</span>
-      <div class="seg" id="szpick" role="group" aria-label="Taille à surligner"><button aria-pressed="false">XS</button><button aria-pressed="false">S</button><button aria-pressed="true">M</button><button aria-pressed="false">L</button><button aria-pressed="false">XL</button><button aria-pressed="false">XXL</button></div></div>
+    <div class="seg" id="szpick" role="group" aria-label="Taille à surligner"><button aria-pressed="false">XS</button><button aria-pressed="false">S</button><button aria-pressed="true">M</button><button aria-pressed="false">L</button><button aria-pressed="false">XL</button><button aria-pressed="false">XXL</button></div>
   </div>
   <div class="tablebox"><table id="sztable">
     <thead><tr><th>Taille (cm)</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr></thead>
@@ -329,89 +212,172 @@ footer li a:hover { color: var(--red); }
     </tbody></table></div>
 </div></section>
 
-<section class="blk" id="affiche" style="padding-top:0"><div class="wrap poster">
-  <div class="frame" id="frame"><img src="img/poster-dos.jpg" alt="Affiche Kurovani : personnage de dos en hoodie et cargo Originals, face au soleil rouge sous un torii" width="900" height="1200" loading="lazy"></div>
-  <div>
-    <span class="tab label">Affiche <span class="sl"><i></i><i></i><i></i></span></span>
-    <h2>Le dos raconte l'histoire</h2>
-    <p>Première affiche de la collection : un personnage original, de dos, l'ensemble Originals sur les épaules, face au soleil rouge.</p>
-    <p class="mono" style="font-size:13px">Format 3:4 · 1800 × 2400 px</p>
-  </div>
-</div></section>
-
-<section class="blk" id="marque" style="padding-top:0"><div class="wrap">
-  <div class="head"><div><span class="tab label">Palette <span class="sl"><i></i><i></i><i></i></span></span><h2>Quatre couleurs, pas une de plus</h2></div></div>
-  <div class="palette">
-    <div class="sw c1"><b>Black</b><span>#000000 · Pantone Black C</span></div>
-    <div class="sw c2"><b>Deep Red</b><span>#D1001C · Pantone 199 C</span></div>
-    <div class="sw c3"><b>Dark Grey</b><span>#3A3A3A · Cool Gray 11 C</span></div>
-    <div class="sw c4"><b>Off-White</b><span>#EAEAEA · Cool Gray 1 C</span></div>
-  </div>
-</div></section>
-
-<footer><div class="wrap">
-  <div class="fb"><img src="img/logo.png" alt="Kurovani" width="232" height="96"><div class="jp">黒の中に、俺たちの道がある</div><small>Dans le noir, il y a notre voie. Originals / Streetwear / Paris – Tokyo</small></div>
-  <div><h4>Boutique</h4><ul><li><a href="#pieces">Les pièces</a></li><li><a href="#details">Détails</a></li><li><a href="#tailles">Guide des tailles</a></li></ul></div>
-  <div><h4>Aide</h4><ul><li><a href="#">Livraison</a></li><li><a href="#">Retours</a></li><li><a href="#">Contact</a></li></ul></div>
-  <div><h4>Légal</h4><ul><li><a href="#">CGV</a></li><li><a href="#">Mentions légales</a></li><li><a href="#">Confidentialité</a></li></ul></div>
-  <div class="legal"><span>© 2026 Kurovani</span><span>Paiement sécurisé par Shopify · Visa · Mastercard · PayPal · Apple Pay</span></div>
+<footer id="marque"><div class="wrap">
+  <div><div class="jp">黒の中に、俺たちの道がある</div><small>Dans le noir, il y a notre voie. Kurovani Originals / Streetwear / Paris – Tokyo</small></div>
+  <nav aria-label="Liens"><a href="#">Livraison</a><a href="#">Retours</a><a href="#">Contact</a><a href="#">CGV</a><a href="#">Mentions légales</a></nav>
 </div></footer>
+
+<div class="veil" id="veil" role="dialog" aria-modal="true" aria-labelledby="bagtitle">
+  <div class="sheet">
+    <header><h2 id="bagtitle">Ton panier</h2><button id="bagclose" aria-label="Fermer le panier"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13"/></svg></button></header>
+    <div id="baglines" style="display:grid;gap:14px"></div>
+    <div class="tot"><span>Sous-total</span><b id="bagtot">0,00 €</b></div>
+    <button class="btn" id="checkout" style="height:48px">Passer au paiement</button>
+    <p>Démonstration : le paiement réel se fera dans ta boutique Shopify.</p>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (() => {
-  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const eur = n => n.toFixed(2).replace('.', ',') + ' €';
 
-  // Pièce maîtresse : rotation au glisser, puis calage sur la face la plus proche
-  const stage = $('#stage'), spin = $('#spinner'), bF = $('#t-front'), bB = $('#t-back');
-  let ry = -22, startX = 0, startRy = 0, dragging = false;
-  const apply = () => spin.style.setProperty('--ry', ry + 'deg');
-  const sideOf = a => { const n = ((a % 360) + 360) % 360; return n > 90 && n < 270 ? 'back' : 'front'; };
-  const mark = () => { const s = sideOf(ry); stage.dataset.side = s; bF.setAttribute('aria-pressed', s === 'front'); bB.setAttribute('aria-pressed', s === 'back'); };
-  const snap = side => { const base = Math.round((ry - (side === 'back' ? 180 : 0)) / 360) * 360 + (side === 'back' ? 180 : 0); ry = base + (side === 'back' ? 18 : -22); apply(); mark(); };
-  stage.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; dragging = true; startX = e.clientX; startRy = ry; stage.classList.add('drag'); stage.setPointerCapture(e.pointerId); });
-  stage.addEventListener('pointermove', e => { if (!dragging) return; ry = startRy + (e.clientX - startX) * .6; apply(); mark(); });
-  const end = () => { if (!dragging) return; dragging = false; stage.classList.remove('drag'); snap(sideOf(ry)); };
-  stage.addEventListener('pointerup', end); stage.addEventListener('pointercancel', end);
-  bF.addEventListener('click', () => snap('front')); bB.addEventListener('click', () => snap('back'));
-  apply();
+  const LOOKS = [
+    { name: 'Originals', view: 'front', alt: 'Silhouette de face, capuche baissée, hoodie et cargo Originals' },
+    { name: 'Soleil rouge', view: 'back', alt: 'Silhouette de dos, le soleil rouge et le torii imprimés sur le hoodie' },
+    { name: 'Capuche', view: 'front', alt: 'Silhouette de face, capuche relevée' },
+    { name: 'Nuit blanche', view: 'front', alt: 'Silhouette de face aux cheveux blancs' },
+    { name: 'Dos fermé', view: 'back', alt: 'Silhouette de dos, capuche relevée, étoile rouge brodée' },
+    { name: 'Torii', view: 'back', alt: 'Silhouette de dos aux cheveux rouges' }
+  ];
+  const PIECES = [
+    { id: 'hoodie', type: 'Hoodie', name: 'Oversized Hoodie', price: 89, img: 'hoodie', dot: { front: [50, 31], back: [50, 33] } },
+    { id: 'pants', type: 'Pantalon', name: 'Oversized Pants', price: 79, img: 'pants', dot: { front: [61, 74], back: [62, 70] } }
+  ];
+  const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+  const size = { hoodie: 'M', pants: 'M' };
+  const N = LOOKS.length;
 
-  // Cartes : inclinaison au pointeur + retournement
-  $$('.shot').forEach(shot => {
-    const flip = $('.flip', shot), btn = $('.side', shot);
-    btn.addEventListener('click', () => { const on = btn.getAttribute('aria-pressed') !== 'true'; btn.setAttribute('aria-pressed', on); btn.textContent = on ? 'Voir la face ↻' : 'Voir le dos ↻'; flip.style.setProperty('--turn', on ? '180deg' : '0deg'); });
-    if (calm || !matchMedia('(hover: hover)').matches) return;
-    shot.addEventListener('pointermove', e => { const r = shot.getBoundingClientRect(); shot.classList.add('live'); flip.style.setProperty('--mx', ((e.clientX - r.left) / r.width - .5).toFixed(3)); flip.style.setProperty('--my', ((e.clientY - r.top) / r.height - .5).toFixed(3)); });
-    shot.addEventListener('pointerleave', () => { shot.classList.remove('live'); flip.style.setProperty('--mx', 0); flip.style.setProperty('--my', 0); });
+  // ---- Défilé en profondeur
+  const lineup = $('#lineup'), stage = $('#looks'), ticks = $('#ticks');
+  const jitter = [0, .22, .08, .26, .12, .2];
+  const figs = LOOKS.map((l, i) => {
+    const b = document.createElement('button');
+    b.className = 'fig'; b.setAttribute('aria-label', `Look ${String(i + 1).padStart(2, '0')}, ${l.name}`);
+    b.innerHTML = `<img src="img/look-${i + 1}.webp" alt="${l.alt}" width="448" height="972" draggable="false">` +
+      PIECES.map((p, k) => `<span class="dot" data-piece="${p.id}" style="left:${p.dot[l.view][0]}%;top:${p.dot[l.view][1]}%" role="button" tabindex="-1" aria-label="${p.name}">${k + 1}</span>`).join('');
+    lineup.appendChild(b);
+    const t = document.createElement('button');
+    t.className = 'tick'; t.innerHTML = `${String(i + 1).padStart(2, '0')}<i></i><span>${l.name}</span>`;
+    t.setAttribute('aria-label', `Aller au look ${i + 1}, ${l.name}`);
+    t.addEventListener('click', () => go(i, true));
+    ticks.appendChild(t);
+    return b;
   });
+  const tickEls = [...ticks.children];
 
-  // Affiche : légère rotation au pointeur
-  const fr = $('#frame');
-  if (fr && !calm && matchMedia('(hover: hover)').matches) {
-    fr.addEventListener('pointermove', e => { const r = fr.getBoundingClientRect(); fr.classList.add('live'); fr.style.setProperty('--mx', ((e.clientX - r.left) / r.width - .5).toFixed(3)); fr.style.setProperty('--my', ((e.clientY - r.top) / r.height - .5).toFixed(3)); });
-    fr.addEventListener('pointerleave', () => { fr.classList.remove('live'); fr.style.setProperty('--mx', 0); fr.style.setProperty('--my', 0); });
+  let cam = calm ? 0 : -1.6, target = 0, active = -1, focus = false, zoom = 1, zoomT = 1, auto = !calm, moved = 0;
+  const wrap = v => ((v + N / 2) % N + N) % N - N / 2;
+  const idx = () => ((Math.round(target) % N) + N) % N;
+
+  function layout() {
+    const w = lineup.clientWidth, mobile = matchMedia('(max-width: 900px)').matches;
+    const S = Math.max(130, Math.min(300, w * (mobile ? .46 : .235)));
+    figs.forEach((f, i) => {
+      const p = wrap(i - cam), a = Math.abs(p), on = i === active;
+      const d = Math.min(1, a / 2.4 + (a > .35 ? jitter[i] : 0));
+      const sc = (1 - .34 * d) * (on ? zoom : 1);
+      const x = p * S * (1 - .1 * a);
+      f.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), ${(-d * 5).toFixed(2)}%) scale(${sc.toFixed(4)})`;
+      f.style.filter = d > .04 ? `blur(${(d * d * 6).toFixed(2)}px)` : 'none';
+      f.style.opacity = a > N / 2 - .6 ? Math.max(0, (N / 2 - a) / .6).toFixed(2) : (1 - .45 * d).toFixed(2);
+      f.style.zIndex = 100 - Math.round(d * 40);
+    });
   }
+  function frame() {
+    cam += (target - cam) * (lineup.classList.contains('drag') ? .35 : .09);
+    zoom += (zoomT - zoom) * .1;
+    layout();
+    requestAnimationFrame(frame);
+  }
+  function setActive() {
+    const i = idx(); if (i === active) return; active = i;
+    figs.forEach((f, k) => f.classList.toggle('on', k === i));
+    tickEls.forEach((t, k) => t.setAttribute('aria-current', k === i));
+    $('#lk-n').textContent = 'Look ' + String(i + 1).padStart(2, '0'); $('#lk-name').textContent = LOOKS[i].name;
+    renderItems();
+  }
+  function go(i, user) { // chemin le plus court sur la boucle
+    if (user) auto = false;
+    target = Math.round(target) + wrap(i - idx()); setActive();
+  }
+  function step(d) { auto = false; target = Math.round(target) + d; setActive(); }
+  function setFocus(v) { focus = v; stage.classList.toggle('focus', v); zoomT = v ? 1.1 : 1; if (v) auto = false; if (!v) clearHot(); }
 
-  // Filtre des pièces
-  $('#seg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; $$('#seg button').forEach(x => x.setAttribute('aria-pressed', x === b)); $$('.piece').forEach(p => p.hidden = b.dataset.f !== 'all' && p.dataset.t !== b.dataset.f); });
+  // glisser, flèches, clavier, molette horizontale
+  let sx = 0, st = 0, down = false;
+  lineup.addEventListener('pointerdown', e => { if (e.target.closest('.close, .dot') || focus) return; down = true; moved = 0; sx = e.clientX; st = target; });
+  window.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx)); if (moved > 6) { lineup.classList.add('drag'); auto = false; target = st - dx / (lineup.clientWidth * .235); } });
+  window.addEventListener('pointerup', () => { if (!down) return; down = false; lineup.classList.remove('drag'); target = Math.round(target); setActive(); });
+  figs.forEach((f, i) => f.addEventListener('click', e => {
+    if (moved > 6) return;
+    const dot = e.target.closest('.dot'); if (dot) { hot(dot.dataset.piece); return; }
+    if (focus) return;
+    go(i, true); setFocus(true);
+  }));
+  $('#close').addEventListener('click', () => setFocus(false));
+  $('#prev').addEventListener('click', () => step(-1)); $('#next').addEventListener('click', () => step(1));
+  lineup.addEventListener('wheel', e => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 12 && !focus) { e.preventDefault(); if (!lineup._w) { step(e.deltaX > 0 ? 1 : -1); lineup._w = setTimeout(() => lineup._w = 0, 380); } } }, { passive: false });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { if ($('#veil').classList.contains('on')) closeBag(); else setFocus(false); }
+    if ($('#veil').classList.contains('on')) return;
+    if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1);
+  });
+  setInterval(() => { if (auto && !focus && !down && document.visibilityState === 'visible') { target = Math.round(target) + 1; setActive(); } }, 3600);
+  const place = () => lineup.style.setProperty('--cx', '50%');
+  addEventListener('resize', place); place();
 
-  // Guide des tailles : colonne surlignée
+  // ---- Panneau des pièces
+  function renderItems() {
+    const v = LOOKS[active].view;
+    $('#items').innerHTML = PIECES.map((p, k) => `
+      <article class="item" data-piece="${p.id}">
+        <div class="th"><img src="img/${p.img}-${v}-s.webp" alt="${p.name}, vue ${v === 'front' ? 'avant' : 'dos'}" width="200" height="220"></div>
+        <div><span class="label">${k + 1} · ${p.type}</span><h3>${p.name}</h3><span class="pr">${eur(p.price)}</span></div>
+        <div class="szs" role="group" aria-label="Taille, ${p.name}">${SIZES.map(s => `<button aria-pressed="${size[p.id] === s}" data-size="${s}">${s}</button>`).join('')}</div>
+        <button class="btn" data-add="${p.id}">Ajouter au panier</button>
+      </article>`).join('');
+  }
+  const clearHot = () => $$('.hot').forEach(e => e.classList.remove('hot'));
+  function hot(id) { clearHot(); $$(`[data-piece="${id}"]`).forEach(e => e.classList.add('hot')); }
+  $('#items').addEventListener('click', e => {
+    const s = e.target.closest('[data-size]'), a = e.target.closest('[data-add]'), it = e.target.closest('.item');
+    if (s) { size[it.dataset.piece] = s.dataset.size; [...s.parentNode.children].forEach(b => b.setAttribute('aria-pressed', b === s)); }
+    if (a) add([a.dataset.add]);
+  });
+  $('#items').addEventListener('pointerover', e => { const it = e.target.closest('.item'); if (it && focus) hot(it.dataset.piece); });
+  $('#addfull').addEventListener('click', () => add(PIECES.map(p => p.id)));
+  $('#fulltot').textContent = eur(PIECES.reduce((t, p) => t + p.price, 0));
+
+  // ---- Panier (démo)
+  const bag = []; let tt;
+  const say = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2400); };
+  function add(ids) {
+    ids.forEach(id => { const p = PIECES.find(x => x.id === id); bag.push({ ...p, size: size[id], view: LOOKS[active].view }); });
+    renderBag(); const b = $('#bagbtn'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+    say(ids.length > 1 ? 'Look complet ajouté au panier' : `${PIECES.find(x => x.id === ids[0]).name}, taille ${size[ids[0]]} : ajouté`);
+  }
+  function renderBag() {
+    $('#bagn').textContent = bag.length;
+    $('#baglines').innerHTML = bag.length ? bag.map((p, i) => `<div class="bagline"><div class="th"><img src="img/${p.img}-${p.view}-s.webp" alt=""></div><div><b>${p.name}</b><small>Taille ${p.size} · ${eur(p.price)}</small></div><button data-rm="${i}" aria-label="Retirer ${p.name}">×</button></div>`).join('') : '<p>Ton panier est vide. Choisis un look pour commencer.</p>';
+    $('#bagtot').textContent = eur(bag.reduce((t, p) => t + p.price, 0));
+  }
+  $('#baglines').addEventListener('click', e => { const r = e.target.closest('[data-rm]'); if (r) { bag.splice(+r.dataset.rm, 1); renderBag(); } });
+  const openBag = () => { $('#veil').classList.add('on'); $('#bagclose').focus(); }, closeBag = () => { $('#veil').classList.remove('on'); $('#bagbtn').focus(); };
+  $('#bagbtn').addEventListener('click', openBag); $('#bagclose').addEventListener('click', closeBag);
+  $('#veil').addEventListener('click', e => { if (e.target === e.currentTarget) closeBag(); });
+  $('#checkout').addEventListener('click', () => say(bag.length ? 'Le paiement se fera dans ta boutique Shopify' : 'Ton panier est vide'));
+
+  // ---- Guide des tailles
   const hl = i => $$('#sztable tr').forEach(tr => [...tr.children].forEach((c, j) => c.classList.toggle('hl', j === i)));
   $('#szpick').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; const bs = $$('#szpick button'); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); hl(bs.indexOf(b) + 1); });
   hl(3);
 
-  // Panier (démo) : il faut une taille
-  const toast = $('#toast'), bag = $('#bag'), n = $('#bag-n'); let count = 0, tt;
-  const say = m => { toast.textContent = m; toast.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('on'), 2400); };
-  $$('.add').forEach(b => b.addEventListener('click', () => {
-    const s = $(`input[name="${b.dataset.group}"]:checked`);
-    if (!s) { say('Choisis une taille avant d’ajouter'); return; }
-    n.textContent = ++count; bag.classList.remove('bump'); void bag.offsetWidth; bag.classList.add('bump');
-    say(`${b.dataset.name}, taille ${s.value} : ajouté au panier`);
-  }));
-  bag.addEventListener('click', () => say(count ? `${count} article${count > 1 ? 's' : ''} dans le panier` : 'Ton panier est vide'));
+  setActive(); renderBag(); frame();
 })();
 </script>
+
 </body>
 </html>

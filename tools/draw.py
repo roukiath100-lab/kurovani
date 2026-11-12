@@ -14,6 +14,7 @@ DEFS = f"""
   <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#77777f"/><stop offset=".45" stop-color="#ffffff"/><stop offset="1" stop-color="#5c5c64"/></linearGradient>
   <radialGradient id="sun" cx=".4" cy=".36" r=".75"><stop offset="0" stop-color="#ff3550"/><stop offset=".45" stop-color="{RED}"/><stop offset="1" stop-color="{DEEP}"/></radialGradient>
   <radialGradient id="skin" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#e9c4a6"/><stop offset="1" stop-color="#a97e62"/></radialGradient>
+  <radialGradient id="skin2" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#a8754f"/><stop offset="1" stop-color="#5f3d27"/></radialGradient>
   <pattern id="ribs" width="6" height="10" patternUnits="userSpaceOnUse"><rect width="6" height="10" fill="url(#rib)"/><rect x="0" width="1.4" height="10" fill="#000" opacity=".55"/><rect x="3" width=".8" height="10" fill="#fff" opacity=".05"/></pattern>
   <filter id="tex" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="1.15" numOctaves="2" seed="3" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 -.2" result="g"/><feComposite in="g" in2="SourceAlpha" operator="in" result="gg"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="gg"/></feMerge></filter>
   <filter id="grunge" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".09 .16" numOctaves="4" seed="11" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -14 5.3" result="m"/><feComposite in="SourceGraphic" in2="m" operator="out"/></filter>
@@ -147,9 +148,12 @@ def hoodie(side, hood="up"):
             g += '<path d="M226,156 C250,140 350,140 374,156 C392,214 344,250 300,254 C256,250 208,214 226,156 Z" fill="url(#fabS)" stroke="#34343a" stroke-width="1.5"/>'
             g += '<path d="M300,150 L300,252" stroke="#000" stroke-opacity=".6" stroke-width="2"/><path d="M244,176 C266,200 334,200 356,176" fill="none" stroke="#000" stroke-opacity=".55" stroke-width="6"/>'
     else:
-        g += '<path d="M226,154 C194,60 250,22 300,22 C350,22 406,60 374,154 C350,182 250,182 226,154 Z" fill="url(#fabS)" stroke="#34343a" stroke-width="1.5"/>'
-        g += '<path d="M250,152 C234,94 268,60 300,60 C332,60 366,94 350,152 C334,172 266,172 250,152 Z" fill="#050506" stroke="#2a2a2e" stroke-width="1.5"/>'
-        g += f'<path d="M258,150 C250,108 276,82 300,82 C324,82 350,108 342,150" fill="none" stroke="{DEEP}" stroke-opacity=".7" stroke-width="3"/>'
+        if hood == "up":
+            g += '<path d="M226,154 C194,60 250,22 300,22 C350,22 406,60 374,154 C350,182 250,182 226,154 Z" fill="url(#fabS)" stroke="#34343a" stroke-width="1.5"/>'
+            g += '<path d="M250,152 C234,94 268,60 300,60 C332,60 366,94 350,152 C334,172 266,172 250,152 Z" fill="#050506" stroke="#2a2a2e" stroke-width="1.5"/>'
+            g += f'<path d="M258,150 C250,108 276,82 300,82 C324,82 350,108 342,150" fill="none" stroke="{DEEP}" stroke-opacity=".7" stroke-width="3"/>'
+        else:
+            g += f'<path d="M224,158 C232,112 368,112 376,158 C352,186 248,186 224,158 Z" fill="url(#fabS)" stroke="#34343a" stroke-width="1.5"/><path d="M244,150 C262,132 338,132 356,150" fill="none" stroke="{DEEP}" stroke-width="5"/>'
         g += f'<path d="{BODY_F}" fill="url(#fab)" stroke="#303034" stroke-width="1.5"/>'
         g += '<path d="M228,150 C250,180 284,198 300,204 C316,198 350,180 372,150" fill="none" stroke="#3a3a40" stroke-width="2"/>'
     g += '<rect x="146" y="598" width="308" height="46" rx="7" fill="url(#ribs)" stroke="#303034" stroke-width="1.5"/>'
@@ -295,10 +299,77 @@ def poster():
     return f'<svg class="art" id="poster-dos" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">{g}</svg>'
 
 
+# ------------------------------------------------------------------ SILHOUETTES PORTÉES
+HAIR_BACK = "M250,84 L230,62 L252,50 L232,22 L260,26 L254,-10 L282,10 L296,-28 L314,10 L344,-12 L340,26 L370,20 L350,50 L372,60 L350,84 L356,118 L338,102 L332,134 L315,110 L300,142 L285,110 L268,134 L262,102 L244,118 Z"
+HAIR_FRONT = "M248,96 L228,64 L250,52 L232,22 L260,26 L254,-10 L282,10 L296,-28 L314,10 L344,-12 L340,26 L370,20 L350,52 L372,64 L352,96 L346,70 L336,92 L326,66 L314,96 L302,68 L290,98 L278,66 L266,92 L258,70 Z"
+
+
+def figure(name, view="front", hood="down", hair="#0b0b0d", streak=RED, skin="skin"):
+    """Personnage original portant l'ensemble (repère : celui de l'affiche)."""
+    front = view == "front"
+    sk = f'fill="url(#{skin})" stroke="#4a3226" stroke-width="1.5"'
+    fig = '<ellipse cx="450" cy="1182" rx="170" ry="14" fill="#000" opacity=".28" filter="url(#soft)"/>'
+    for mirror in ("", ' transform="translate(900,0) scale(-1,1)"'):
+        fig += f'<g{mirror} filter="url(#tex)"><path d="M338,800 C306,920 296,1040 312,1150 L438,1154 C442,1040 446,930 450,850 L450,800 Z" fill="url(#fab)" stroke="#303034" stroke-width="1.5"/>'
+        fig += '<path d="M318,930 L378,922 L380,1010 L322,1020 Z" fill="#161619" stroke="#34343a" stroke-width="1.5"/><path d="M314,902 L376,896 L378,924 L316,932 Z" fill="#1c1c20" stroke="#3a3a40" stroke-width="1.5"/>'
+        fig += '<path d="M314,1132 C350,1148 410,1148 438,1136" fill="none" stroke="#000" stroke-opacity=".7" stroke-width="5"/><path d="M430,860 C426,960 424,1060 426,1150" fill="none" stroke="#000" stroke-opacity=".6" stroke-width="10"/>'
+        fig += '<path d="M318,1150 L436,1152 L438,1180 L306,1180 C304,1166 310,1154 318,1150 Z" fill="#0c0c0e" stroke="#303034" stroke-width="1.5"/>'
+        fig += f'<rect x="304" y="1178" width="136" height="10" rx="4" fill="#f4f4f4" stroke="#bdbdbd"/><rect x="330" y="1160" width="54" height="5" fill="{RED}"/></g>'
+    leg = "M338,800 C306,920 296,1040 312,1150 L438,1154 C442,1040 446,930 450,850 L450,800 Z"
+    fig += f'<clipPath id="legs-{name}"><path d="{leg}"/><path d="{leg}" transform="translate(900,0) scale(-1,1)"/></clipPath><g clip-path="url(#legs-{name})">'
+    if front:
+        fig += bolt((352, 960), (378, 1140), 8, 12, 201, 5) + bolt((560, 900), (520, 1140), 9, 14, 203, 5) + bolt((574, 980), (556, 1130), 6, 8, 205, 2.5, "#c9c9d0", False, 1)
+        fig += vtext(498, 930, "黒波", 24) + f'<g transform="rotate(-7 348 962)"><rect x="328" y="954" width="40" height="15" fill="{RED}"/></g>'
+    else:
+        fig += f'<g filter="url(#grunge)"><circle cx="520" cy="900" r="44" fill="url(#sun)"/></g>' + bolt((500, 930), (552, 1140), 8, 14, 101, 5) + bolt((372, 940), (342, 1140), 8, 12, 103, 4) + vtext(566, 960, "黒波", 26)
+    fig += '</g>'
+    hb = hoodie(view, hood).replace(f"clip-h-{view}", f"clip-{name}")
+    inner = hb[hb.index(">") + 1:hb.rindex("</svg>")]
+    hands = f'<ellipse cx="72" cy="612" rx="26" ry="20" {sk} transform="rotate(10 72 612)"/><ellipse cx="528" cy="612" rx="26" ry="20" {sk} transform="rotate(-10 528 612)"/>'
+    fig += f'<g transform="translate(234,350) scale(.72)">{hands}'
+    head = ""
+    if hood == "down":
+        head += '<g transform="translate(300,176) scale(1.38) translate(-300,-176)">'
+        head += f'<path d="M278,96 L278,172 C290,184 310,184 322,172 L322,96 Z" {sk}/>'
+        head += f'<ellipse cx="247" cy="74" rx="8" ry="13" {sk}/><ellipse cx="353" cy="74" rx="8" ry="13" {sk}/>'
+        if front:
+            head += f'<path d="M252,50 C252,10 348,10 348,50 L348,84 C346,118 322,138 300,140 C278,138 254,118 252,84 Z" {sk}/>'
+            head += '<path d="M252,86 C270,80 330,80 348,86 C346,118 322,139 300,141 C278,139 254,118 252,86 Z" fill="#0d0d0f" stroke="#3a3a40" stroke-width="1.5"/><path d="M300,84 L300,140 M252,88 L246,74 M348,88 L354,74" stroke="#3a3a40" stroke-width="1.5" fill="none"/>'
+            head += f'<path d="{HAIR_FRONT}" fill="{hair}" stroke="#3a3a40" stroke-width="2" stroke-linejoin="miter"/>'
+            head += f'<path d="M262,30 L270,70 M340,28 L332,72" stroke="#c9c9d0" stroke-opacity=".45" stroke-width="2.5" fill="none"/><path d="M296,-16 L302,62 M316,14 L318,72" stroke="{streak}" stroke-width="3" fill="none"/>'
+        else:
+            head += '<path d="M258,166 C278,186 322,186 342,166" fill="none" stroke="#1d1d21" stroke-width="12" stroke-linecap="round"/>'
+            head += f'<path d="{HAIR_BACK}" fill="{hair}" stroke="#3a3a40" stroke-width="2" stroke-linejoin="miter"/>'
+            head += f'<path d="M262,30 L276,84 M296,-18 L300,74 M340,28 L326,86 M236,60 L264,96 M366,60 L338,98" stroke="#c9c9d0" stroke-opacity=".5" stroke-width="2.5" fill="none"/><path d="M282,14 L288,96 M316,14 L312,100" stroke="{streak}" stroke-width="3" fill="none"/>'
+        head += '</g>'
+    if front and hood == "down":
+        fig += inner + head          # la tête passe devant le col
+    elif hood == "down":
+        fig += inner + head
+    else:
+        fig += inner
+        if front:                    # capuche relevée : deux yeux rouges dans l'ombre
+            fig += f'<g filter="url(#glow)"><path d="M272,108 L292,112 L274,116 Z M328,108 L308,112 L326,116 Z" fill="{RED}"/></g>'
+    fig += '</g>'
+    return f'<svg class="art" id="{name}" xmlns="http://www.w3.org/2000/svg" viewBox="226 228 448 972" width="448" height="972">{fig}</svg>'
+
+
+LOOKS = [
+    ("look-1", dict(view="front", hood="down")),
+    ("look-2", dict(view="back", hood="down")),
+    ("look-3", dict(view="front", hood="up")),
+    ("look-4", dict(view="front", hood="down", hair="#e9e9ec", streak="#0b0b0d", skin="skin2")),
+    ("look-5", dict(view="back", hood="up")),
+    ("look-6", dict(view="back", hood="down", hair="#b10018", streak="#0b0b0d", skin="skin2")),
+]
+
+
 if __name__ == "__main__":
     print('<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Michroma&family=Shippori+Mincho+B1:wght@800&display=swap"><style>body{margin:0;background:transparent}.art{display:block;margin:20px}</style></head><body>')
     print(DEFS)
     for s in ("front", "back"):
         print(hoodie(s)); print(pants(s))
     print(poster())
+    for name, kw in LOOKS:
+        print(figure(name, **kw))
     print("</body></html>")

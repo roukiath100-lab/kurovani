@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kurovani Originals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Michroma&family=Shippori+Mincho+B1:wght@600;800&display=swap">
+<style>
+/* Concept : la fiche technique Kurovani devenue boutique. Bandes noires fixes (cadre de la fiche),
+   panneaux qui suivent le thème, une seule pièce maîtresse en 3D : le vêtement qu'on fait tourner, coté comme sur la fiche. */
+:root {
+  --band: #000000;            /* cadre noir de la fiche, identique dans les deux thèmes */
+  --on-band: #eaeaea;
+  --on-band-dim: #8d8a8a;
+  --band-line: #2b2727;
+  --red: #d1001c;             /* Deep Red, Pantone 199 C */
+  --red-deep: #7a0010;
+  --chrome-a: #f4f4f4; --chrome-b: #8e8e92; --chrome-c: #d9d9dc;
+  --bg: #0b0a0a;
+  --panel: #151313;
+  --panel-2: #1d1a1a;
+  --line: #3a3a3a;            /* Dark Grey, Pantone Cool Gray 11 C */
+  --fg: #eaeaea;              /* Off-white, Pantone Cool Gray 1 C */
+  --fg-dim: #a39f9f;
+  --stage: radial-gradient(70% 60% at 50% 42%, #2a2626, #100e0e 78%);
+  --shadow: rgba(0,0,0,.6);
+  --f-display: "Michroma", "Eurostile", "Arial Black", sans-serif;
+  --f-label: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --f-jp: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --pad: clamp(16px, 4vw, 56px);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #e4e2e0; --panel: #ffffff; --panel-2: #f1efed; --line: #c9c5c2; --fg: #0d0b0b; --fg-dim: #5d5858;
+  --stage: radial-gradient(70% 60% at 50% 42%, #ffffff, #dcd9d6 80%); --shadow: rgba(0,0,0,.22); color-scheme: light; } }
+:root[data-theme="light"] {
+  --bg: #e4e2e0; --panel: #ffffff; --panel-2: #f1efed; --line: #c9c5c2; --fg: #0d0b0b; --fg-dim: #5d5858;
+  --stage: radial-gradient(70% 60% at 50% 42%, #ffffff, #dcd9d6 80%); --shadow: rgba(0,0,0,.22); color-scheme: light; }
+
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 400 16px/1.55 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--band); }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+img { display: block; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+.wrap { padding-left: max(var(--pad), env(safe-area-inset-left, 0px)); padding-right: max(var(--pad), env(safe-area-inset-right, 0px)); }
+.jp { font-family: var(--f-jp); }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.sl { display: inline-flex; gap: 3px; } /* les /// des fiches */
+.sl i { width: 5px; height: 15px; background: var(--red); transform: skewX(-24deg); }
+.label { font: 600 14px/1 var(--f-label); letter-spacing: .22em; text-transform: uppercase; }
+
+/* ---- Bande défilante ---- */
+.ticker { background: var(--red); color: #fff; overflow: hidden; white-space: nowrap; font: 600 13px/32px var(--f-label); letter-spacing: .24em; text-transform: uppercase; }
+.ticker div { display: inline-block; animation: tick 38s linear infinite; }
+.ticker span { margin: 0 22px; }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+/* ---- En-tête ---- */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: var(--band); color: var(--on-band); border-bottom: 1px solid var(--band-line); }
+.top .wrap { display: flex; align-items: center; gap: 28px; height: 68px; }
+.brand img { height: 44px; width: auto; mix-blend-mode: screen; }
+.top nav { display: flex; gap: 4px; margin-left: auto; }
+.top nav a { padding: 10px 14px; font: 600 15px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; color: var(--on-band-dim); position: relative; transition: color .2s; }
+.top nav a::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 2px; height: 2px; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform .25s; }
+.top nav a:hover { color: var(--on-band); } .top nav a:hover::after { transform: scaleX(1); }
+.bag { display: inline-flex; align-items: center; gap: 10px; height: 42px; padding: 0 16px; background: none; border: 1px solid var(--band-line); color: var(--on-band); font: 600 14px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; transition: border-color .2s; }
+.bag:hover { border-color: var(--on-band); }
+.bag b { min-width: 22px; height: 22px; display: grid; place-items: center; background: var(--red); color: #fff; font: 500 12px/1 var(--f-mono); }
+.bag.bump b { animation: bump .4s; } @keyframes bump { 40% { transform: scale(1.5); } }
+
+/* ---- Héros : la pièce maîtresse ---- */
+.hero { position: relative; background: var(--band); color: var(--on-band); overflow: hidden; border-bottom: 1px solid var(--band-line); }
+.hero::before { /* trame de fiche */ content: ""; position: absolute; inset: 0; background:
+  linear-gradient(var(--band-line) 1px, transparent 1px) 0 0 / 100% 64px, linear-gradient(90deg, var(--band-line) 1px, transparent 1px) 0 0 / 64px 100%; opacity: .35;
+  mask-image: radial-gradient(80% 90% at 70% 50%, #000, transparent 75%); -webkit-mask-image: radial-gradient(80% 90% at 70% 50%, #000, transparent 75%); }
+.hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 24px; align-items: center; padding-block: clamp(28px, 5vw, 64px); }
+.hero-copy { display: grid; gap: 22px; justify-items: start; min-width: 0; }
+.hero-meta { display: flex; align-items: center; gap: 14px; color: var(--on-band-dim); }
+.hero h1 { margin: 0; font: 400 clamp(26px, 4.1vw, 60px)/1.12 var(--f-display); letter-spacing: .02em; text-transform: uppercase; text-wrap: balance; }
+.hero h1 .chrome { display: block; background: linear-gradient(180deg, var(--chrome-a) 0%, var(--chrome-c) 38%, var(--chrome-b) 52%, var(--chrome-a) 68%, var(--chrome-b) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 0 var(--red-deep)) drop-shadow(0 0 18px rgba(209,0,28,.35)); }
+.hero p { margin: 0; max-width: 46ch; color: var(--on-band-dim); font-size: 17px; }
+.hero p .jp { color: var(--on-band); font-size: 18px; display: block; margin-bottom: 4px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; gap: 12px; height: 52px; padding: 0 26px; border: 1px solid transparent; font: 700 16px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; transition: transform .15s, background .2s, border-color .2s, color .2s; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px)); }
+.btn-red { background: var(--red); color: #fff; } .btn-red:hover { background: #ec1530; transform: translateY(-2px); } .btn-red:active { transform: none; }
+.btn-ghost { background: #151313; color: var(--on-band); } .btn-ghost:hover { background: #262222; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; transform: none; }
+
+.stage { position: relative; min-width: 0; aspect-ratio: 1 / 1; max-width: 640px; width: 100%; justify-self: center; perspective: 1400px; touch-action: pan-y; cursor: grab; user-select: none; }
+.stage.drag { cursor: grabbing; }
+.sun { position: absolute; left: 50%; top: 46%; width: 74%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+  background: radial-gradient(circle at 40% 36%, #ff2b45 0%, var(--red) 38%, var(--red-deep) 78%, #2d0006 100%); box-shadow: 0 0 120px rgba(209,0,28,.45); }
+.sun::after { /* brumes */ content: ""; position: absolute; inset: 0; border-radius: 50%; background: repeating-linear-gradient(0deg, transparent 0 22px, rgba(0,0,0,.28) 22px 25px); mask-image: linear-gradient(transparent 45%, #000); -webkit-mask-image: linear-gradient(transparent 45%, #000); }
+.kanji-v { position: absolute; right: 0; top: 4%; writing-mode: vertical-rl; font: 800 clamp(34px, 5vw, 68px)/1 var(--f-jp); letter-spacing: .12em; color: var(--on-band); text-shadow: 0 4px 18px #000; }
+.spinner { position: absolute; left: 50%; top: 50%; width: 62%; height: 78%; transform-style: preserve-3d; transform: translate(-50%, -50%) rotateX(4deg) rotateY(var(--ry, -22deg)); transition: transform .7s cubic-bezier(.2,.8,.2,1); }
+.stage.drag .spinner { transition: none; }
+.spinner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; backface-visibility: hidden; -webkit-backface-visibility: hidden; filter: drop-shadow(0 30px 26px rgba(0,0,0,.85)); pointer-events: none; }
+.spinner .back { transform: rotateY(180deg); }
+.floor { position: absolute; left: 22%; right: 22%; bottom: 7%; height: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.9), transparent); filter: blur(6px); }
+.note { position: absolute; display: grid; gap: 3px; padding-left: 12px; border-left: 2px solid var(--red); opacity: 0; transform: translateY(6px); transition: opacity .35s, transform .35s; pointer-events: none; text-shadow: 0 2px 8px #000; }
+.note b { font: 600 13px/1.1 var(--f-label); letter-spacing: .18em; text-transform: uppercase; }
+.note span { font: 400 12px/1.2 var(--f-mono); color: var(--on-band-dim); }
+.stage[data-side="front"] .note.f, .stage[data-side="back"] .note.b { opacity: 1; transform: none; }
+.n1 { left: 0; top: 30%; } .n2 { left: 0; top: 66%; } .n3 { right: 6%; bottom: 1%; }
+.turn { position: absolute; left: 0; bottom: 0; display: flex; border: 1px solid var(--band-line); background: var(--band); }
+.turn button { height: 38px; padding: 0 16px; background: none; border: 0; color: var(--on-band-dim); font: 600 13px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; }
+.turn button[aria-pressed="true"] { background: var(--on-band); color: var(--band); }
+.hint { position: absolute; right: 0; bottom: 8px; color: var(--on-band-dim); font: 400 11px/1 var(--f-mono); }
+
+/* ---- Sections ---- */
+section.blk { padding-block: clamp(48px, 7vw, 96px); }
+.head { display: flex; align-items: end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: clamp(22px, 3vw, 40px); }
+.head h2 { margin: 10px 0 0; font: 400 clamp(22px, 2.8vw, 38px)/1.15 var(--f-display); text-transform: uppercase; text-wrap: balance; }
+.tab { display: inline-flex; align-items: center; gap: 12px; padding: 7px 12px; background: var(--band); color: var(--on-band); }
+.seg { display: flex; border: 1px solid var(--line); }
+.seg button { height: 40px; padding: 0 18px; background: none; border: 0; color: var(--fg-dim); font: 600 14px/1 var(--f-label); letter-spacing: .18em; text-transform: uppercase; transition: color .2s, background .2s; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button:hover { color: var(--fg); }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+
+/* ---- Pièces ---- */
+.pieces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
+.piece { display: grid; grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); background: var(--panel); border: 1px solid var(--line); min-width: 0; }
+.shot { position: relative; background: var(--stage); perspective: 1100px; overflow: hidden; min-height: 420px; border-right: 1px solid var(--line); }
+.shot .flip { position: absolute; inset: 9% 10% 12%; transform-style: preserve-3d; transform: rotateX(calc(var(--my, 0) * -10deg)) rotateY(calc(var(--mx, 0) * 16deg + var(--turn, 0deg))); transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+.shot.live .flip { transition: transform .1s linear; }
+.shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; backface-visibility: hidden; -webkit-backface-visibility: hidden; filter: drop-shadow(0 22px 18px var(--shadow)); }
+.shot img + img { transform: rotateY(180deg); }
+.shot .k { position: absolute; top: 14px; right: 14px; writing-mode: vertical-rl; font: 800 22px/1 var(--f-jp); letter-spacing: .1em; color: var(--fg); opacity: .8; }
+.shot .new { position: absolute; top: 14px; left: 14px; padding: 5px 9px; background: var(--red); color: #fff; font: 700 12px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; }
+.shot .side { position: absolute; left: 14px; bottom: 14px; height: 34px; padding: 0 12px; display: inline-flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid var(--line); font: 600 12px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; }
+.shot .side:hover { border-color: var(--fg); }
+.info { display: flex; flex-direction: column; gap: 16px; padding: clamp(16px, 2vw, 26px); min-width: 0; }
+.info .label { color: var(--fg-dim); }
+.info h3 { margin: 0; font: 400 clamp(17px, 1.5vw, 22px)/1.25 var(--f-display); text-transform: uppercase; overflow-wrap: anywhere; }
+.price { font: 500 26px/1 var(--f-mono); font-variant-numeric: tabular-nums; }
+.price small { font-size: 12px; color: var(--fg-dim); margin-left: 8px; }
+.specs { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.specs div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.specs dt { color: var(--fg-dim); font: 600 12px/1.6 var(--f-label); letter-spacing: .18em; text-transform: uppercase; }
+.specs dd { margin: 0; text-align: right; font: 400 13px/1.5 var(--f-mono); }
+.sizes { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; border: 0; padding: 0; margin: 0; }
+.sizes legend { padding: 0; margin-bottom: 8px; font: 600 12px/1 var(--f-label); letter-spacing: .18em; text-transform: uppercase; color: var(--fg-dim); }
+.sizes label { position: relative; }
+.sizes input { position: absolute; opacity: 0; inset: 0; }
+.sizes span { display: grid; place-items: center; height: 40px; border: 1px solid var(--line); font: 500 13px/1 var(--f-mono); transition: border-color .15s, background .15s, color .15s; cursor: pointer; }
+.sizes label:hover span { border-color: var(--fg); }
+.sizes input:checked + span { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.sizes input:focus-visible + span { outline: 2px solid var(--red); outline-offset: 2px; }
+.info .btn { justify-content: center; margin-top: auto; }
+
+/* ---- Détails ---- */
+.details { background: var(--panel-2); border-block: 1px solid var(--line); }
+.strip { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.strip figure { margin: 0; display: grid; gap: 10px; align-content: start; }
+.strip .ph { aspect-ratio: 1; overflow: hidden; border: 1px solid var(--line); background: var(--band); }
+.strip img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.strip figure:hover img { transform: scale(1.1); }
+.strip figcaption b { display: block; font: 600 13px/1.2 var(--f-label); letter-spacing: .16em; text-transform: uppercase; }
+.strip figcaption span { font: 400 12px/1.4 var(--f-mono); color: var(--fg-dim); }
+
+/* ---- Guide des tailles ---- */
+.guide { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(20px, 4vw, 56px); align-items: start; }
+.guide p { margin: 0 0 14px; color: var(--fg-dim); max-width: 44ch; }
+.tablebox { overflow-x: auto; border: 1px solid var(--line); background: var(--panel); }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font: 400 14px/1 var(--f-mono); font-variant-numeric: tabular-nums; }
+th, td { padding: 13px 14px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; font: 600 13px/1 var(--f-label); letter-spacing: .14em; text-transform: uppercase; }
+thead th { background: var(--band); color: var(--on-band); font: 600 13px/1 var(--f-label); letter-spacing: .2em; }
+tbody tr:last-child td { border-bottom: 0; }
+td.hl, th.hl { background: var(--red); color: #fff; }
+.pick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 6px; }
+
+/* ---- Palette ---- */
+.palette { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); }
+.sw { min-height: 190px; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 16px; }
+.sw + .sw { border-left: 1px solid var(--line); }
+.sw b { font: 600 14px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; }
+.sw span { font: 400 12px/1.4 var(--f-mono); opacity: .8; }
+.sw.c1 { background: #000; color: #eaeaea; } .sw.c2 { background: #d1001c; color: #fff; } .sw.c3 { background: #3a3a3a; color: #eaeaea; } .sw.c4 { background: #eaeaea; color: #0b0a0a; }
+
+/* ---- Affiche ---- */
+.poster { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(20px, 5vw, 72px); align-items: center; }
+.poster .frame { perspective: 1200px; justify-self: center; width: 100%; max-width: 520px; }
+.poster .frame img { width: 100%; height: auto; border: 1px solid var(--line); box-shadow: 0 30px 60px var(--shadow); transform: rotateY(calc(var(--mx, 0) * 14deg + 8deg)) rotateX(calc(var(--my, 0) * -10deg)); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.poster .frame.live img { transition: transform .1s linear; }
+.poster p { color: var(--fg-dim); max-width: 46ch; margin: 0 0 14px; }
+.poster h2 { font: 400 clamp(22px, 2.8vw, 38px)/1.15 var(--f-display); text-transform: uppercase; margin: 14px 0 16px; text-wrap: balance; }
+@media (max-width: 820px) { .poster { grid-template-columns: 1fr; } .poster .frame img { transform: none; } }
+
+/* ---- Pied ---- */
+footer { background: var(--band); color: var(--on-band); }
+footer .wrap { display: grid; grid-template-columns: minmax(0, 5fr) repeat(3, minmax(0, 2fr)); gap: 32px; padding-block: 56px 28px; }
+.fb img { height: 60px; width: auto; mix-blend-mode: screen; margin-bottom: 16px; }
+.fb .jp { font-size: clamp(20px, 2.4vw, 30px); line-height: 1.3; }
+.fb small { display: block; margin-top: 8px; color: var(--on-band-dim); font-size: 14px; }
+footer h4 { margin: 0 0 14px; font: 600 13px/1 var(--f-label); letter-spacing: .22em; text-transform: uppercase; color: var(--on-band-dim); }
+footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+footer li a:hover { color: var(--red); }
+.legal { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-top: 20px; border-top: 1px solid var(--band-line); color: var(--on-band-dim); font: 400 12px/1.4 var(--f-mono); }
+.toast { position: fixed; left: 50%; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 140%); z-index: 70; padding: 13px 18px; background: var(--on-band); color: var(--band); font: 600 14px/1 var(--f-label); letter-spacing: .16em; text-transform: uppercase; transition: transform .35s cubic-bezier(.2,.8,.2,1), visibility .35s; max-width: calc(100% - 32px); visibility: hidden; }
+.toast.on { transform: translate(-50%, 0); visibility: visible; }
+
+@media (max-width: 1180px) { .pieces { grid-template-columns: 1fr; } .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 820px) {
+  .top nav { display: none; } .bag { margin-left: auto; } .brand img { height: 36px; }
+  .hero .wrap, .guide { grid-template-columns: 1fr; }
+  .stage { order: -1; max-width: 460px; }
+  .n1 { top: 6%; } .note.n2, .note.n3 { display: none; }
+  .piece { grid-template-columns: 1fr; } .shot { min-height: 0; aspect-ratio: 4 / 4.2; border-right: 0; border-bottom: 1px solid var(--line); }
+  .palette { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sw { min-height: 130px; } .sw:nth-child(3) { border-left: 0; } .sw:nth-child(n+3) { border-top: 1px solid var(--line); }
+  footer .wrap { grid-template-columns: 1fr 1fr; } .fb { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) { .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } .btn { height: 48px; padding: 0 20px; font-size: 15px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true"><div>
+  <span>Kurovani Originals</span><span>///</span><span>Streetwear</span><span>///</span><span>Anime inspired</span><span>///</span><span>Paris – Tokyo</span><span>///</span><span class="jp">黒の中に、俺たちの道がある</span><span>///</span><span>Oversized / Unisex</span><span>///</span>
+  <span>Kurovani Originals</span><span>///</span><span>Streetwear</span><span>///</span><span>Anime inspired</span><span>///</span><span>Paris – Tokyo</span><span>///</span><span class="jp">黒の中に、俺たちの道がある</span><span>///</span><span>Oversized / Unisex</span><span>///</span>
+</div></div>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="#" aria-label="Kurovani"><img src="../../img/logo.png" alt="Kurovani" width="232" height="96"></a>
+  <nav aria-label="Navigation"><a href="#pieces">Pièces</a><a href="#details">Détails</a><a href="#tailles">Tailles</a><a href="#affiche">Affiche</a></nav>
+  <button class="bag" id="bag" aria-label="Panier">Panier <b id="bag-n">0</b></button>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div class="hero-copy">
+    <div class="hero-meta label"><span class="sl"><i></i><i></i><i></i></span>Collection Originals · 2 pièces</div>
+    <h1>More than fashion. <span class="chrome">A state of mind.</span></h1>
+    <p><span class="jp">黒の中に、俺たちの道がある</span>Un hoodie et un cargo oversize, unisexes, dessinés entre Paris et Tokyo. Fais tourner la pièce pour voir ce qu'elle porte dans le dos.</p>
+    <div class="cta-row"><a class="btn btn-red" href="#pieces">Voir les pièces</a><a class="btn btn-ghost" href="#tailles">Guide des tailles</a></div>
+  </div>
+  <div class="stage" id="stage" data-side="front" aria-label="Hoodie Oversize, vue à faire tourner">
+    <div class="sun"></div>
+    <div class="kanji-v jp" aria-hidden="true">黒バニ</div>
+    <div class="floor"></div>
+    <div class="spinner" id="spinner"><img src="../../img/hoodie-front.png" alt="Hoodie Oversize Kurovani, face avant"><img class="back" src="../../img/hoodie-back.png" alt="Hoodie Oversize Kurovani, dos"></div>
+    <div class="note f n1"><b>Logo poitrine</b><span>28 × 16 cm</span></div>
+    <div class="note f n2"><b>Cordons, embouts métal</b><span>75 cm · Ø 0,8 cm</span></div>
+    <div class="note f n3"><b>Impression poche</b><span>10 × 5 cm</span></div>
+    <div class="note b n1"><b>Étoile brodée</b><span>capuche · 4 × 4 cm</span></div>
+    <div class="note b n2"><b>Graphisme dos</b><span>32 × 44 cm · DTG</span></div>
+    <div class="note b n3"><b>Impression bas</b><span>18 × 3 cm</span></div>
+    <div class="turn" role="group" aria-label="Face affichée"><button id="t-front" aria-pressed="true">Avant</button><button id="t-back" aria-pressed="false">Dos</button></div>
+  </div>
+</div></section>
+
+<section class="blk" id="pieces"><div class="wrap">
+  <div class="head">
+    <div><span class="tab label">Les pièces <span class="sl"><i></i><i></i><i></i></span></span><h2>Kurovani Originals</h2></div>
+    <div class="seg" id="seg" role="group" aria-label="Filtrer"><button aria-pressed="true" data-f="all">Tout</button><button aria-pressed="false" data-f="hoodie">Hoodie</button><button aria-pressed="false" data-f="pant">Pantalon</button></div>
+  </div>
+  <div class="pieces">
+    <article class="piece" data-t="hoodie">
+      <div class="shot"><span class="new">Nouveau</span><span class="k jp" aria-hidden="true">黒バニ</span>
+        <div class="flip"><img src="../../img/hoodie-front.png" alt="Hoodie Oversize, face avant"><img src="../../img/hoodie-back.png" alt="Hoodie Oversize, dos"></div>
+        <button class="side" aria-pressed="false">Voir le dos ↻</button></div>
+      <div class="info">
+        <span class="label">Pièce 01 · Hoodie</span>
+        <h3>Oversized Hoodie</h3>
+        <div class="price">89,00 €<small>prix d'exemple</small></div>
+        <dl class="specs"><div><dt>Coupe</dt><dd>Oversized / relaxed</dd></div><div><dt>Genre</dt><dd>Unisexe</dd></div><div><dt>Capuche</dt><dd>Doublure rouge, 100 % coton</dd></div><div><dt>Impression</dt><dd>DTG haute qualité</dd></div></dl>
+        <fieldset class="sizes"><legend>Taille</legend>
+          <label><input type="radio" name="s-hoodie" id="h-xs" value="XS"><span>XS</span></label><label><input type="radio" name="s-hoodie" id="h-s" value="S"><span>S</span></label><label><input type="radio" name="s-hoodie" id="h-m" value="M"><span>M</span></label><label><input type="radio" name="s-hoodie" id="h-l" value="L"><span>L</span></label><label><input type="radio" name="s-hoodie" id="h-xl" value="XL"><span>XL</span></label><label><input type="radio" name="s-hoodie" id="h-xxl" value="XXL"><span>XXL</span></label>
+        </fieldset>
+        <button class="btn btn-red add" data-name="Oversized Hoodie" data-group="s-hoodie">Ajouter au panier</button>
+      </div>
+    </article>
+    <article class="piece" data-t="pant">
+      <div class="shot"><span class="new">Nouveau</span><span class="k jp" aria-hidden="true">黒波</span>
+        <div class="flip"><img src="../../img/pants-front.png" alt="Oversized Pants, face avant"><img src="../../img/pants-back.png" alt="Oversized Pants, dos"></div>
+        <button class="side" aria-pressed="false">Voir le dos ↻</button></div>
+      <div class="info">
+        <span class="label">Pièce 02 · Pantalon</span>
+        <h3>Oversized Pants</h3>
+        <div class="price">79,00 €<small>prix d'exemple</small></div>
+        <dl class="specs"><div><dt>Coupe</dt><dd>Oversized / relaxed</dd></div><div><dt>Matière</dt><dd>French Terry lourd, 420–460 GSM</dd></div><div><dt>Poches</dt><dd>Cargo à rabat, 16 × 18 cm</dd></div><div><dt>Bas</dt><dd>Ourlet réglable, cordon</dd></div></dl>
+        <fieldset class="sizes"><legend>Taille</legend>
+          <label><input type="radio" name="s-pant" id="p-xs" value="XS"><span>XS</span></label><label><input type="radio" name="s-pant" id="p-s" value="S"><span>S</span></label><label><input type="radio" name="s-pant" id="p-m" value="M"><span>M</span></label><label><input type="radio" name="s-pant" id="p-l" value="L"><span>L</span></label><label><input type="radio" name="s-pant" id="p-xl" value="XL"><span>XL</span></label><label><input type="radio" name="s-pant" id="p-xxl" value="XXL"><span>XXL</span></label>
+        </fieldset>
+        <button class="btn btn-red add" data-name="Oversized Pants" data-group="s-pant">Ajouter au panier</button>
+      </div>
+    </article>
+  </div>
+</div></section>
+
+<section class="blk details" id="details"><div class="wrap">
+  <div class="head"><div><span class="tab label">Détails <span class="sl"><i></i><i></i><i></i></span></span><h2>Ce qu'on voit de près</h2></div></div>
+  <div class="strip">
+    <figure><div class="ph"><img src="../../img/detail-capuche.jpg" alt="Capuche et doublure" loading="lazy"></div><figcaption><b>Capuche</b><span>Doublure rouge, 100 % coton</span></figcaption></figure>
+    <figure><div class="ph"><img src="../../img/detail-cordons.jpg" alt="Cordons rouges à embouts métal" loading="lazy"></div><figcaption><b>Cordons</b><span>Embouts métal gravé, 75 cm</span></figcaption></figure>
+    <figure><div class="ph"><img src="../../img/detail-logo.jpg" alt="Logo chromé sur la poitrine" loading="lazy"></div><figcaption><b>Logo poitrine</b><span>Impression DTG, 28 × 16 cm</span></figcaption></figure>
+    <figure><div class="ph"><img src="../../img/detail-dos.jpg" alt="Graphisme du dos, soleil rouge et torii" loading="lazy"></div><figcaption><b>Graphisme dos</b><span>32 × 44 cm, effet grunge manga</span></figcaption></figure>
+    <figure><div class="ph"><img src="../../img/detail-cargo.jpg" alt="Poche cargo à rabat" loading="lazy"></div><figcaption><b>Poche cargo</b><span>Rabat et velcro, 16 × 18 cm</span></figcaption></figure>
+    <figure><div class="ph"><img src="../../img/detail-soleil.jpg" alt="Soleil rouge imprimé au dos du cargo" loading="lazy"></div><figcaption><b>Graphisme dos cargo</b><span>Impression DTG, 22 × 48 cm</span></figcaption></figure>
+  </div>
+</div></section>
+
+<section class="blk" id="tailles"><div class="wrap guide">
+  <div>
+    <span class="tab label">Mesures <span class="sl"><i></i><i></i><i></i></span></span>
+    <h2 style="font:400 clamp(22px,2.8vw,38px)/1.15 var(--f-display);text-transform:uppercase;margin:14px 0 16px">Guide des tailles, Oversized Pants</h2>
+    <p>Mesures à plat, en centimètres. La coupe est large : prends ta taille habituelle, ou une taille en dessous pour un tombé moins ample.</p>
+    <p>Le guide du hoodie arrivera avec les mesures validées par le fabricant.</p>
+    <div class="pick"><span class="label" style="color:var(--fg-dim)">Surligner</span>
+      <div class="seg" id="szpick" role="group" aria-label="Taille à surligner"><button aria-pressed="false">XS</button><button aria-pressed="false">S</button><button aria-pressed="true">M</button><button aria-pressed="false">L</button><button aria-pressed="false">XL</button><button aria-pressed="false">XXL</button></div></div>
+  </div>
+  <div class="tablebox"><table id="sztable">
+    <thead><tr><th>Taille (cm)</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr></thead>
+    <tbody>
+      <tr><td>Longueur totale</td><td>98</td><td>100</td><td>102</td><td>104</td><td>106</td><td>108</td></tr>
+      <tr><td>Taille élastique</td><td>34</td><td>36</td><td>38</td><td>40</td><td>42</td><td>44</td></tr>
+      <tr><td>Hanche</td><td>54</td><td>56</td><td>58</td><td>60</td><td>62</td><td>64</td></tr>
+      <tr><td>Entrejambe</td><td>68</td><td>70</td><td>72</td><td>74</td><td>76</td><td>78</td></tr>
+      <tr><td>Cuisse</td><td>34</td><td>36</td><td>38</td><td>40</td><td>42</td><td>44</td></tr>
+      <tr><td>Bas de jambe</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td></tr>
+    </tbody></table></div>
+</div></section>
+
+<section class="blk" id="affiche" style="padding-top:0"><div class="wrap poster">
+  <div class="frame" id="frame"><img src="../../img/poster-dos.jpg" alt="Affiche Kurovani : personnage de dos en hoodie et cargo Originals, face au soleil rouge sous un torii" width="900" height="1200" loading="lazy"></div>
+  <div>
+    <span class="tab label">Affiche <span class="sl"><i></i><i></i><i></i></span></span>
+    <h2>Le dos raconte l'histoire</h2>
+    <p>Première affiche de la collection : un personnage original, de dos, l'ensemble Originals sur les épaules, face au soleil rouge.</p>
+    <p class="mono" style="font-size:13px">Format 3:4 · 1800 × 2400 px</p>
+  </div>
+</div></section>
+
+<section class="blk" id="marque" style="padding-top:0"><div class="wrap">
+  <div class="head"><div><span class="tab label">Palette <span class="sl"><i></i><i></i><i></i></span></span><h2>Quatre couleurs, pas une de plus</h2></div></div>
+  <div class="palette">
+    <div class="sw c1"><b>Black</b><span>#000000 · Pantone Black C</span></div>
+    <div class="sw c2"><b>Deep Red</b><span>#D1001C · Pantone 199 C</span></div>
+    <div class="sw c3"><b>Dark Grey</b><span>#3A3A3A · Cool Gray 11 C</span></div>
+    <div class="sw c4"><b>Off-White</b><span>#EAEAEA · Cool Gray 1 C</span></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fb"><img src="../../img/logo.png" alt="Kurovani" width="232" height="96"><div class="jp">黒の中に、俺たちの道がある</div><small>Dans le noir, il y a notre voie. Originals / Streetwear / Paris – Tokyo</small></div>
+  <div><h4>Boutique</h4><ul><li><a href="#pieces">Les pièces</a></li><li><a href="#details">Détails</a></li><li><a href="#tailles">Guide des tailles</a></li></ul></div>
+  <div><h4>Aide</h4><ul><li><a href="#">Livraison</a></li><li><a href="#">Retours</a></li><li><a href="#">Contact</a></li></ul></div>
+  <div><h4>Légal</h4><ul><li><a href="#">CGV</a></li><li><a href="#">Mentions légales</a></li><li><a href="#">Confidentialité</a></li></ul></div>
+  <div class="legal"><span>© 2026 Kurovani</span><span>Paiement sécurisé par Shopify · Visa · Mastercard · PayPal · Apple Pay</span></div>
+</div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Pièce maîtresse : rotation au glisser, puis calage sur la face la plus proche
+  const stage = $('#stage'), spin = $('#spinner'), bF = $('#t-front'), bB = $('#t-back');
+  let ry = -22, startX = 0, startRy = 0, dragging = false;
+  const apply = () => spin.style.setProperty('--ry', ry + 'deg');
+  const sideOf = a => { const n = ((a % 360) + 360) % 360; return n > 90 && n < 270 ? 'back' : 'front'; };
+  const mark = () => { const s = sideOf(ry); stage.dataset.side = s; bF.setAttribute('aria-pressed', s === 'front'); bB.setAttribute('aria-pressed', s === 'back'); };
+  const snap = side => { const base = Math.round((ry - (side === 'back' ? 180 : 0)) / 360) * 360 + (side === 'back' ? 180 : 0); ry = base + (side === 'back' ? 18 : -22); apply(); mark(); };
+  stage.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; dragging = true; startX = e.clientX; startRy = ry; stage.classList.add('drag'); stage.setPointerCapture(e.pointerId); });
+  stage.addEventListener('pointermove', e => { if (!dragging) return; ry = startRy + (e.clientX - startX) * .6; apply(); mark(); });
+  const end = () => { if (!dragging) return; dragging = false; stage.classList.remove('drag'); snap(sideOf(ry)); };
+  stage.addEventListener('pointerup', end); stage.addEventListener('pointercancel', end);
+  bF.addEventListener('click', () => snap('front')); bB.addEventListener('click', () => snap('back'));
+  apply();
+
+  // Cartes : inclinaison au pointeur + retournement
+  $$('.shot').forEach(shot => {
+    const flip = $('.flip', shot), btn = $('.side', shot);
+    btn.addEventListener('click', () => { const on = btn.getAttribute('aria-pressed') !== 'true'; btn.setAttribute('aria-pressed', on); btn.textContent = on ? 'Voir la face ↻' : 'Voir le dos ↻'; flip.style.setProperty('--turn', on ? '180deg' : '0deg'); });
+    if (calm || !matchMedia('(hover: hover)').matches) return;
+    shot.addEventListener('pointermove', e => { const r = shot.getBoundingClientRect(); shot.classList.add('live'); flip.style.setProperty('--mx', ((e.clientX - r.left) / r.width - .5).toFixed(3)); flip.style.setProperty('--my', ((e.clientY - r.top) / r.height - .5).toFixed(3)); });
+    shot.addEventListener('pointerleave', () => { shot.classList.remove('live'); flip.style.setProperty('--mx', 0); flip.style.setProperty('--my', 0); });
+  });
+
+  // Affiche : légère rotation au pointeur
+  const fr = $('#frame');
+  if (fr && !calm && matchMedia('(hover: hover)').matches) {
+    fr.addEventListener('pointermove', e => { const r = fr.getBoundingClientRect(); fr.classList.add('live'); fr.style.setProperty('--mx', ((e.clientX - r.left) / r.width - .5).toFixed(3)); fr.style.setProperty('--my', ((e.clientY - r.top) / r.height - .5).toFixed(3)); });
+    fr.addEventListener('pointerleave', () => { fr.classList.remove('live'); fr.style.setProperty('--mx', 0); fr.style.setProperty('--my', 0); });
+  }
+
+  // Filtre des pièces
+  $('#seg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; $$('#seg button').forEach(x => x.setAttribute('aria-pressed', x === b)); $$('.piece').forEach(p => p.hidden = b.dataset.f !== 'all' && p.dataset.t !== b.dataset.f); });
+
+  // Guide des tailles : colonne surlignée
+  const hl = i => $$('#sztable tr').forEach(tr => [...tr.children].forEach((c, j) => c.classList.toggle('hl', j === i)));
+  $('#szpick').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; const bs = $$('#szpick button'); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); hl(bs.indexOf(b) + 1); });
+  hl(3);
+
+  // Panier (démo) : il faut une taille
+  const toast = $('#toast'), bag = $('#bag'), n = $('#bag-n'); let count = 0, tt;
+  const say = m => { toast.textContent = m; toast.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('on'), 2400); };
+  $$('.add').forEach(b => b.addEventListener('click', () => {
+    const s = $(`input[name="${b.dataset.group}"]:checked`);
+    if (!s) { say('Choisis une taille avant d’ajouter'); return; }
+    n.textContent = ++count; bag.classList.remove('bump'); void bag.offsetWidth; bag.classList.add('bump');
+    say(`${b.dataset.name}, taille ${s.value} : ajouté au panier`);
+  }));
+  bag.addEventListener('click', () => say(count ? `${count} article${count > 1 ? 's' : ''} dans le panier` : 'Ton panier est vide'));
+})();
+</script>
+</body>
+</html>
