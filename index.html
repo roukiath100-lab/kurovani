@@ -20,7 +20,7 @@
   --fg: #0b0a0a;
   --dim: #6f6a6a;
   --line: #cfcbc8;
-  --red: #d1001c;
+  --red: #e10000;
   --ink: #000000;       /* bandes noires */
   --on-ink: #eaeaea;
   --f-display: "Michroma", "Eurostile", "Arial Black", sans-serif;
@@ -129,6 +129,20 @@ th:first-child, td:first-child { text-align: left; font: 500 14px/1 var(--f-body
 thead th { font: 600 12px/1 var(--f-label); letter-spacing: .2em; color: var(--dim); }
 tbody tr:last-child td { border-bottom: 0; } td.hl, th.hl { background: var(--fg); color: var(--bg); }
 
+.piece { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(20px, 4vw, 64px); align-items: center; padding-block: clamp(24px, 4vw, 48px); border-bottom: 1px solid var(--line); }
+.piece:nth-of-type(even) .shot { order: 2; }
+.shot { position: relative; background: radial-gradient(70% 60% at 50% 45%, #fbfaf9, var(--floor)); border-radius: 6px; padding: clamp(16px, 3vw, 40px) clamp(16px, 3vw, 40px) 64px; display: grid; place-items: center; }
+.shot img { width: 100%; height: clamp(300px, 44vw, 560px); object-fit: contain; filter: drop-shadow(0 22px 22px rgba(0,0,0,.22)); transition: transform .6s var(--ease); }
+.shot:hover img { transform: scale(1.03) rotate(-1deg); }
+.shot .seg { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); background: var(--panel); }
+.spec h2 { margin: 12px 0 12px; font: 400 clamp(24px, 3vw, 40px)/1.1 var(--f-body); letter-spacing: -.01em; text-wrap: balance; }
+.spec > p { margin: 0 0 20px; color: var(--dim); max-width: 52ch; }
+.spec dl { margin: 0 0 22px; border-top: 1px solid var(--line); }
+.spec dl div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.spec dt { font: 600 12px/1.6 var(--f-label); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); } .spec dd { margin: 0; }
+.buy { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; } .buy b { font-size: 20px; font-weight: 500; } .buy small { color: var(--dim); font-size: 12px; margin-right: auto; } .buy .btn { width: auto; min-width: 200px; }
+.fine { margin: 18px 0 0; color: var(--dim); font-size: 12px; }
+.flogo { height: 84px; width: auto; margin: 0 0 14px -14px; }
 footer { background: var(--ink); color: var(--on-ink); }
 footer .wrap { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; padding-block: 44px 28px; }
 footer .jp { font-size: clamp(20px, 2.4vw, 30px); } footer small { display: block; margin-top: 6px; color: #8d8a8a; font-size: 13px; }
@@ -156,6 +170,7 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
   .lineup { overflow: hidden; margin-inline: calc(var(--pad) * -1); }
   .panel { grid-column: 1; grid-row: 4; margin-top: 18px; }
   .close { right: var(--pad); } .guide { grid-template-columns: 1fr; }
+  .piece { grid-template-columns: 1fr; } .piece:nth-of-type(even) .shot { order: 0; } .buy .btn { width: 100%; }
   .tick { gap: 0; } .tick i { width: 0; } .tick[aria-current="true"] { gap: 6px; } .tick[aria-current="true"] i { width: 22px; } .ticks { gap: 12px; overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01s !important; animation: none !important; } }
@@ -163,13 +178,13 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
 
 <header class="top"><div class="wrap">
   <a class="brand" href="#" aria-label="Kurovani"><svg viewBox="-14 -14 28 28" aria-hidden="true"><path d="M0,-14 L3,-3 L14,0 L3,3 L0,14 L-3,3 L-14,0 L-3,-3 Z"/></svg>KUROVANI</a>
-  <nav aria-label="Navigation"><a href="#looks">Looks</a><a href="#tailles">Tailles</a><a href="#marque">La marque</a></nav>
+  <nav aria-label="Navigation"><a href="#looks">Looks</a><a href="#pieces">Les pièces</a><a href="#tailles">Tailles</a><a href="#marque">La marque</a></nav>
   <button class="bagbtn" id="bagbtn" aria-label="Ouvrir le panier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span id="bagn">0</span></button>
 </div></header>
 
 <section class="stage wrap" id="looks">
   <div class="intro">
-    <div class="home"><h1>Porte le look.</h1><p>Six looks, deux pièces Originals. Fais défiler, puis touche une silhouette pour voir ce qu'elle porte.</p></div>
+    <div class="home"><h1>Porte le look.</h1><p>L'ensemble Kurovani Originals, porté sous trois angles. Fais défiler, puis touche une silhouette pour voir ses pièces.</p></div>
     <div class="look" aria-live="polite"><span class="label" id="lk-n">Look 01</span><b id="lk-name">Originals</b></div>
   </div>
   <div class="lineup" id="lineup" aria-label="Défilé des looks">
@@ -186,34 +201,53 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
     <span class="label">Dans ce look <span class="sl"><i></i><i></i><i></i></span></span>
     <div class="items" id="items"></div>
     <div class="full">
-      <div class="row"><span>Le look complet<br><small>Hoodie + pantalon · prix d'exemple</small></span><b id="fulltot">168,00 €</b></div>
+      <div class="row"><span>Le look complet<br><small>Hoodie + cargo · prix d'exemple</small></span><b id="fulltot">168,00 €</b></div>
       <button class="btn" id="addfull">Ajouter le look complet <span aria-hidden="true">→</span></button>
     </div>
   </aside>
 </section>
 
+<section class="blk" id="pieces"><div class="wrap">
+  <span class="label">Les pièces <span class="sl"><i></i><i></i><i></i></span></span>
+  <article class="piece" data-id="hoodie">
+    <div class="shot"><img src="img/hoodie-front.webp" data-front="img/hoodie-front.webp" data-back="img/hoodie-back.webp" alt="Oversized Graphic Hoodie, vue avant" width="800" height="1200" loading="lazy">
+      <div class="seg" role="group" aria-label="Vue, Oversized Graphic Hoodie"><button aria-pressed="true" data-v="front">Face</button><button aria-pressed="false" data-v="back">Dos</button></div></div>
+    <div class="spec">
+      <span class="label mono">KRV-HD-001 · FW26 · Unisexe</span>
+      <h2>Oversized Graphic Hoodie</h2>
+      <p>Sweat à capuche oversize en molleton lourd. Grand logo Kurovani sur la poitrine, soleil rouge et torii au dos avec le logo en bas du dos, et un graphisme différent sur chaque manche.</p>
+      <dl><div><dt>Coupe</dt><dd>Oversized, épaules tombantes, manches larges</dd></div><div><dt>Matière</dt><dd>French Terry lourd, 80 % coton / 20 % polyester, 420 à 460 g/m², pré-rétréci</dd></div><div><dt>Capuche</dt><dd>Deux panneaux, doublure rouge 100 % coton, étoile brodée 4 × 4 cm</dd></div><div><dt>Cordons</dt><dd>Tressés rouges, 75 cm, embouts métal gravés</dd></div><div><dt>Poche</dt><dd>Kangourou 28 × 18 cm, coins renforcés</dd></div><div><dt>Finitions</dt><dd>Bords-côtes 7 cm, coutures double aiguille, impression DTG mate</dd></div></dl>
+      <div class="buy"><b class="mono" data-price="hoodie"></b><small>prix d'exemple · XS à XXL</small><button class="btn" data-add="hoodie">Ajouter au panier</button></div>
+    </div>
+  </article>
+  <article class="piece" data-id="pants">
+    <div class="shot"><img src="img/pants-front.webp" data-front="img/pants-front.webp" data-back="img/pants-back.webp" alt="Oversized Graphic Cargo Pants, vue avant" width="800" height="1200" loading="lazy">
+      <div class="seg" role="group" aria-label="Vue, Oversized Graphic Cargo Pants"><button aria-pressed="true" data-v="front">Face</button><button aria-pressed="false" data-v="back">Dos</button></div></div>
+    <div class="spec">
+      <span class="label mono">KRV-PT-001 · FW26 · Unisexe</span>
+      <h2>Oversized Graphic Cargo Pants</h2>
+      <p>Pantalon cargo oversize à jambe large. Graphismes sur les deux jambes, grande composition rouge et blanche au dos, kanji 黒波浪 le long de la jambe.</p>
+      <dl><div><dt>Coupe</dt><dd>Oversized, jambe large, entrejambe relax</dd></div><div><dt>Matière</dt><dd>French Terry lourd, 80 % coton / 20 % polyester, 420 à 460 g/m², pré-rétréci</dd></div><div><dt>Taille</dt><dd>Élastique 4,5 cm, cordon tressé rouge à embouts métal</dd></div><div><dt>Poches</dt><dd>Cargo à rabat et velcro 16 × 18 cm, poche arrière à rabat avec étiquette tissée</dd></div><div><dt>Détails</dt><dd>Sangles latérales à anneaux D métal, étoile brodée 4 × 4 cm</dd></div><div><dt>Bas de jambe</dt><dd>Réglable par cordon et stoppeur, 26 à 31 cm</dd></div></dl>
+      <div class="buy"><b class="mono" data-price="pants"></b><small>prix d'exemple · XS à XXL</small><button class="btn" data-add="pants">Ajouter au panier</button></div>
+    </div>
+  </article>
+  <p class="fine">Composition et grammage proposés, à confirmer par le fabricant avant production.</p>
+</div></section>
+
 <section class="blk" id="tailles"><div class="wrap guide">
   <div>
     <span class="label">Mesures <span class="sl"><i></i><i></i><i></i></span></span>
-    <h2>Guide des tailles, Oversized Pants</h2>
-    <p>Mesures à plat, en centimètres. La coupe est large : prends ta taille habituelle, ou une taille en dessous pour un tombé moins ample.</p>
-    <p>Le guide du hoodie arrivera avec les mesures validées par le fabricant.</p>
+    <h2>Guide des tailles</h2>
+    <p>Mesures du vêtement à plat, en centimètres. La coupe est large : prends ta taille habituelle, ou une taille en dessous pour un tombé moins ample.</p>
+    <div class="seg" id="szwhich" role="group" aria-label="Pièce"><button aria-pressed="true" data-g="hoodie">Hoodie</button><button aria-pressed="false" data-g="pants">Cargo</button></div>
+    <div style="height:10px"></div>
     <div class="seg" id="szpick" role="group" aria-label="Taille à surligner"><button aria-pressed="false">XS</button><button aria-pressed="false">S</button><button aria-pressed="true">M</button><button aria-pressed="false">L</button><button aria-pressed="false">XL</button><button aria-pressed="false">XXL</button></div>
   </div>
-  <div class="tablebox"><table id="sztable">
-    <thead><tr><th>Taille (cm)</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr></thead>
-    <tbody>
-      <tr><td>Longueur totale</td><td>98</td><td>100</td><td>102</td><td>104</td><td>106</td><td>108</td></tr>
-      <tr><td>Taille élastique</td><td>34</td><td>36</td><td>38</td><td>40</td><td>42</td><td>44</td></tr>
-      <tr><td>Hanche</td><td>54</td><td>56</td><td>58</td><td>60</td><td>62</td><td>64</td></tr>
-      <tr><td>Entrejambe</td><td>68</td><td>70</td><td>72</td><td>74</td><td>76</td><td>78</td></tr>
-      <tr><td>Cuisse</td><td>34</td><td>36</td><td>38</td><td>40</td><td>42</td><td>44</td></tr>
-      <tr><td>Bas de jambe</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td></tr>
-    </tbody></table></div>
+  <div class="tablebox"><table id="sztable"><thead><tr><th>Taille (cm)</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr></thead><tbody></tbody></table></div>
 </div></section>
 
 <footer id="marque"><div class="wrap">
-  <div><div class="jp">黒の中に、俺たちの道がある</div><small>Dans le noir, il y a notre voie. Kurovani Originals / Streetwear / Paris – Tokyo</small></div>
+  <div><img class="flogo" src="img/logo.webp" alt="Kurovani" width="1280" height="640" loading="lazy"><div class="jp">黒の中に、俺たちの道がある</div><small>Dans le noir, il y a notre voie. More than fashion. A state of mind.<br>Kurovani Originals / FW26 / Streetwear / Anime inspired / Paris – Tokyo</small></div>
   <nav aria-label="Liens"><a href="#">Livraison</a><a href="#">Retours</a><a href="#">Contact</a><a href="#">CGV</a><a href="#">Mentions légales</a></nav>
 </div></footer>
 
@@ -235,16 +269,13 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
   const eur = n => n.toFixed(2).replace('.', ',') + ' €';
 
   const LOOKS = [
-    { name: 'Originals', view: 'front', alt: 'Silhouette de face, capuche baissée, hoodie et cargo Originals' },
-    { name: 'Soleil rouge', view: 'back', alt: 'Silhouette de dos, le soleil rouge et le torii imprimés sur le hoodie' },
-    { name: 'Capuche', view: 'front', alt: 'Silhouette de face, capuche relevée' },
-    { name: 'Nuit blanche', view: 'front', alt: 'Silhouette de face aux cheveux blancs' },
-    { name: 'Dos fermé', view: 'back', alt: 'Silhouette de dos, capuche relevée, étoile rouge brodée' },
-    { name: 'Torii', view: 'back', alt: 'Silhouette de dos aux cheveux rouges' }
+    { name: 'Face', view: 'front', dots: [[50, 41], [38, 70]], alt: 'Mannequin de face portant le hoodie et le cargo Kurovani Originals' },
+    { name: 'Soleil rouge', view: 'back', dots: [[26, 34], [40, 72]], alt: 'Mannequin de dos : soleil rouge, torii et logo Kurovani imprimés au dos du hoodie' },
+    { name: 'Trois quarts', view: 'front', dots: [[62, 36], [40, 78]], alt: 'Mannequin de trois quarts, mains dans les poches, kanji sur la manche et la jambe' }
   ];
   const PIECES = [
-    { id: 'hoodie', type: 'Hoodie', name: 'Oversized Hoodie', price: 89, img: 'hoodie', dot: { front: [50, 31], back: [50, 33] } },
-    { id: 'pants', type: 'Pantalon', name: 'Oversized Pants', price: 79, img: 'pants', dot: { front: [61, 74], back: [62, 70] } }
+    { id: 'hoodie', type: 'Hoodie · KRV-HD-001', name: 'Oversized Graphic Hoodie', price: 89, img: 'hoodie' },
+    { id: 'pants', type: 'Cargo · KRV-PT-001', name: 'Oversized Graphic Cargo Pants', price: 79, img: 'pants' }
   ];
   const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
   const size = { hoodie: 'M', pants: 'M' };
@@ -252,12 +283,12 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
 
   // ---- Défilé en profondeur
   const lineup = $('#lineup'), stage = $('#looks'), ticks = $('#ticks');
-  const jitter = [0, .22, .08, .26, .12, .2];
+  const jitter = [0, .1, .16, .26, .12, .2], FADE = N > 4 ? .6 : .4;
   const figs = LOOKS.map((l, i) => {
     const b = document.createElement('button');
     b.className = 'fig'; b.setAttribute('aria-label', `Look ${String(i + 1).padStart(2, '0')}, ${l.name}`);
-    b.innerHTML = `<img src="img/look-${i + 1}.webp" alt="${l.alt}" width="448" height="972" draggable="false">` +
-      PIECES.map((p, k) => `<span class="dot" data-piece="${p.id}" style="left:${p.dot[l.view][0]}%;top:${p.dot[l.view][1]}%" role="button" tabindex="-1" aria-label="${p.name}">${k + 1}</span>`).join('');
+    b.innerHTML = `<img src="img/look-${i + 1}.webp" alt="${l.alt}" width="596" height="1500" draggable="false">` +
+      PIECES.map((p, k) => `<span class="dot" data-piece="${p.id}" style="left:${l.dots[k][0]}%;top:${l.dots[k][1]}%" role="button" tabindex="-1" aria-label="${p.name}">${k + 1}</span>`).join('');
     lineup.appendChild(b);
     const t = document.createElement('button');
     t.className = 'tick'; t.innerHTML = `${String(i + 1).padStart(2, '0')}<i></i><span>${l.name}</span>`;
@@ -282,7 +313,7 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
       const x = p * S * (1 - .1 * a);
       f.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), ${(-d * 5).toFixed(2)}%) scale(${sc.toFixed(4)})`;
       f.style.filter = d > .04 ? `blur(${(d * d * 6).toFixed(2)}px)` : 'none';
-      f.style.opacity = a > N / 2 - .6 ? Math.max(0, (N / 2 - a) / .6).toFixed(2) : (1 - .45 * d).toFixed(2);
+      f.style.opacity = a > N / 2 - FADE ? Math.max(0, (N / 2 - a) / FADE).toFixed(2) : (1 - .45 * d).toFixed(2);
       f.style.zIndex = 100 - Math.round(d * 40);
     });
   }
@@ -370,10 +401,25 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
   $('#veil').addEventListener('click', e => { if (e.target === e.currentTarget) closeBag(); });
   $('#checkout').addEventListener('click', () => say(bag.length ? 'Le paiement se fera dans ta boutique Shopify' : 'Ton panier est vide'));
 
-  // ---- Guide des tailles
-  const hl = i => $$('#sztable tr').forEach(tr => [...tr.children].forEach((c, j) => c.classList.toggle('hl', j === i)));
+  // ---- Guide des tailles (mesures des fiches techniques)
+  const GUIDE = {
+    hoodie: [['Longueur totale', 68, 70, 72, 74, 76, 78], ['Largeur poitrine (1/2)', 60, 62, 64, 66, 68, 70], ['Largeur épaules', 56, 58, 60, 62, 64, 66], ['Longueur manche', 54, 56, 58, 60, 62, 64], ['Largeur bas (1/2)', 52, 54, 56, 58, 60, 62]],
+    pants: [['Longueur totale', 98, 100, 102, 104, 106, 108], ['Taille élastique', 34, 36, 38, 40, 42, 44], ['Hanche', 54, 56, 58, 60, 62, 64], ['Entrejambe', 68, 70, 72, 74, 76, 78], ['Cuisse', 34, 36, 38, 40, 42, 44], ['Bas de jambe', 26, 27, 28, 29, 30, 31]]
+  };
+  let hlCol = 3;
+  const hl = i => { hlCol = i; $$('#sztable tr').forEach(tr => [...tr.children].forEach((c, j) => c.classList.toggle('hl', j === i))); };
+  const fillGuide = g => { $('#sztable tbody').innerHTML = GUIDE[g].map(r => '<tr>' + r.map(c => `<td>${c}</td>`).join('') + '</tr>').join(''); hl(hlCol); };
   $('#szpick').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; const bs = $$('#szpick button'); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); hl(bs.indexOf(b) + 1); });
-  hl(3);
+  $('#szwhich').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; $$('#szwhich button').forEach(x => x.setAttribute('aria-pressed', x === b)); fillGuide(b.dataset.g); });
+  fillGuide('hoodie');
+
+  // ---- Fiches des pièces : face / dos, ajout
+  $$('.piece').forEach(pc => {
+    const img = pc.querySelector('.shot img'), id = pc.dataset.id, P = PIECES.find(x => x.id === id);
+    pc.querySelector('[data-price]').textContent = eur(P.price);
+    pc.querySelector('.seg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; pc.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b)); img.src = img.dataset[b.dataset.v]; img.alt = P.name + (b.dataset.v === 'front' ? ', vue avant' : ', vue arrière'); });
+    pc.querySelector('[data-add]').addEventListener('click', () => add([id]));
+  });
 
   setActive(); renderBag(); frame();
 })();
