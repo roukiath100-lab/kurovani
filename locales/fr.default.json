@@ -63,6 +63,18 @@
     },
     "size_guide": {
       "highlight": "Surligner"
+    },
+    "lookbook": {
+      "lineup": "Défilé des looks",
+      "back": "Revenir au défilé",
+      "hint": "Touche une silhouette pour voir les pièces",
+      "prev": "Look précédent",
+      "next": "Look suivant",
+      "in_look": "Dans ce look",
+      "full": "Le look complet",
+      "add_full": "Ajouter le look complet",
+      "added_full": "Look complet ajouté au panier",
+      "empty": "Ajoute tes produits dans Shopify : ils apparaîtront ici avec leurs tailles et leurs prix."
     }
   },
   "password": {

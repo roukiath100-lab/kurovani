@@ -1,0 +1,131 @@
+{%- comment -%}
+  Défilé de looks : des silhouettes défilent en profondeur, on en touche une, elle s'avance
+  et ses pièces (les produits de la collection choisie) s'achètent à droite.
+{%- endcomment -%}
+{{ 'kurovani-lookbook.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign coll = collections[section.settings.collection]
+  assign max = section.settings.limit
+-%}
+<section class="lb wrap" id="looks" data-lookbook>
+  <div class="lb-intro">
+    <div class="lb-home">
+      <h1>{{ section.settings.title | escape }}</h1>
+      {%- if section.settings.text != blank -%}<p>{{ section.settings.text | escape }}</p>{%- endif -%}
+    </div>
+    <div class="lb-look" aria-live="polite"><span class="lb-label" data-lb-n></span><b data-lb-name></b></div>
+  </div>
+
+  <div class="lb-lineup" data-lb-lineup aria-label="{{ 'sections.lookbook.lineup' | t }}">
+    {%- if section.settings.kanji != blank -%}<div class="lb-kanji jp" aria-hidden="true">{{ section.settings.kanji | escape }}</div>{%- endif -%}
+    <button type="button" class="lb-close" data-lb-close aria-label="{{ 'sections.lookbook.back' | t }}"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13"/></svg></button>
+    {%- for block in section.blocks -%}
+      {%- capture fallback -%}look-{{ block.settings.fallback }}.webp{%- endcapture -%}
+      <button type="button" class="lb-fig" data-view="{{ block.settings.view }}" data-name="{{ block.settings.name | escape }}" aria-label="Look {{ forloop.index | prepend: '0' | slice: -2, 2 }}, {{ block.settings.name | escape }}" {{ block.shopify_attributes }}>
+        {%- if block.settings.image -%}
+          {{ block.settings.image | image_url: width: 900 | image_tag: alt: block.settings.name, loading: 'eager', draggable: 'false' }}
+        {%- else -%}
+          <img src="{{ fallback | asset_url }}" alt="{{ block.settings.name | escape }}" width="448" height="972" draggable="false">
+        {%- endif -%}
+      </button>
+    {%- endfor -%}
+    <div class="lb-hint">{{ 'sections.lookbook.hint' | t }}</div>
+  </div>
+
+  <div class="lb-rail">
+    <button type="button" class="lb-arrow" data-lb-prev aria-label="{{ 'sections.lookbook.prev' | t }}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 8H1m6-6L1 8l6 6"/></svg></button>
+    <div class="lb-ticks" data-lb-ticks></div>
+    <button type="button" class="lb-arrow" data-lb-next aria-label="{{ 'sections.lookbook.next' | t }}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 8h14M9 2l6 6-6 6"/></svg></button>
+  </div>
+
+  <aside class="lb-panel" aria-label="{{ 'sections.lookbook.in_look' | t }}">
+    <span class="lb-label">{{ 'sections.lookbook.in_look' | t }} {% render 'slashes' %}</span>
+    <div class="lb-items">
+      {%- assign total = 0 -%}
+      {%- assign count = 0 -%}
+      {%- for product in coll.products limit: max -%}
+        {%- assign count = count | plus: 1 -%}
+        {%- assign total = total | plus: product.price -%}
+        {%- assign current = product.selected_or_first_available_variant -%}
+        {%- assign front = product.images[0] | default: product.featured_image -%}
+        {%- assign back = product.images[1] | default: front -%}
+        <article class="lb-item" data-piece="{{ forloop.index }}">
+          <a class="lb-th" href="{{ product.url }}">
+            {%- if front -%}
+              <img data-front="{{ front | image_url: width: 300 }}" data-back="{{ back | image_url: width: 300 }}" src="{{ front | image_url: width: 300 }}" alt="{{ product.title | escape }}" width="200" height="220" loading="lazy">
+            {%- endif -%}
+          </a>
+          <div>
+            <span class="lb-label">{{ forloop.index }}{% if product.type != blank %} · {{ product.type | escape }}{% endif %}</span>
+            <h3><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+            <span class="lb-pr">{% render 'price', item: product %}</span>
+          </div>
+          {%- if product.has_only_default_variant -%}
+            <input type="hidden" data-lb-variant value="{{ current.id }}"{% unless current.available %} data-soldout{% endunless %}>
+          {%- else -%}
+            <div class="lb-szs" role="group" aria-label="{{ product.options.first | escape }}, {{ product.title | escape }}">
+              {%- for variant in product.variants -%}
+                <button type="button" data-variant="{{ variant.id }}" aria-pressed="{% if variant.id == current.id %}true{% else %}false{% endif %}"{% unless variant.available %} disabled{% endunless %}>{{ variant.title | escape }}</button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+          <button type="button" class="lb-btn" data-lb-add{% unless product.available %} disabled{% endunless %}>
+            {%- if product.available -%}{{ 'products.add_to_cart' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
+          </button>
+        </article>
+      {%- else -%}
+        <p class="lb-empty">{{ 'sections.lookbook.empty' | t }}</p>
+      {%- endfor -%}
+    </div>
+    {%- if count > 1 -%}
+      <div class="lb-full">
+        <div class="lb-row"><span>{{ 'sections.lookbook.full' | t }}</span><b>{{ total | money }}</b></div>
+        <button type="button" class="lb-btn" data-lb-addfull>{{ 'sections.lookbook.add_full' | t }} <span aria-hidden="true">→</span></button>
+      </div>
+    {%- endif -%}
+  </aside>
+</section>
+<script>
+  window.KVLook = { addedFull: {{ 'sections.lookbook.added_full' | t | json }}, pick: {{ 'products.pick_size' | t | json }} };
+</script>
+<script src="{{ 'kurovani-lookbook.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Défilé de looks",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Porte le look." },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Fais défiler, puis touche une silhouette pour voir ce qu'elle porte." },
+    { "type": "text", "id": "kanji", "label": "Kanji en fond", "default": "黒バニ" },
+    { "type": "collection", "id": "collection", "label": "Collection des pièces portées" },
+    { "type": "range", "id": "limit", "label": "Nombre de pièces affichées", "min": 1, "max": 4, "step": 1, "default": 2 }
+  ],
+  "blocks": [
+    {
+      "type": "look",
+      "name": "Look",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nom du look", "default": "Originals" },
+        { "type": "image_picker", "id": "image", "label": "Image du look (PNG ou WebP détouré, portrait)" },
+        { "type": "select", "id": "fallback", "label": "Dessin Kurovani utilisé sans image", "default": "1", "options": [
+          { "value": "1", "label": "Face, capuche baissée" },
+          { "value": "2", "label": "Dos, capuche baissée" },
+          { "value": "3", "label": "Face, capuche relevée" },
+          { "value": "4", "label": "Face, cheveux blancs" },
+          { "value": "5", "label": "Dos, capuche relevée" },
+          { "value": "6", "label": "Dos, cheveux rouges" }
+        ] },
+        { "type": "select", "id": "view", "label": "Vue montrée", "default": "front", "options": [
+          { "value": "front", "label": "Face (image produit 1)" },
+          { "value": "back", "label": "Dos (image produit 2)" }
+        ] }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    { "name": "Défilé de looks", "blocks": [ { "type": "look" }, { "type": "look" }, { "type": "look" } ] }
+  ]
+}
+{% endschema %}

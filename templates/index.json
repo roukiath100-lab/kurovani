@@ -1,67 +1,5 @@
 {
   "sections": {
-    "hero": {
-      "type": "hero",
-      "blocks": {
-        "note1": {
-          "type": "note",
-          "settings": {
-            "side": "front",
-            "title": "Logo poitrine",
-            "value": "28 × 16 cm"
-          }
-        },
-        "note2": {
-          "type": "note",
-          "settings": {
-            "side": "front",
-            "title": "Cordons, embouts métal",
-            "value": "75 cm · Ø 0,8 cm"
-          }
-        },
-        "note3": {
-          "type": "note",
-          "settings": {
-            "side": "front",
-            "title": "Impression poche",
-            "value": "10 × 5 cm"
-          }
-        },
-        "note4": {
-          "type": "note",
-          "settings": {
-            "side": "back",
-            "title": "Étoile brodée",
-            "value": "capuche · 4 × 4 cm"
-          }
-        },
-        "note5": {
-          "type": "note",
-          "settings": {
-            "side": "back",
-            "title": "Graphisme dos",
-            "value": "32 × 44 cm · DTG"
-          }
-        },
-        "note6": {
-          "type": "note",
-          "settings": {
-            "side": "back",
-            "title": "Impression bas",
-            "value": "18 × 3 cm"
-          }
-        }
-      },
-      "block_order": [
-        "note1",
-        "note2",
-        "note3",
-        "note4",
-        "note5",
-        "note6"
-      ],
-      "settings": {}
-    },
     "pieces": {
       "type": "pieces",
       "settings": {
@@ -186,21 +124,75 @@
       ],
       "settings": {}
     },
-    "affiche": {
-      "type": "poster",
-      "settings": {}
-    },
-    "palette": {
-      "type": "palette",
-      "settings": {}
+    "looks": {
+      "type": "lookbook",
+      "blocks": {
+        "l1": {
+          "type": "look",
+          "settings": {
+            "name": "Originals",
+            "fallback": "1",
+            "view": "front"
+          }
+        },
+        "l2": {
+          "type": "look",
+          "settings": {
+            "name": "Soleil rouge",
+            "fallback": "2",
+            "view": "back"
+          }
+        },
+        "l3": {
+          "type": "look",
+          "settings": {
+            "name": "Capuche",
+            "fallback": "3",
+            "view": "front"
+          }
+        },
+        "l4": {
+          "type": "look",
+          "settings": {
+            "name": "Nuit blanche",
+            "fallback": "4",
+            "view": "front"
+          }
+        },
+        "l5": {
+          "type": "look",
+          "settings": {
+            "name": "Dos fermé",
+            "fallback": "5",
+            "view": "back"
+          }
+        },
+        "l6": {
+          "type": "look",
+          "settings": {
+            "name": "Torii",
+            "fallback": "6",
+            "view": "back"
+          }
+        }
+      },
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5",
+        "l6"
+      ],
+      "settings": {
+        "collection": "all"
+      }
     }
   },
   "order": [
-    "hero",
+    "looks",
     "pieces",
-    "details",
     "tailles",
-    "affiche",
-    "palette"
+    "details"
   ]
 }
