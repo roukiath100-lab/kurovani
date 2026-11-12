@@ -143,6 +143,22 @@ tbody tr:last-child td { border-bottom: 0; } td.hl, th.hl { background: var(--fg
 .buy { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; } .buy b { font-size: 20px; font-weight: 500; } .buy small { color: var(--dim); font-size: 12px; margin-right: auto; } .buy .btn { width: auto; min-width: 200px; }
 .fine { margin: 18px 0 0; color: var(--dim); font-size: 12px; }
 .flogo { height: 84px; width: auto; margin: 0 0 14px -14px; }
+/* ---- Campagne : bande noire, mosaïque ---- */
+.camp { background: var(--ink); color: var(--on-ink); padding-block: clamp(44px, 6vw, 88px); }
+.camphead { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(20px, 3vw, 36px); }
+.camphead h2 { margin: 12px 0 0; font: 400 clamp(26px, 4vw, 56px)/1.05 var(--f-display); text-transform: uppercase; letter-spacing: .02em; }
+.camphead p { margin: 0; max-width: 34ch; color: #8d8a8a; font-size: 14px; } .camp .label { color: #8d8a8a; }
+.campgrid { columns: 4; column-gap: 10px; }
+.shotc { display: block; width: 100%; margin: 0 0 10px; break-inside: avoid; overflow: hidden; border-radius: 3px; cursor: zoom-in; position: relative; background: #111; opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.shotc.in { opacity: 1; transform: none; }
+.shotc img { width: 100%; height: auto; transition: transform .8s var(--ease), filter .4s; }
+.shotc:hover img { transform: scale(1.05); } .campgrid:hover .shotc:not(:hover) img { filter: brightness(.55); }
+.lbx { position: fixed; inset: 0; z-index: 85; display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; justify-items: center; padding: 16px; background: rgba(0,0,0,.92); color: #eaeaea; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+.lbx.on { opacity: 1; visibility: visible; }
+.lbx img { max-width: 100%; max-height: calc(100vh - 80px); width: auto; height: auto; border-radius: 3px; transform: scale(.96); transition: transform .4s var(--ease); } .lbx.on img { transform: none; }
+.lbx-a, .lbx-x { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 1px solid #3a3a3a; } .lbx-a:hover, .lbx-x:hover { border-color: var(--red); color: var(--red); }
+.lbx-x { position: absolute; right: 16px; top: calc(16px + env(safe-area-inset-top, 0px)); z-index: 2; background: #000; }
+.lbx-c { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); font-size: 12px; color: #8d8a8a; }
 footer { background: var(--ink); color: var(--on-ink); }
 footer .wrap { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; padding-block: 44px 28px; }
 footer .jp { font-size: clamp(20px, 2.4vw, 30px); } footer small { display: block; margin-top: 6px; color: #8d8a8a; font-size: 13px; }
@@ -170,6 +186,7 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
   .lineup { overflow: hidden; margin-inline: calc(var(--pad) * -1); }
   .panel { grid-column: 1; grid-row: 4; margin-top: 18px; }
   .close { right: var(--pad); } .guide { grid-template-columns: 1fr; }
+  .campgrid { columns: 2; column-gap: 6px; } .shotc { margin-bottom: 6px; } .lbx { grid-template-columns: minmax(0, 1fr); padding: 8px; } .lbx img { max-height: calc(100vh - 140px); } .lbx-a { position: absolute; bottom: 8px; background: #000; } #lbx-p { left: 16px; } #lbx-n { right: 16px; }
   .piece { grid-template-columns: 1fr; } .piece:nth-of-type(even) .shot { order: 0; } .buy .btn { width: 100%; }
   .tick { gap: 0; } .tick i { width: 0; } .tick[aria-current="true"] { gap: 6px; } .tick[aria-current="true"] i { width: 22px; } .ticks { gap: 12px; overflow: hidden; }
 }
@@ -178,7 +195,7 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
 
 <header class="top"><div class="wrap">
   <a class="brand" href="#" aria-label="Kurovani"><svg viewBox="-14 -14 28 28" aria-hidden="true"><path d="M0,-14 L3,-3 L14,0 L3,3 L0,14 L-3,3 L-14,0 L-3,-3 Z"/></svg>KUROVANI</a>
-  <nav aria-label="Navigation"><a href="#looks">Looks</a><a href="#pieces">Les pièces</a><a href="#tailles">Tailles</a><a href="#marque">La marque</a></nav>
+  <nav aria-label="Navigation"><a href="#looks">Looks</a><a href="#campagne">Campagne</a><a href="#pieces">Les pièces</a><a href="#tailles">Tailles</a><a href="#marque">La marque</a></nav>
   <button class="bagbtn" id="bagbtn" aria-label="Ouvrir le panier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span id="bagn">0</span></button>
 </div></header>
 
@@ -206,6 +223,11 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
     </div>
   </aside>
 </section>
+
+<section class="camp" id="campagne"><div class="wrap">
+  <div class="camphead"><div><span class="label">Campagne FW26 <span class="sl"><i></i><i></i><i></i></span></span><h2>Wear your dark side.</h2></div><p>Dix-huit images de la campagne Kurovani Originals. Touche une photo pour l'agrandir.</p></div>
+  <div class="campgrid" id="campgrid"><button class="shotc" data-i="0" aria-label="Agrandir la photo 1"><img src="img/camp-01.webp" alt="Campagne Kurovani Originals, photo 1" width="878" height="1444" loading="lazy"></button><button class="shotc" data-i="1" aria-label="Agrandir la photo 2"><img src="img/camp-02.webp" alt="Campagne Kurovani Originals, photo 2" width="824" height="1242" loading="lazy"></button><button class="shotc" data-i="2" aria-label="Agrandir la photo 3"><img src="img/camp-03.webp" alt="Campagne Kurovani Originals, photo 3" width="824" height="1242" loading="lazy"></button><button class="shotc" data-i="3" aria-label="Agrandir la photo 4"><img src="img/camp-04.webp" alt="Campagne Kurovani Originals, photo 4" width="830" height="1326" loading="lazy"></button><button class="shotc" data-i="4" aria-label="Agrandir la photo 5"><img src="img/camp-05.webp" alt="Campagne Kurovani Originals, photo 5" width="820" height="1242" loading="lazy"></button><button class="shotc" data-i="5" aria-label="Agrandir la photo 6"><img src="img/camp-06.webp" alt="Campagne Kurovani Originals, photo 6" width="806" height="1326" loading="lazy"></button><button class="shotc" data-i="6" aria-label="Agrandir la photo 7"><img src="img/camp-07.webp" alt="Campagne Kurovani Originals, photo 7" width="818" height="1240" loading="lazy"></button><button class="shotc" data-i="7" aria-label="Agrandir la photo 8"><img src="img/camp-08.webp" alt="Campagne Kurovani Originals, photo 8" width="818" height="1150" loading="lazy"></button><button class="shotc" data-i="8" aria-label="Agrandir la photo 9"><img src="img/camp-09.webp" alt="Campagne Kurovani Originals, photo 9" width="928" height="1444" loading="lazy"></button><button class="shotc" data-i="9" aria-label="Agrandir la photo 10"><img src="img/camp-10.webp" alt="Campagne Kurovani Originals, photo 10" width="924" height="1034" loading="lazy"></button><button class="shotc" data-i="10" aria-label="Agrandir la photo 11"><img src="img/camp-11.webp" alt="Campagne Kurovani Originals, photo 11" width="822" height="1326" loading="lazy"></button><button class="shotc" data-i="11" aria-label="Agrandir la photo 12"><img src="img/camp-12.webp" alt="Campagne Kurovani Originals, photo 12" width="824" height="1240" loading="lazy"></button><button class="shotc" data-i="12" aria-label="Agrandir la photo 13"><img src="img/camp-13.webp" alt="Campagne Kurovani Originals, photo 13" width="748" height="1034" loading="lazy"></button><button class="shotc" data-i="13" aria-label="Agrandir la photo 14"><img src="img/camp-14.webp" alt="Campagne Kurovani Originals, photo 14" width="656" height="1444" loading="lazy"></button><button class="shotc" data-i="14" aria-label="Agrandir la photo 15"><img src="img/camp-15.webp" alt="Campagne Kurovani Originals, photo 15" width="806" height="1150" loading="lazy"></button><button class="shotc" data-i="15" aria-label="Agrandir la photo 16"><img src="img/camp-16.webp" alt="Campagne Kurovani Originals, photo 16" width="824" height="1240" loading="lazy"></button><button class="shotc" data-i="16" aria-label="Agrandir la photo 17"><img src="img/camp-17.webp" alt="Campagne Kurovani Originals, photo 17" width="832" height="1150" loading="lazy"></button><button class="shotc" data-i="17" aria-label="Agrandir la photo 18"><img src="img/camp-18.webp" alt="Campagne Kurovani Originals, photo 18" width="786" height="1034" loading="lazy"></button></div>
+</div></section>
 
 <section class="blk" id="pieces"><div class="wrap">
   <span class="label">Les pièces <span class="sl"><i></i><i></i><i></i></span></span>
@@ -259,6 +281,13 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
     <button class="btn" id="checkout" style="height:48px">Passer au paiement</button>
     <p>Démonstration : le paiement réel se fera dans ta boutique Shopify.</p>
   </div>
+</div>
+<div class="lbx" id="lbx" role="dialog" aria-modal="true" aria-label="Photo de campagne">
+  <button class="lbx-x" id="lbx-x" aria-label="Fermer"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13"/></svg></button>
+  <button class="lbx-a" id="lbx-p" aria-label="Photo précédente"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 8H1m6-6L1 8l6 6"/></svg></button>
+  <img id="lbx-img" alt="">
+  <button class="lbx-a" id="lbx-n" aria-label="Photo suivante"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 8h14M9 2l6 6-6 6"/></svg></button>
+  <span class="lbx-c mono" id="lbx-c"></span>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -352,6 +381,7 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
   $('#prev').addEventListener('click', () => step(-1)); $('#next').addEventListener('click', () => step(1));
   lineup.addEventListener('wheel', e => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 12 && !focus) { e.preventDefault(); if (!lineup._w) { step(e.deltaX > 0 ? 1 : -1); lineup._w = setTimeout(() => lineup._w = 0, 380); } } }, { passive: false });
   document.addEventListener('keydown', e => {
+    if ($('#lbx').classList.contains('on')) { if (e.key === 'Escape') $('#lbx-x').click(); if (e.key === 'ArrowLeft') $('#lbx-p').click(); if (e.key === 'ArrowRight') $('#lbx-n').click(); return; }
     if (e.key === 'Escape') { if ($('#veil').classList.contains('on')) closeBag(); else setFocus(false); }
     if ($('#veil').classList.contains('on')) return;
     if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1);
@@ -400,6 +430,15 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; } foote
   $('#bagbtn').addEventListener('click', openBag); $('#bagclose').addEventListener('click', closeBag);
   $('#veil').addEventListener('click', e => { if (e.target === e.currentTarget) closeBag(); });
   $('#checkout').addEventListener('click', () => say(bag.length ? 'Le paiement se fera dans ta boutique Shopify' : 'Ton panier est vide'));
+
+  // ---- Campagne : apparition au défilement, agrandissement
+  const shots = $$('.shotc'), lbx = $('#lbx'); let li = 0;
+  if ('IntersectionObserver' in window && !calm) { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.style.transitionDelay = (e.target.dataset.i % 4) * 70 + 'ms'; e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' }); shots.forEach(s => io.observe(s)); } else shots.forEach(s => s.classList.add('in'));
+  const showL = i => { li = (i + shots.length) % shots.length; const im = shots[li].querySelector('img'); $('#lbx-img').src = im.src; $('#lbx-img').alt = im.alt; $('#lbx-c').textContent = String(li + 1).padStart(2, '0') + ' / ' + shots.length; };
+  const closeL = () => { lbx.classList.remove('on'); shots[li].focus(); };
+  shots.forEach((s, i) => s.addEventListener('click', () => { showL(i); lbx.classList.add('on'); $('#lbx-x').focus(); }));
+  $('#lbx-p').addEventListener('click', e => { e.stopPropagation(); showL(li - 1); }); $('#lbx-n').addEventListener('click', e => { e.stopPropagation(); showL(li + 1); });
+  $('#lbx-x').addEventListener('click', closeL); lbx.addEventListener('click', e => { if (e.target === lbx) closeL(); });
 
   // ---- Guide des tailles (mesures des fiches techniques)
   const GUIDE = {
