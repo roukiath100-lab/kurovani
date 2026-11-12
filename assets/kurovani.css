@@ -287,3 +287,22 @@ body::before { background: var(--bg); }
 .bag:hover { border-color: var(--fg); } .bag b { border-radius: 50%; }
 .toast { background: var(--fg); color: var(--bg); }
 @media (max-width: 900px) { .top nav { display: none; } .bag { margin-left: auto; } }
+
+/* ---- Campagne : bande noire, mosaïque ---- */
+.camp { background: var(--band); color: var(--on-band); padding-block: clamp(44px, 6vw, 88px); }
+.camphead { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(20px, 3vw, 36px); }
+.camphead h2 { margin: 12px 0 0; font: 400 clamp(26px, 4vw, 56px)/1.05 var(--f-display); text-transform: uppercase; letter-spacing: .02em; }
+.camphead p { margin: 0; max-width: 34ch; color: #8d8a8a; font-size: 14px; } .camp .label { color: #8d8a8a; }
+.campgrid { columns: 4; column-gap: 10px; }
+.shotc { border: 0; padding: 0; display: block; width: 100%; margin: 0 0 10px; break-inside: avoid; overflow: hidden; border-radius: 3px; cursor: zoom-in; position: relative; background: #111; opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.2, .8, .2, 1), transform .7s cubic-bezier(.2, .8, .2, 1); }
+.shotc.in { opacity: 1; transform: none; }
+.shotc img { width: 100%; height: auto; transition: transform .8s cubic-bezier(.2, .8, .2, 1), filter .4s; }
+.shotc:hover img { transform: scale(1.05); } .campgrid:hover .shotc:not(:hover) img { filter: brightness(.55); }
+.lbx { position: fixed; inset: 0; z-index: 85; display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; justify-items: center; padding: 16px; background: rgba(0,0,0,.92); color: #eaeaea; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+.lbx.on { opacity: 1; visibility: visible; }
+.lbx img { max-width: 100%; max-height: calc(100vh - 80px); width: auto; height: auto; border-radius: 3px; transform: scale(.96); transition: transform .4s cubic-bezier(.2, .8, .2, 1); } .lbx.on img { transform: none; }
+.lbx-a, .lbx-x { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 1px solid #3a3a3a; } .lbx-a:hover, .lbx-x:hover { border-color: var(--red); color: var(--red); }
+.lbx-x { position: absolute; right: 16px; top: calc(16px + env(safe-area-inset-top, 0px)); z-index: 2; background: #000; }
+.lbx-c { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); font-size: 12px; color: #8d8a8a; }
+.lbx button { background: none; padding: 0; color: inherit; } .lbx .lbx-x { background: #000; }
+@media (max-width: 900px) { .campgrid { columns: 2; column-gap: 6px; } .shotc { border: 0; padding: 0; margin-bottom: 6px; } .lbx { grid-template-columns: minmax(0, 1fr); padding: 8px; } .lbx img { max-height: calc(100vh - 140px); } .lbx-a { position: absolute; bottom: 8px; background: #000 !important; } .lbx-p { left: 16px; } .lbx-n { right: 16px; } }

@@ -82,7 +82,7 @@
   let wheelLock = 0;
   lineup.addEventListener('wheel', e => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 12 && !focus) { e.preventDefault(); if (!wheelLock) { step(e.deltaX > 0 ? 1 : -1); wheelLock = setTimeout(() => wheelLock = 0, 380); } } }, { passive: false });
   document.addEventListener('keydown', e => {
-    if (e.target.closest('input, textarea, select')) return;
+    if (e.target.closest('input, textarea, select') || document.querySelector('.lbx.on')) return;
     if (e.key === 'Escape') setFocus(false);
     if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1);
   });

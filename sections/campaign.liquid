@@ -1,0 +1,62 @@
+{%- comment -%}
+  Campagne : mosaïque de photos sur bande noire, agrandissement au clic.
+  Sans image choisie, un bloc montre la photo Kurovani fournie avec le thème.
+{%- endcomment -%}
+<section class="camp" id="campagne" data-campaign>
+  <div class="wrap">
+    <div class="camphead">
+      <div>
+        <span class="label">{{ section.settings.label | escape }} {% render 'slashes' %}</span>
+        <h2>{{ section.settings.title | escape }}</h2>
+      </div>
+      {%- if section.settings.text != blank -%}<p>{{ section.settings.text | escape }}</p>{%- endif -%}
+    </div>
+    <div class="campgrid">
+      {%- for block in section.blocks -%}
+        {%- assign n = block.settings.fallback | prepend: '0' | slice: -2, 2 -%}
+        {%- capture fallback -%}camp-{{ n }}.webp{%- endcapture -%}
+        {%- capture alt -%}{{ section.settings.title }}, {{ forloop.index }}{%- endcapture -%}
+        <button type="button" class="shotc" aria-label="{{ 'sections.campaign.zoom' | t: index: forloop.index }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image -%}
+            {{ block.settings.image | image_url: width: 1200 | image_tag: alt: alt, loading: 'lazy' }}
+          {%- else -%}
+            <img src="{{ fallback | asset_url }}" alt="{{ alt | escape }}" width="820" height="1240" loading="lazy">
+          {%- endif -%}
+        </button>
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="lbx" role="dialog" aria-modal="true" aria-label="{{ section.settings.title | escape }}">
+    <button type="button" class="lbx-x" aria-label="{{ 'sections.campaign.close' | t }}"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13"/></svg></button>
+    <button type="button" class="lbx-a lbx-p" aria-label="{{ 'sections.campaign.prev' | t }}"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 8H1m6-6L1 8l6 6"/></svg></button>
+    <img class="lbx-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" width="1" height="1">
+    <button type="button" class="lbx-a lbx-n" aria-label="{{ 'sections.campaign.next' | t }}"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 8h14M9 2l6 6-6 6"/></svg></button>
+    <span class="lbx-c mono"></span>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campagne",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Étiquette", "default": "Campagne FW26" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Wear your dark side." },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Les images de la campagne Kurovani Originals. Touche une photo pour l'agrandir." }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "range", "id": "fallback", "label": "Photo Kurovani utilisée sans image", "min": 1, "max": 18, "step": 1, "default": 1 }
+      ]
+    }
+  ],
+  "max_blocks": 24,
+  "presets": [
+    { "name": "Campagne", "blocks": [ { "type": "photo" }, { "type": "photo" }, { "type": "photo" }, { "type": "photo" } ] }
+  ]
+}
+{% endschema %}

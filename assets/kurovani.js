@@ -104,6 +104,19 @@
     btn.disabled = false;
   }));
 
+  // Campagne : apparition au défilement, agrandissement
+  $$('[data-campaign]').forEach(sec => {
+    const shots = $$('.shotc', sec), lbx = $('.lbx', sec), img = $('.lbx-img', sec), count = $('.lbx-c', sec); let li = 0;
+    if (!shots.length || !lbx) return;
+    if ('IntersectionObserver' in window && !calm) { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' }); shots.forEach((s, i) => { s.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(s); }); } else shots.forEach(s => s.classList.add('in'));
+    const show = i => { li = (i + shots.length) % shots.length; const im = $('img', shots[li]); img.src = im.currentSrc || im.src; img.alt = im.alt; img.removeAttribute('width'); img.removeAttribute('height'); count.textContent = String(li + 1).padStart(2, '0') + ' / ' + shots.length; };
+    const close = () => { lbx.classList.remove('on'); shots[li].focus(); };
+    shots.forEach((s, i) => s.addEventListener('click', () => { show(i); lbx.classList.add('on'); $('.lbx-x', sec).focus(); }));
+    $('.lbx-p', sec).addEventListener('click', () => show(li - 1)); $('.lbx-n', sec).addEventListener('click', () => show(li + 1));
+    $('.lbx-x', sec).addEventListener('click', close); lbx.addEventListener('click', e => { if (e.target === lbx) close(); });
+    document.addEventListener('keydown', e => { if (!lbx.classList.contains('on')) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(li - 1); if (e.key === 'ArrowRight') show(li + 1); });
+  });
+
   // Collection : le tri recharge la page avec le bon paramètre
   $$('select[data-sort]').forEach(sel => sel.addEventListener('change', () => { const u = new URL(location.href); u.searchParams.set('sort_by', sel.value); u.searchParams.delete('page'); location.href = u.toString(); }));
 })();

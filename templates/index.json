@@ -212,10 +212,145 @@
       "settings": {
         "title": "Guide des tailles, hoodie"
       }
+    },
+    "campagne": {
+      "type": "campaign",
+      "blocks": {
+        "p1": {
+          "type": "photo",
+          "settings": {
+            "fallback": 1
+          }
+        },
+        "p2": {
+          "type": "photo",
+          "settings": {
+            "fallback": 2
+          }
+        },
+        "p3": {
+          "type": "photo",
+          "settings": {
+            "fallback": 3
+          }
+        },
+        "p4": {
+          "type": "photo",
+          "settings": {
+            "fallback": 4
+          }
+        },
+        "p5": {
+          "type": "photo",
+          "settings": {
+            "fallback": 5
+          }
+        },
+        "p6": {
+          "type": "photo",
+          "settings": {
+            "fallback": 6
+          }
+        },
+        "p7": {
+          "type": "photo",
+          "settings": {
+            "fallback": 7
+          }
+        },
+        "p8": {
+          "type": "photo",
+          "settings": {
+            "fallback": 8
+          }
+        },
+        "p9": {
+          "type": "photo",
+          "settings": {
+            "fallback": 9
+          }
+        },
+        "p10": {
+          "type": "photo",
+          "settings": {
+            "fallback": 10
+          }
+        },
+        "p11": {
+          "type": "photo",
+          "settings": {
+            "fallback": 11
+          }
+        },
+        "p12": {
+          "type": "photo",
+          "settings": {
+            "fallback": 12
+          }
+        },
+        "p13": {
+          "type": "photo",
+          "settings": {
+            "fallback": 13
+          }
+        },
+        "p14": {
+          "type": "photo",
+          "settings": {
+            "fallback": 14
+          }
+        },
+        "p15": {
+          "type": "photo",
+          "settings": {
+            "fallback": 15
+          }
+        },
+        "p16": {
+          "type": "photo",
+          "settings": {
+            "fallback": 16
+          }
+        },
+        "p17": {
+          "type": "photo",
+          "settings": {
+            "fallback": 17
+          }
+        },
+        "p18": {
+          "type": "photo",
+          "settings": {
+            "fallback": 18
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "looks",
+    "campagne",
     "pieces",
     "tailles_hoodie",
     "tailles",
