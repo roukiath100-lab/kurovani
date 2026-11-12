@@ -7,12 +7,12 @@
   const lineup = $('[data-lb-lineup]'), ticks = $('[data-lb-ticks]'), figs = $$('.lb-fig'), items = $$('.lb-item');
   const N = figs.length; if (!N) return;
   const pad = i => String(i + 1).padStart(2, '0');
-  const jitter = [0, .22, .08, .26, .12, .2, .1, .24];
+  const jitter = [.06, .14, .2, .1, .24, .12, .18, .08];
   // Position des repères sur la silhouette : 1 = haut, 2 = bas, puis les suivants
   const DOTS = { front: [[50, 41], [38, 70], [62, 30], [50, 95]], back: [[26, 34], [40, 72], [62, 30], [50, 95]] };
 
   figs.forEach((f, i) => {
-    items.forEach((it, k) => {
+    if (f.classList.contains('lb-cut')) items.forEach((it, k) => {
       const d = (DOTS[f.dataset.view] || DOTS.front)[k]; if (!d) return;
       const s = document.createElement('span');
       s.className = 'lb-dot'; s.dataset.piece = it.dataset.piece; s.textContent = k + 1;
@@ -35,15 +35,15 @@
 
   function layout() {
     const w = lineup.clientWidth, mobile = matchMedia('(max-width: 900px)').matches;
-    const S = Math.max(130, Math.min(300, w * (mobile ? .46 : .235)));
+    const S = Math.max(150, Math.min(390, w * (mobile ? .6 : .3)));
     figs.forEach((f, i) => {
       const p = wrap(i - cam), a = Math.abs(p), on = i === active;
       const d = Math.min(1, a / 2.4 + (a > .35 ? jitter[i % jitter.length] : 0));
       const sc = (1 - .34 * d) * (on ? zoom : 1);
       const x = p * S * (1 - .1 * a);
       f.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), ${(-d * 5).toFixed(2)}%) scale(${sc.toFixed(4)})`;
-      f.style.filter = d > .04 ? `blur(${(d * d * 6).toFixed(2)}px)` : 'none';
-      f.style.opacity = N > 2 && a > half - .6 ? Math.max(0, (half - a) / .6).toFixed(2) : (1 - .45 * d).toFixed(2);
+      f.style.filter = d > .04 ? `blur(${(d * d * 5).toFixed(2)}px) brightness(${(1 - .35 * d).toFixed(2)})` : 'none';
+      f.style.opacity = N > 2 && a > half - .6 ? Math.max(0, (half - a) / .6).toFixed(2) : 1;
       f.style.zIndex = 100 - Math.round(d * 40);
     });
   }
@@ -69,7 +69,7 @@
 
   let sx = 0, st = 0, down = false;
   lineup.addEventListener('pointerdown', e => { if (e.target.closest('.lb-close, .lb-dot') || focus) return; down = true; moved = 0; sx = e.clientX; st = target; });
-  addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx)); if (moved > 6) { lineup.classList.add('lb-drag'); auto = false; target = st - dx / (lineup.clientWidth * .235); } });
+  addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx)); if (moved > 6) { lineup.classList.add('lb-drag'); auto = false; target = st - dx / (lineup.clientWidth * .3); } });
   addEventListener('pointerup', () => { if (!down) return; down = false; lineup.classList.remove('lb-drag'); target = Math.round(target); setActive(); });
   figs.forEach((f, i) => f.addEventListener('click', e => {
     if (moved > 6) return;

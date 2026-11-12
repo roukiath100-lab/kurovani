@@ -67,7 +67,7 @@
     "lookbook": {
       "lineup": "Défilé des looks",
       "back": "Revenir au défilé",
-      "hint": "Touche une silhouette pour voir les pièces",
+      "hint": "Touche une photo pour voir les pièces",
       "prev": "Look précédent",
       "next": "Look suivant",
       "in_look": "Dans ce look",
@@ -75,12 +75,6 @@
       "add_full": "Ajouter le look complet",
       "added_full": "Look complet ajouté au panier",
       "empty": "Ajoute tes produits dans Shopify : ils apparaîtront ici avec leurs tailles et leurs prix."
-    },
-    "campaign": {
-      "zoom": "Agrandir la photo {{ index }}",
-      "close": "Fermer",
-      "prev": "Photo précédente",
-      "next": "Photo suivante"
     }
   },
   "password": {

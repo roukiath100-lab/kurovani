@@ -20,12 +20,12 @@
     {%- if section.settings.kanji != blank -%}<div class="lb-kanji jp" aria-hidden="true">{{ section.settings.kanji | escape }}</div>{%- endif -%}
     <button type="button" class="lb-close" data-lb-close aria-label="{{ 'sections.lookbook.back' | t }}"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13"/></svg></button>
     {%- for block in section.blocks -%}
-      {%- capture fallback -%}look-{{ block.settings.fallback }}.webp{%- endcapture -%}
-      <button type="button" class="lb-fig" data-view="{{ block.settings.view }}" data-name="{{ block.settings.name | escape }}" aria-label="Look {{ forloop.index | prepend: '0' | slice: -2, 2 }}, {{ block.settings.name | escape }}" {{ block.shopify_attributes }}>
+      {%- capture fallback -%}ring-{{ block.settings.fallback }}.webp{%- endcapture -%}
+      <button type="button" class="lb-fig{% if block.settings.cutout %} lb-cut{% endif %}" data-view="{{ block.settings.view }}" data-name="{{ block.settings.name | escape }}" aria-label="Look {{ forloop.index | prepend: '0' | slice: -2, 2 }}, {{ block.settings.name | escape }}" {{ block.shopify_attributes }}>
         {%- if block.settings.image -%}
           {{ block.settings.image | image_url: width: 900 | image_tag: alt: block.settings.name, loading: 'eager', draggable: 'false' }}
         {%- else -%}
-          <img src="{{ fallback | asset_url }}" alt="{{ block.settings.name | escape }}" width="596" height="1500" draggable="false">
+          <img src="{{ fallback | asset_url }}" alt="{{ block.settings.name | escape }}" width="820" height="1240" draggable="false">
         {%- endif -%}
       </button>
     {%- endfor -%}
@@ -96,7 +96,7 @@
   "tag": "div",
   "settings": [
     { "type": "text", "id": "title", "label": "Titre", "default": "Porte le look." },
-    { "type": "textarea", "id": "text", "label": "Texte", "default": "L'ensemble Kurovani Originals, porté sous trois angles. Fais défiler, puis touche une silhouette pour voir ses pièces." },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Les images de la campagne Kurovani Originals FW26. Fais défiler, puis touche une photo pour voir les pièces portées." },
     { "type": "text", "id": "kanji", "label": "Kanji en fond", "default": "黒バニ" },
     { "type": "collection", "id": "collection", "label": "Collection des pièces portées" },
     { "type": "range", "id": "limit", "label": "Nombre de pièces affichées", "min": 1, "max": 4, "step": 1, "default": 2 }
@@ -108,11 +108,17 @@
       "settings": [
         { "type": "text", "id": "name", "label": "Nom du look", "default": "Originals" },
         { "type": "image_picker", "id": "image", "label": "Image du look (PNG ou WebP détouré, portrait)" },
-        { "type": "select", "id": "fallback", "label": "Photo Kurovani utilisée sans image", "default": "1", "options": [
-          { "value": "1", "label": "Mannequin de face" },
-          { "value": "2", "label": "Mannequin de dos" },
-          { "value": "3", "label": "Mannequin de trois quarts" }
+        { "type": "select", "id": "fallback", "label": "Photo de campagne utilisée sans image", "default": "1", "options": [
+          { "value": "1", "label": "Pagode" },
+          { "value": "2", "label": "Sakura" },
+          { "value": "3", "label": "Soleil rouge" },
+          { "value": "4", "label": "Originals" },
+          { "value": "5", "label": "Torii" },
+          { "value": "6", "label": "Capuche" },
+          { "value": "7", "label": "Lune rouge" },
+          { "value": "8", "label": "Nuit rouge" }
         ] },
+        { "type": "checkbox", "id": "cutout", "label": "Image détourée (silhouette sans cadre)", "default": false },
         { "type": "select", "id": "view", "label": "Vue montrée", "default": "front", "options": [
           { "value": "front", "label": "Face (image produit 1)" },
           { "value": "back", "label": "Dos (image produit 2)" }
