@@ -9,7 +9,7 @@
   const pad = i => String(i + 1).padStart(2, '0');
   const jitter = [0, .22, .08, .26, .12, .2, .1, .24];
   // Position des repères sur la silhouette : 1 = haut, 2 = bas, puis les suivants
-  const DOTS = { front: [[50, 31], [61, 74], [38, 52], [50, 93]], back: [[50, 33], [62, 70], [38, 52], [50, 93]] };
+  const DOTS = { front: [[50, 41], [38, 70], [62, 30], [50, 95]], back: [[26, 34], [40, 72], [62, 30], [50, 95]] };
 
   figs.forEach((f, i) => {
     items.forEach((it, k) => {

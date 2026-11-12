@@ -122,7 +122,9 @@
         "r5",
         "r6"
       ],
-      "settings": {}
+      "settings": {
+        "title": "Guide des tailles, cargo"
+      }
     },
     "looks": {
       "type": "lookbook",
@@ -130,7 +132,7 @@
         "l1": {
           "type": "look",
           "settings": {
-            "name": "Originals",
+            "name": "Face",
             "fallback": "1",
             "view": "front"
           }
@@ -146,52 +148,76 @@
         "l3": {
           "type": "look",
           "settings": {
-            "name": "Capuche",
+            "name": "Trois quarts",
             "fallback": "3",
             "view": "front"
-          }
-        },
-        "l4": {
-          "type": "look",
-          "settings": {
-            "name": "Nuit blanche",
-            "fallback": "4",
-            "view": "front"
-          }
-        },
-        "l5": {
-          "type": "look",
-          "settings": {
-            "name": "Dos fermé",
-            "fallback": "5",
-            "view": "back"
-          }
-        },
-        "l6": {
-          "type": "look",
-          "settings": {
-            "name": "Torii",
-            "fallback": "6",
-            "view": "back"
           }
         }
       },
       "block_order": [
         "l1",
         "l2",
-        "l3",
-        "l4",
-        "l5",
-        "l6"
+        "l3"
       ],
       "settings": {
         "collection": "all"
+      }
+    },
+    "tailles_hoodie": {
+      "type": "size-guide",
+      "blocks": {
+        "h1": {
+          "type": "row",
+          "settings": {
+            "name": "Longueur totale",
+            "values": "68, 70, 72, 74, 76, 78"
+          }
+        },
+        "h2": {
+          "type": "row",
+          "settings": {
+            "name": "Largeur poitrine (1/2)",
+            "values": "60, 62, 64, 66, 68, 70"
+          }
+        },
+        "h3": {
+          "type": "row",
+          "settings": {
+            "name": "Largeur épaules",
+            "values": "56, 58, 60, 62, 64, 66"
+          }
+        },
+        "h4": {
+          "type": "row",
+          "settings": {
+            "name": "Longueur manche",
+            "values": "54, 56, 58, 60, 62, 64"
+          }
+        },
+        "h5": {
+          "type": "row",
+          "settings": {
+            "name": "Largeur bas (1/2)",
+            "values": "52, 54, 56, 58, 60, 62"
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5"
+      ],
+      "settings": {
+        "title": "Guide des tailles, hoodie"
       }
     }
   },
   "order": [
     "looks",
     "pieces",
+    "tailles_hoodie",
     "tailles",
     "details"
   ]

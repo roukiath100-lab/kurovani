@@ -5,7 +5,7 @@
   --on-band: #eaeaea;
   --on-band-dim: #8d8a8a;
   --band-line: #2b2727;
-  --red: #d1001c;             /* Deep Red, Pantone 199 C */
+  --red: #e10000;             /* Deep Red, Pantone 186 C */
   --red-deep: #7a0010;
   --chrome-a: #f4f4f4; --chrome-b: #8e8e92; --chrome-c: #d9d9dc;
   --bg: #ecebe8;
@@ -166,7 +166,7 @@ td.hl, th.hl { background: var(--red); color: #fff; }
 .sw + .sw { border-left: 1px solid var(--line); }
 .sw b { font: 600 14px/1 var(--f-label); letter-spacing: .2em; text-transform: uppercase; }
 .sw span { font: 400 12px/1.4 var(--f-mono); opacity: .8; }
-.sw.c1 { background: #000; color: #eaeaea; } .sw.c2 { background: #d1001c; color: #fff; } .sw.c3 { background: #3a3a3a; color: #eaeaea; } .sw.c4 { background: #eaeaea; color: #0b0a0a; }
+.sw.c1 { background: #000; color: #eaeaea; } .sw.c2 { background: #e10000; color: #fff; } .sw.c3 { background: #3a3a3a; color: #eaeaea; } .sw.c4 { background: #eaeaea; color: #0b0a0a; }
 
 /* ---- Affiche ---- */
 .poster { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(20px, 5vw, 72px); align-items: center; }
